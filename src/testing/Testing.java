@@ -304,47 +304,47 @@ public class Testing {
             case 2: decisionFlowerType = flowerType[1];break;
             case 3: decisionFlowerType = flowerType[2];break;
             case 4: decisionFlowerType = flowerType[3];break;  
-            default: System.out.println("Error");break;
+            default: System.out.println("Error");System.exit(0);break;
         }
         
         //2. Choose the flower arrangement size
         for(int i = 0; i < flowerSize.length; i++){
             System.out.println(i+1 + ") " + flowerSize[i]);
         }
-        System.out.print("Please choose the arrangement size from above: ");
+        System.out.print("Step 2: Please choose the arrangement size from above: ");
         int selection2 = scan.nextInt();
         switch(selection2){
             case 1: decisionFlowerSize = flowerSize[0];break;
             case 2: decisionFlowerSize = flowerSize[1];break;
             case 3: decisionFlowerSize = flowerSize[2];break;
-            default: System.out.println("Error");break;    
+            default: System.out.println("Error");System.exit(0);break;    
         }
         
         //3. Choose the Flower
         for(int i = 0; i < flower.length; i++){
             System.out.println(i+1 + ") " + flower[i]);
         }
-        System.out.print("Please choose the flower you want from above: ");
+        System.out.print("Step 3: Please choose the flower you want from above: ");
         int selection3 = scan.nextInt();
         switch(selection3){
             case 1: decisionFlower = flower[0];break;
             case 2: decisionFlower = flower[1];break;
             case 3: decisionFlower = flower[2];break;
             case 4: decisionFlower = flower[3];break;  
-            default: System.out.println("Error");break;
+            default: System.out.println("Error");System.exit(0);break;
         }
         
         //4. Select Accessories
         for(int i = 0; i < accessories.length; i++){
             System.out.println(i+1 + ") " + accessories[i]);
         }
-        System.out.print("Please choose the accessories that you want to put from above: ");
+        System.out.print("Step 4: Please choose the accessories that you want to put from above: ");
         int selection4 = scan.nextInt();
         switch(selection4){
             case 1: decisionAccessories = accessories[0];break;
             case 2: decisionAccessories = accessories[1];break;
             case 3: decisionAccessories = accessories[2];break;
-            default: System.out.println("Error");break;
+            default: System.out.println("Error");System.exit(0);break;
         }
         
         //Show the customized summary and comfirm with user
