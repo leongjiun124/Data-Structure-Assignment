@@ -40,13 +40,18 @@ public class Testing {
         int selection;
         selection = sc.nextInt();
         sc.nextLine();  
-        if(selection == 1){
-          Login();
-        }else if(selection == 2){
-           Register();
-         }else if(selection == 3){            
-            System.exit(0);
-        }                  
+        switch (selection) {
+            case 1:
+                Login();
+                break;
+            case 2:
+                Register();
+                break;                  
+            case 3:
+                System.exit(0);
+            default:
+                break;
+        }
     } 
         
     public static void Login()throws AWTException, CloneNotSupportedException{
@@ -177,16 +182,22 @@ public class Testing {
      public static void Selection()throws AWTException, CloneNotSupportedException{       
         System.out.println("1. Booking flowers");
         System.out.println("2. Return to the main menu\n");       
+        System.out.println("5. Customized Floral Arrangement");
         System.out.printf("Please enter number 1 to 2 to select the option:  ");
         int selection;
         selection = sc.nextInt();
         sc.nextLine();
-       
-        if(selection == 1){
+        
+        switch(selection){
+            case 1:Booking();break;
+            case 2:menu(); break;
+            case 5:CustomizedFlower();break;
+        }
+        /*if(selection == 1){
            Booking();
         }else if(selection == 2){
            menu();                 
-      }
+      }*/
      }
         
     public static void Booking()throws AWTException, CloneNotSupportedException{      
@@ -263,6 +274,86 @@ public class Testing {
         r.keyRelease(KeyEvent.VK_CONTROL); // Releases CTRL key.
         r.keyRelease(KeyEvent.VK_L); // Releases L key.         
     }   
+      
+      public static void CustomizedFlower(){
+        Scanner scan = new Scanner(System.in);
+        char select;
+        String[] flowerType = {"Elliptical flower arrangement", "Vertical flower arrangement", "The crescent flower arrangement"
+        , "The 'S' shaped flower arrangement"};
+        String[] flowerSize = {"Small", "Intermediate", "Big"};
+        String[] flower = {"Lily", "Rose", "Sunflower", "White Rose"};
+        String[] accessories = {"Double Artificial Holly Berry Stamens", "Bouquet Holder", "No need"};
+        String decisionFlowerType = "";
+        String decisionFlowerSize = "";
+        String decisionFlower = "";
+        String decisionAccessories = "";
+        System.out.println("Type of flower arrangement style");
+        do{
+        //1. Choose the flower arrangement type
+        for(int i = 0; i < flowerType.length; i++){
+            System.out.println(i+1 + ") " + flowerType[i]);
+        }
+        System.out.print("Step 1: Choose the flower arrangement style from above: ");
+        
+        //Scan the arrangement style that the user choose
+        int selection1 = scan.nextInt();
+        
+        //initialise the selection from user into the decisionFlowerType
+        switch(selection1){
+            case 1: decisionFlowerType = flowerType[0];break;
+            case 2: decisionFlowerType = flowerType[1];break;
+            case 3: decisionFlowerType = flowerType[2];break;
+            case 4: decisionFlowerType = flowerType[3];break;  
+            default: System.out.println("Error");break;
+        }
+        
+        //2. Choose the flower arrangement size
+        for(int i = 0; i < flowerSize.length; i++){
+            System.out.println(i+1 + ") " + flowerSize[i]);
+        }
+        System.out.print("Please choose the arrangement size from above: ");
+        int selection2 = scan.nextInt();
+        switch(selection2){
+            case 1: decisionFlowerSize = flowerSize[0];break;
+            case 2: decisionFlowerSize = flowerSize[1];break;
+            case 3: decisionFlowerSize = flowerSize[2];break;
+            default: System.out.println("Error");break;    
+        }
+        
+        //3. Choose the Flower
+        for(int i = 0; i < flower.length; i++){
+            System.out.println(i+1 + ") " + flower[i]);
+        }
+        System.out.print("Please choose the flower you want from above: ");
+        int selection3 = scan.nextInt();
+        switch(selection3){
+            case 1: decisionFlower = flower[0];break;
+            case 2: decisionFlower = flower[1];break;
+            case 3: decisionFlower = flower[2];break;
+            case 4: decisionFlower = flower[3];break;  
+            default: System.out.println("Error");break;
+        }
+        
+        //4. Select Accessories
+        for(int i = 0; i < accessories.length; i++){
+            System.out.println(i+1 + ") " + accessories[i]);
+        }
+        System.out.print("Please choose the accessories that you want to put from above: ");
+        int selection4 = scan.nextInt();
+        switch(selection4){
+            case 1: decisionAccessories = accessories[0];break;
+            case 2: decisionAccessories = accessories[1];break;
+            case 3: decisionAccessories = accessories[2];break;
+            default: System.out.println("Error");break;
+        }
+        
+        //Show the customized summary and comfirm with user
+        System.out.printf("\nYour selection is: " + "\nFlower Arrangement Type: " + decisionFlowerType + "\nFlowerSize: " 
+                + decisionFlowerSize + "\nFlower Type: " +
+                decisionFlower + "\nAccessories: " + decisionAccessories + "\nAre you sure? (y/n): ");
+        select = scan.next().charAt(0);
+        }while(select != 'y');
+    }
      
      
        
