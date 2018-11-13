@@ -364,7 +364,7 @@ public class Testing {
         }while(select != 'y');
         System.out.println("Press 0 to exit, 1 to continue: ");
         int last = scan.nextInt();
-        switch (select) {
+        switch (last) {
             case 0:
                 System.exit(0);
             case 1:
