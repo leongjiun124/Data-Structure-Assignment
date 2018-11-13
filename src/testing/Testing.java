@@ -11,7 +11,9 @@ import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 /**
  *
@@ -78,10 +80,10 @@ public class Testing {
         }
         
         if(loginAccess == true){
-            System.out.print("LOGIN SUCCESSFUL!!!");
+            System.out.println("LOGIN SUCCESSFUL!!!");
             Testing.Selection();
         }else{
-            System.out.print("LOGIN UNSUCCESSFUL,PLEASE TRY AGAIN!!!");
+            System.out.println("LOGIN UNSUCCESSFUL,PLEASE TRY AGAIN!!!");
             Login();
         }
       }
@@ -181,17 +183,20 @@ public class Testing {
      
      public static void Selection()throws AWTException, CloneNotSupportedException{       
         System.out.println("1. Booking flowers");
-        System.out.println("2. Return to the main menu\n");       
+        System.out.println("2. Track Product Stock\n");   
         System.out.println("5. Customized Floral Arrangement");
-        System.out.printf("Please enter number 1 to 2 to select the option:  ");
+        System.out.println("6. Return to the main menu\n");       
+        
+        System.out.printf("Please enter number to select the option:  ");
         int selection;
         selection = sc.nextInt();
         sc.nextLine();
         
         switch(selection){
             case 1:Booking();break;
-            case 2:menu(); break;
+            case 2: TrackProductStock();break;
             case 5:CustomizedFlower();break;
+            case 6:menu(); break;
         }
         /*if(selection == 1){
            Booking();
@@ -355,6 +360,75 @@ public class Testing {
         }while(select != 'y');
     }
      
+      public static void TrackProductStock() throws AWTException, CloneNotSupportedException{
+        List<Item> flowerInventory = new ArrayList<Item>();
+        String line = new String(new char[90]).replace('\0', '-');
+        Scanner scan=new Scanner(System.in);
+        
+        Item item = new Item();
+        item.setItemName("Flower 1");
+        item.setQuantity(200);
+        item.setWarningLevel(20);
+        item.setDate1("12/11/2018");
+        flowerInventory.add(item);
+        
+        item = new Item();
+        item.setItemName("Flower 2");
+        item.setQuantity(100);
+        item.setWarningLevel(20);
+        item.setDate1("12/11/2018");
+        flowerInventory.add(item);
+        
+        item = new Item();
+        item.setItemName("Flower 3");
+        item.setQuantity(10);
+        item.setWarningLevel(20);
+        item.setDate1("12/11/2018");
+        flowerInventory.add(item);
+        System.out.println(line);
+        
+       
+        
+        System.out.print("       ");
+        System.out.print("Item Name");
+        System.out.print("       ");
+        System.out.print("Last Update");
+        System.out.print("       ");
+        System.out.print("Quantity");
+        System.out.print("       ");
+        System.out.print("Warning Level");
+        System.out.println("");
+        System.out.println(line);
+        for(int i =0; i<flowerInventory.size();i++)
+        {
+            System.out.print(i+1);
+            System.out.print("       ");
+            System.out.print(flowerInventory.get(i).getItemName());
+            System.out.print("       ");
+            System.out.print(flowerInventory.get(i).getDate1l());
+            System.out.print("       ");
+            System.out.print(flowerInventory.get(i).getQuantity());
+            System.out.print("                 ");
+            System.out.print(flowerInventory.get(i).getWarningLevel());
+            if(flowerInventory.get(i).getWarningLevel()>=flowerInventory.get(i).getQuantity())
+            {
+                System.out.print("       ");
+                System.out.println("Warning");
+            }
+            System.out.println("");
+        }
+        System.out.println(line);
+        System.out.print("Press 0 to exit");
+        int select = scan.nextInt();
+        if(select==0)
+        {
+            System.exit(0);
+        }
+        else
+        {
+            Selection();
+        }
+      }
      
        
 }
