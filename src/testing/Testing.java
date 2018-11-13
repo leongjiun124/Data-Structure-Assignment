@@ -185,6 +185,7 @@ public class Testing {
         System.out.println("1. Booking flowers");
         System.out.println("2. Track Product Stock"); 
         System.out.println("3. Generate Monthly Invoice");
+        System.out.println("4. Delivery Order List");
         System.out.println("5. Customized Floral Arrangement");
         System.out.println("6. Return to the main menu");       
         
@@ -197,6 +198,7 @@ public class Testing {
             case 1:Booking();break;
             case 2: TrackProductStock();break;
             case 3: Report();break;
+            case 4: DeliveryList(); break;
             case 5:CustomizedFlower();break;
             case 6:menu(); break;
         }
@@ -370,6 +372,7 @@ public class Testing {
                 break;
             default:
                 System.out.println("Error");
+                System.exit(0);
                 break;
         }
         
@@ -443,6 +446,7 @@ public class Testing {
                 break;
             default:
                 System.out.println("Error");
+                System.exit(0);
                 break;
         }
       }
@@ -465,6 +469,37 @@ public class Testing {
                 break;
             default:
                 System.out.println("Error");
+                System.exit(0);
+                break;
+        }
+      }
+      
+      public static void DeliveryList() throws AWTException, CloneNotSupportedException{
+            Scanner scan = new Scanner(System.in);
+            DeliveryOrderList[] d = new DeliveryOrderList[6];
+            d[0] = new DeliveryOrderList("D0L0001", "445 Mount Eden Road, Mount Eden, Malaysia", 107.80, "Allium roseum", "Daniel Lee");
+            d[1] = new DeliveryOrderList("D0L0002", "21 Greens Road RD 2 Ruawai 0592", 70.65, "Daffodil", "Cheng Jiun");
+            d[2] = new DeliveryOrderList("D0L0003", "Main Highway Otaki; 32 Wilson Street", 120.40, "Delphinium", "Yen Khai");
+            d[3] = new DeliveryOrderList("D0L0004", "PO Box 39100, Howick", 50.30, "Delphinium", "Jasmine Lee");
+            d[4] = new DeliveryOrderList("D0L0005", "CMB C5, Huntly", 200.50, "Delphinium", "Tuck Wai");
+            d[5] = new DeliveryOrderList("D0L0006", "Lot 12 Via Cola Rie", 150.30, "Delphinium", "Han Wen");
+
+            for(int i=0; i < d.length; i++){
+                System.out.println(d[i].toString());
+            }
+            System.out.println("\nTotal Number of Delivery Order List:" + DeliveryOrderList.totalList);
+            
+            System.out.print("Press 0 to exit, Press 1 to continue: ");
+            int select = scan.nextInt();
+            switch (select) {
+            case 0:
+                System.exit(0);
+            case 1:
+                Selection();
+                break;
+            default:
+                System.out.println("Error");
+                System.exit(0);
                 break;
         }
       }
