@@ -477,7 +477,9 @@ public class Testing {
      
       public static void Report() throws AWTException, CloneNotSupportedException{
         Scanner scan = new Scanner(System.in);
-        String [] CustReport = {"C001       James       FlowerA       200.00", "C002       Lim       FlowerB       600.00"};
+        System.out.println("Monthly Report of November");
+        
+        String [] CustReport = {"C001       James       FlowerA       200.00", "C002       Lim       FlowerB       600.00","C003       Daniel       FlowerC      500.00","C004       Ali       FlowerA       250.00"};
         System.out.println("InvoiceID  CustName    Flower Tpye    Price");
         System.out.println("============================================");
         for(int i = 0; i < CustReport.length; i++){
