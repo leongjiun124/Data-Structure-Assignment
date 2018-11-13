@@ -183,9 +183,10 @@ public class Testing {
      
      public static void Selection()throws AWTException, CloneNotSupportedException{       
         System.out.println("1. Booking flowers");
-        System.out.println("2. Track Product Stock\n");   
+        System.out.println("2. Track Product Stock"); 
+        System.out.println("3. Generate Monthly Invoice");
         System.out.println("5. Customized Floral Arrangement");
-        System.out.println("6. Return to the main menu\n");       
+        System.out.println("6. Return to the main menu");       
         
         System.out.printf("Please enter number to select the option:  ");
         int selection;
@@ -195,6 +196,7 @@ public class Testing {
         switch(selection){
             case 1:Booking();break;
             case 2: TrackProductStock();break;
+            case 3: Report();break;
             case 5:CustomizedFlower();break;
             case 6:menu(); break;
         }
@@ -280,7 +282,7 @@ public class Testing {
         r.keyRelease(KeyEvent.VK_L); // Releases L key.         
     }   
       
-      public static void CustomizedFlower(){
+      public static void CustomizedFlower() throws AWTException, CloneNotSupportedException{
         Scanner scan = new Scanner(System.in);
         char select;
         String[] flowerType = {"Elliptical flower arrangement", "Vertical flower arrangement", "The crescent flower arrangement"
@@ -358,6 +360,19 @@ public class Testing {
                 decisionFlower + "\nAccessories: " + decisionAccessories + "\nAre you sure? (y/n): ");
         select = scan.next().charAt(0);
         }while(select != 'y');
+        System.out.println("Press 0 to exit, 1 to continue: ");
+        int last = scan.nextInt();
+        switch (select) {
+            case 0:
+                System.exit(0);
+            case 1:
+                Selection();
+                break;
+            default:
+                System.out.println("Error");
+                break;
+        }
+        
     }
      
       public static void TrackProductStock() throws AWTException, CloneNotSupportedException{
@@ -418,17 +433,40 @@ public class Testing {
             System.out.println("");
         }
         System.out.println(line);
-        System.out.print("Press 0 to exit");
+        System.out.print("Press 0 to exit, 1 to go to main menu: ");
         int select = scan.nextInt();
-        if(select==0)
-        {
-            System.exit(0);
-        }
-        else
-        {
-            Selection();
+        switch (select) {
+            case 0:
+                System.exit(0);
+            case 1:
+                Selection();
+                break;
+            default:
+                System.out.println("Error");
+                break;
         }
       }
      
+      public static void Report() throws AWTException, CloneNotSupportedException{
+        Scanner scan = new Scanner(System.in);
+        String [] CustReport = {"C001       James       FlowerA       200.00", "C002       Lim       FlowerB       600.00"};
+        System.out.println("InvoiceID  CustName    Flower Tpye    Price");
+        System.out.println("============================================");
+        for(int i = 0; i < CustReport.length; i++){
+            System.out.println(CustReport[i]);
+        }
+        System.out.print("Press 0 to exit, 1 to go to main menu: ");
+        int select = scan.nextInt();
+        switch (select) {
+            case 0:
+                System.exit(0);
+            case 1:
+                Selection();
+                break;
+            default:
+                System.out.println("Error");
+                break;
+        }
+      }
        
 }
