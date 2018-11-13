@@ -210,27 +210,35 @@ public class Testing {
      }
         
     public static void Booking()throws AWTException, CloneNotSupportedException{      
-       clearScreen();
-       System.out.println("Booking"); 
-       String flowerName ="";
+       char select;
+       Scanner scan = new Scanner(System.in);
+       String[] flowerName = {"Lily", "Rose", "Sunflower", "White Rose"};
        int quantity;
        String time ="";
        String date="";
        String address ="";
+       String decisionFlowerName = "";
+       System.out.println("Booking"); 
+       System.out.println("Please choose the flowers that want to purchase");
+        do{
+        for(int i = 0; i < flowerName.length; i++){
+            System.out.println(i+1 + ") " + flowerName[i]);
+        }
+        System.out.print("Step 1: Choose the flower from above: ");
+
+        int selection1 = scan.nextInt();
+   
+        switch(selection1){
+            case 1: decisionFlowerName = flowerName[0];break;
+            case 2: decisionFlowerName = flowerName[1];break;
+            case 3: decisionFlowerName = flowerName[2];break;
+            case 4: decisionFlowerName = flowerName[3];break;  
+            default: System.out.println("Error");System.exit(0);break;
+        }
        
-        System.out.printf("Alstroemeria");
-        flowerName = sc.nextLine();
         System.out.printf("Enter the quantity:   ");
         quantity = input.nextInt();
         input.nextLine();
-        //System.out.printf("Anemone");
-        //System.out.printf("Enter the quantity:   ");
-        // quantity = input.nextInt();
-        //input.nextLine();
-         //System.out.printf("Asters");
-        //System.out.printf("Enter the quantity:   ");
-        //uantity = input.nextInt();
-        //input.nextLine();
         
         System.out.printf("Time           : ");
         time = sc.nextLine();
@@ -260,12 +268,28 @@ public class Testing {
                 System.out.println("Please enter your address ! ");
                 address = sc.nextLine();
             }
-        }while(address.isEmpty());
-        bookList.add(new Booking(flowerName,quantity,time,date,address));     
-         System.out.println("Booking Successful!!!");    
-         Selection();           
+        }while(address.isEmpty());                             
         
+          System.out.printf("\nYour flower is: " + "\nFlower Arrangement Type: " + decisionFlowerName + "\nQuantity: " 
+                + quantity + "\nTime: " +
+                time + "\nDate: " + date + "\nAddress: " + address+ "\nAre you sure? (y/n): ");
+        select = scan.next().charAt(0);
+        }while(select != 'y');  
+        System.out.println("Press 0 to exit, 1 to continue: ");
+        int last = scan.nextInt();
+        switch (last) {
+            case 0:
+                System.exit(0);
+            case 1:
+                Selection();
+                break;
+            default:
+                System.out.println("Error");
+                System.exit(0);
+                break;
+        }   
       }
+        
       
       public static void clearScreen() throws AWTException{
         

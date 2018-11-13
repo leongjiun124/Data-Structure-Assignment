@@ -16,9 +16,9 @@ public class Booking {
     private String date;
     private String address;
     
-    Booking(String flowerName, int quanity, String time, String date, String address){
+    Booking(String flowerName, int quantity, String time, String date, String address){
         this.flowerName = flowerName;
-        this.quantity = quanity;
+        this.quantity = quantity;
         this.time = time;
         this.date = date;
         this.address = address;
