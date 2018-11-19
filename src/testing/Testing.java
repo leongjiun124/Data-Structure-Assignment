@@ -401,6 +401,17 @@ public class Testing {
         }
         
     }
+      
+      public static void PickUpPriority(){
+          
+          Scanner scan = new Scanner(System.in);
+          System.out.println("1. Express (Highest Priority)");
+          System.out.println("2. Normal");
+          System.out.println("3. Flexi (Lowest Priority)");
+          System.out.println("Please select your pick up priority");
+          int selection = scan.nextInt();
+          
+      }
      
       public static void TrackProductStock() throws AWTException, CloneNotSupportedException{
         List<Item> flowerInventory = new ArrayList<Item>();
