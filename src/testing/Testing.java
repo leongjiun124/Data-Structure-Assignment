@@ -392,7 +392,7 @@ public class Testing {
             case 0:
                 System.exit(0);
             case 1:
-                Selection();
+                PickUpPriority();
                 break;
             default:
                 System.out.println("Error");
@@ -402,15 +402,33 @@ public class Testing {
         
     }
       
-      public static void PickUpPriority(){
-          
+      public static void PickUpPriority() throws AWTException, CloneNotSupportedException{
+          String[] priority = {"Express (Highest)", "Normal", "Flexi (Lowest)"};
           Scanner scan = new Scanner(System.in);
-          System.out.println("1. Express (Highest Priority)");
-          System.out.println("2. Normal");
-          System.out.println("3. Flexi (Lowest Priority)");
+          System.out.println("1. " + priority[0]);
+          System.out.println("2. " + priority[1]);
+          System.out.println("3. " + priority[2]);
           System.out.println("Please select your pick up priority");
           int selection = scan.nextInt();
-          
+          System.out.print("Your selection: ");
+          switch(selection){
+              case 1: System.out.println(priority[0]);break;
+              case 2: System.out.println(priority[1]);break;
+              case 3: System.out.println(priority[2]);break;
+          }
+        System.out.print("Press 0 to exit, 1 to continue: ");
+        int last = scan.nextInt();
+        switch (last) {
+            case 0:
+                System.exit(0);
+            case 1:
+                Selection();
+                break;
+            default:
+                System.out.println("Error");
+                System.exit(0);
+                break;
+        }          
       }
      
       public static void TrackProductStock() throws AWTException, CloneNotSupportedException{
