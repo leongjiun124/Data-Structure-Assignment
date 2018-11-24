@@ -392,7 +392,7 @@ public class Testing {
             case 0:
                 System.exit(0);
             case 1:
-                PickUpPriority();
+                PickUpPriority(decisionFlowerType, decisionFlowerSize, decisionFlower, decisionAccessories);
                 break;
             default:
                 System.out.println("Error");
@@ -402,13 +402,19 @@ public class Testing {
         
     }
       
-      public static void PickUpPriority() throws AWTException, CloneNotSupportedException{
+      public static void PickUpPriority(String type, String size,String flower, String accessories) throws AWTException, CloneNotSupportedException{
           String[] priority = {"Express (Highest)", "Normal", "Flexi (Lowest)"};
+          String flowerType = type;
+          String flowerSize = size;
+          String flowerName = flower;
+          char select;
+          String flowerAccessories = accessories;
           Scanner scan = new Scanner(System.in);
+          do{
           System.out.println("1. " + priority[0]);
           System.out.println("2. " + priority[1]);
           System.out.println("3. " + priority[2]);
-          System.out.println("Please select your pick up priority");
+          System.out.print("Please select your pick up priority");
           int selection = scan.nextInt();
           System.out.print("Your selection: ");
           switch(selection){
@@ -416,6 +422,11 @@ public class Testing {
               case 2: System.out.println(priority[1]);break;
               case 3: System.out.println(priority[2]);break;
           }
+          System.out.printf("\nYour Flower Arrangement Type: " + flowerType + "\nFlowerSize: " 
+                + flowerSize + "\nFlower Type: " +
+                flowerName + "\nAccessories: " + flowerAccessories + "\nThey will be in " + priority[selection - 1] + " priority.\nAre you sure(y/n): ");
+          select = scan.next().charAt(0);
+          }while (select != 'y');
         System.out.print("Press 0 to exit, 1 to continue: ");
         int last = scan.nextInt();
         switch (last) {
