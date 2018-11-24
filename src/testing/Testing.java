@@ -199,7 +199,7 @@ public class Testing {
             case 2: TrackProductStock();break;
             case 3: Report();break;
             case 4: DeliveryList(); break;
-            case 5:CustomizedFlower();break;
+            case 5:CustomizedFlowerMenu();break;
             case 6:menu(); break;
         }
         /*if(selection == 1){
@@ -207,6 +207,18 @@ public class Testing {
         }else if(selection == 2){
            menu();                 
       }*/
+     }
+     
+     public static void CustomizedFlowerMenu()throws AWTException, CloneNotSupportedException{
+        Scanner scan = new Scanner(System.in);
+        System.out.println("1. Customized Flower Order");
+        System.out.println("2. Select Pick Up Priority"); 
+        System.out.printf("Please enter number to select the option:  ");
+        int select = scan.nextInt();
+        switch(select){
+            case 1: CustomizedFlower();break;
+            case 2: PickUpPriority();break;
+        }
      }
         
     public static void Booking()throws AWTException, CloneNotSupportedException{      
@@ -392,7 +404,7 @@ public class Testing {
             case 0:
                 System.exit(0);
             case 1:
-                PickUpPriority(decisionFlowerType, decisionFlowerSize, decisionFlower, decisionAccessories);
+                CustomizedFlowerMenu();
                 break;
             default:
                 System.out.println("Error");
@@ -402,19 +414,28 @@ public class Testing {
         
     }
       
-      public static void PickUpPriority(String type, String size,String flower, String accessories) throws AWTException, CloneNotSupportedException{
+      public static void PickUpPriority() throws AWTException, CloneNotSupportedException{
           String[] priority = {"Express (Highest)", "Normal", "Flexi (Lowest)"};
-          String flowerType = type;
+          FlowerCustomized[] flowerCustomed = new FlowerCustomized[2];
+          flowerCustomed[0] = new FlowerCustomized("Vertical flower arrangement", "Small", "Lily", "Double Artificial Holly Berry Stamens");
+          flowerCustomed[1] = new FlowerCustomized("Elliptical flower arrangement", "Big", "Rose", "No Need");
+          
+          /*String flowerType = type;
           String flowerSize = size;
           String flowerName = flower;
+          String flowerAccessories = accessories;*/
           char select;
-          String flowerAccessories = accessories;
           Scanner scan = new Scanner(System.in);
           do{
+          for(int i = 0; i<flowerCustomed.length; i++){
+              System.out.println(i+1 + ") " + flowerCustomed[i].toString());
+          }
+          System.out.print("Please choose the order you want to choose: ");
+          int order = scan.nextInt();
           System.out.println("1. " + priority[0]);
           System.out.println("2. " + priority[1]);
           System.out.println("3. " + priority[2]);
-          System.out.print("Please select your pick up priority");
+          System.out.print("Please select your pick up priority: ");
           int selection = scan.nextInt();
           System.out.print("Your selection: ");
           switch(selection){
@@ -422,9 +443,10 @@ public class Testing {
               case 2: System.out.println(priority[1]);break;
               case 3: System.out.println(priority[2]);break;
           }
-          System.out.printf("\nYour Flower Arrangement Type: " + flowerType + "\nFlowerSize: " 
+          /*System.out.printf("\nYour Flower Arrangement Type: " + flowerType + "\nFlowerSize: " 
                 + flowerSize + "\nFlower Type: " +
-                flowerName + "\nAccessories: " + flowerAccessories + "\nThey will be in " + priority[selection - 1] + " priority.\nAre you sure(y/n): ");
+                flowerName + "\nAccessories: " + flowerAccessories + "\nThey will be in " + priority[selection - 1] + " priority.\nAre you sure(y/n): ");*/
+          System.out.print(flowerCustomed[order - 1].toString() + "\nThey will be in " + priority[selection - 1] + " priority.\nAre you sure(y/n): ");
           select = scan.next().charAt(0);
           }while (select != 'y');
         System.out.print("Press 0 to exit, 1 to continue: ");
