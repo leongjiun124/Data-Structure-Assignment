@@ -414,6 +414,40 @@ public class Testing {
         
     }
       
+      public static void PickUpOrder()throws AWTException, CloneNotSupportedException{
+          Scanner scan = new Scanner(System.in);
+          List<PickUpOrder> pick = new ArrayList<PickUpOrder>();
+    pick.add(new PickUpOrder("OR001", "Flower 1", "12/07/2018", "13:00", "34", ""));
+    pick.add(new PickUpOrder("OR002", "Flower 2", "13/07/2018", "15:00", "13", "Already"));
+    pick.add(new PickUpOrder("OR003", "Flower 3", "14/07/2018", "17:00", "50", ""));
+ 
+    System.out.println("---------------------------------------------------------------------------------------------------------");
+    System.out.printf("%10s %20s %20s %20s %15s %10s", "ORDER ID", "ITEM NAME", "PICKUP DATE", "PICKUP TIME", "QUALITY", "STATUS");
+    System.out.println();
+    System.out.println("---------------------------------------------------------------------------------------------------------");
+    for(PickUpOrder picks: pick){
+        System.out.format("%10s %20s %20s %16s %15s %15s",
+                picks.getOrderId(), picks.getItemName(), picks.getDate(), picks.getTime(), picks.getQuality(), picks.getStatus());
+        System.out.println();
+    }
+    System.out.println("---------------------------------------------------------------------------------------------------------");
+    
+    System.out.println("The totol number of order has been picked up: 1");
+            System.out.println("Press 0 to exit, 1 to continue: ");
+        int last = scan.nextInt();
+        switch (last) {
+            case 0:
+                System.exit(0);
+            case 1:
+                Selection();
+                break;
+            default:
+                System.out.println("Error");
+                System.exit(0);
+                break;
+        }
+      }
+      
       public static void PickUpPriority() throws AWTException, CloneNotSupportedException{
           String[] priority = {"Express (Highest)", "Normal", "Flexi (Lowest)"};
           FlowerCustomized[] flowerCustomed = new FlowerCustomized[2];
