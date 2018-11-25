@@ -432,6 +432,10 @@ public class Testing {
           }
           System.out.print("Please choose the order you want to choose: ");
           int order = scan.nextInt();
+          if(order > flowerCustomed.length){
+              System.out.println("Error");
+              System.exit(0);
+          }
           System.out.println("1. " + priority[0]);
           System.out.println("2. " + priority[1]);
           System.out.println("3. " + priority[2]);
@@ -442,6 +446,7 @@ public class Testing {
               case 1: System.out.println(priority[0]);break;
               case 2: System.out.println(priority[1]);break;
               case 3: System.out.println(priority[2]);break;
+              default:System.out.println("Error");System.exit(0);
           }
           /*System.out.printf("\nYour Flower Arrangement Type: " + flowerType + "\nFlowerSize: " 
                 + flowerSize + "\nFlower Type: " +
