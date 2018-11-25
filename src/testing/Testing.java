@@ -187,7 +187,9 @@ public class Testing {
         System.out.println("3. Generate Monthly Invoice");
         System.out.println("4. Delivery Order List");
         System.out.println("5. Customized Floral Arrangement");
-        System.out.println("6. Return to the main menu");       
+        System.out.println("6. Set Credit Limit");
+        System.out.println("7. Pick Up Order");
+        System.out.println("8. Return to the main menu");       
         
         System.out.printf("Please enter number to select the option:  ");
         int selection;
@@ -200,7 +202,9 @@ public class Testing {
             case 3: Report();break;
             case 4: DeliveryList(); break;
             case 5:CustomizedFlowerMenu();break;
-            case 6:menu(); break;
+            case 6:SetCreditLimit();break;
+            case 7: PickUpOrder();break;
+            case 8:menu(); break;
         }
         /*if(selection == 1){
            Booking();
@@ -413,6 +417,45 @@ public class Testing {
         }
         
     }
+      
+      public static void SetCreditLimit()throws AWTException, CloneNotSupportedException{
+          Scanner scan = new Scanner(System.in);
+        
+        String [] coporateDetails = {"1. Company A", "2. Company B", "3. Company C", "4. Company D"};
+        for(int i = 0; i < coporateDetails.length; i++){
+            System.out.println(coporateDetails[i]);
+        }
+        
+        int choice;
+        int creditLimit;
+        
+        System.out.print("Enter Your Choice (in number): ");
+        choice = scan.nextInt();
+        if(choice > coporateDetails.length){
+            System.out.println("Error");
+            System.exit(0);
+        }
+        
+        System.out.println("You have Selected : " + coporateDetails[choice -1]);
+        
+        System.out.print("Enter Your Credit Limit For Selected Company: ");
+        creditLimit = scan.nextInt();
+        
+        System.out.println("You Have Set The Credit Limit to (RM): " + creditLimit);
+        System.out.println("Press 0 to exit, 1 to continue: ");
+        int last = scan.nextInt();
+        switch (last) {
+            case 0:
+                System.exit(0);
+            case 1:
+                CustomizedFlowerMenu();
+                break;
+            default:
+                System.out.println("Error");
+                System.exit(0);
+                break;
+        }
+      }
       
       public static void PickUpOrder()throws AWTException, CloneNotSupportedException{
           Scanner scan = new Scanner(System.in);
