@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -27,6 +28,9 @@ public class Testing {
     public static Scanner sc = new Scanner(System.in);
     public static Scanner input = new Scanner(System.in);
     public static Customer currentUser;
+    public int date2;
+    public int discount1;
+    public int month1;
     
      public static void main(String[] args) throws AWTException, ParseException, CloneNotSupportedException {
          custList.add( new Customer("Mia Khalifa","12345","Mia Khalifa","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur."));
@@ -190,7 +194,8 @@ public class Testing {
         System.out.println("6. Set Credit Limit");
         System.out.println("7. Pick Up Order");
         System.out.println("8. Update Customer as Corporate Customer");
-        System.out.println("9. Return to the main menu");       
+        System.out.println("9. Monthly Promotion");
+        System.out.println("10. Return to the main menu");       
         
         System.out.printf("Please enter number to select the option:  ");
         int selection;
@@ -206,7 +211,8 @@ public class Testing {
             case 6:SetCreditLimit();break;
             case 7: PickUpOrder();break;
             case 8:Corporate(); break;
-            case 9:menu(); break;
+            case 9:MonthlyPromotion();break;
+            case 10:menu(); break;
         }
         /*if(selection == 1){
            Booking();
@@ -730,6 +736,227 @@ public class Testing {
         }
        
 }
+      
+      public static void MonthlyPromotion() throws AWTException, CloneNotSupportedException{
+          LocalDateTime now = LocalDateTime.now();
+        int currentYear=now.getYear();
+        int currentMonth=now.getMonthValue();
+        
+        List<Item> flowerInventory = new ArrayList<Item>();
+        List<promotionList> Promotion = new ArrayList<promotionList>();
+        String line = new String(new char[90]).replace('\0', '-');
+         String line2 = new String(new char[90]).replace('\0', '=');
+        Scanner scan=new Scanner(System.in);
+        boolean existingPromotion=false;
+        Item item = new Item();
+        item.setItemName("Flower 1");
+        item.setQuantity(200);
+        item.setWarningLevel(20);
+        item.setDate1("12/11/2018");
+        flowerInventory.add(item);
+        
+        item = new Item();
+        item.setItemName("Flower 2");
+        item.setQuantity(100);
+        item.setWarningLevel(20);
+        item.setDate1("12/11/2018");
+        flowerInventory.add(item);
+        
+        item = new Item();
+        item.setItemName("Flower 3");
+        item.setQuantity(10);
+        item.setWarningLevel(20);
+        item.setDate1("12/11/2018");
+        flowerInventory.add(item);
+        
+        //Start
+        System.out.println("Creating Promotion");
+        //Title
+                System.out.println("Please enter year of the product promotion");
+                int dateYear;
+                do
+                {
+                    dateYear=scan.nextInt();
+                    System.out.println("Input Year must greater then current year");
+                }while(currentYear>dateYear);
+                
+                System.out.println("Please enter month of the product promotion(1-12)");
+                int dateMonth ;
+                do
+                {
+                    dateMonth=scan.nextInt();
+                    System.out.println("Please enter valid month");
+                    
+                }while(currentYear==dateYear && currentMonth>dateMonth || dateMonth>13);
+                
+                    for(int j=0;j<Promotion.size();j++)
+                    {
+                        if(Promotion.get(j).getMonth()==dateMonth && Promotion.get(j).getYear()==dateYear)
+                        {
+                            existingPromotion=true;
+                        }
+                    }
+                    
+                    if(existingPromotion==true)
+                    {
+                        System.out.println("The promotion date are existing. You can go to add the promotion date in promotion menu");
+                        String exitToMenu= scan.next();
+                        System.exit(0);
+                    }
+                    System.out.println("Please enter the promotion title");
+                    String title=scan.next();
+                
+        //Promotion();
+        
+        System.out.println(line);
+        
+       
+        
+        System.out.print("       ");
+        System.out.print("Item Name");
+        System.out.print("       ");
+        System.out.print("Last Update");
+        System.out.print("       ");
+        System.out.print("Quantity");
+        System.out.print("       ");
+        System.out.print("Warning Level");
+        System.out.println("");
+        System.out.println(line);
+        for(int i =0; i<flowerInventory.size();i++)
+        {
+            System.out.print(i+1);
+            System.out.print("       ");
+            System.out.print(flowerInventory.get(i).getItemName());
+            System.out.print("       ");
+            System.out.print(flowerInventory.get(i).getDate1l());
+            System.out.print("       ");
+            System.out.print(flowerInventory.get(i).getQuantity());
+            System.out.print("                 ");
+            System.out.print(flowerInventory.get(i).getWarningLevel());
+            if(flowerInventory.get(i).getWarningLevel()>=flowerInventory.get(i).getQuantity())
+            {
+                System.out.print("       ");
+                System.out.println("Warning");
+            }
+            System.out.println("");
+        }
+        System.out.println(line);
+        System.out.println("Please select item(index number) for promotion");
+        System.out.println("Press 0 to exit");
+        System.out.print("Index = ");
+        
+        boolean indexNumber=false;
+        int select ;
+        
+        do
+        {
+            select= scan.nextInt();
+        
+        
+        
+        for(int j=0; j<flowerInventory.size();j++)
+        {
+            if(select==(j+1))
+            {
+                System.out.println("");
+                System.out.println(line);
+                System.out.println("Item Selected");
+                System.out.println(line);
+                System.out.println(flowerInventory.get(j).getItemName());
+                System.out.println(line2);
+                System.out.println("");
+                System.out.println("Please enter quantity for promotion ( The quantity will be reserve for promotion )");
+                int quantity;
+                do
+                {
+                  quantity = scan.nextInt();
+                }while(flowerInventory.get(j).quantity<quantity || quantity==-1);
+                if(quantity==-1)
+                {
+                    System.exit(0);
+                }
+
+                System.out.println("Please Enter Discount %");
+                int discount = scan.nextInt();
+               
+                
+                System.out.println(line2);
+                System.out.print("Promotion Title         : ");
+                System.out.println(title);
+                System.out.print("Item Name               : ");
+                System.out.println(flowerInventory.get(j).getItemName());
+                System.out.print("Discount (%)          : ");
+                System.out.println(discount);
+                System.out.print("Quantity                : ");
+                System.out.println(quantity);
+                System.out.print("Month                   : ");
+                System.out.println(dateMonth);
+                System.out.print("Year                    :");
+                System.out.println(dateYear);
+            
+                System.out.println(line2);
+                
+                System.out.println("");
+                System.out.println("To confirm please press 99 or 00 to cancel : ");
+                System.out.println("");
+                int confirm=scan.nextInt();
+                if(confirm ==99)
+                {
+                   
+                 System.out.println("Item sucessfully added to month promotion list");
+                  System.out.print("Press 0 to exit, 1 to continue: ");
+        int last = scan.nextInt();
+        switch (last) {
+            case 0:
+                System.exit(0);
+            case 1:
+                Selection();
+                break;
+            default:
+                System.out.println("Error");
+                System.exit(0);
+                break;
+        }   
+                 
+                }
+                if(confirm == 00)
+                {
+                 System.out.println("The selected item is canceled");
+                         System.out.print("Press 0 to exit, 1 to continue: ");
+        int last = scan.nextInt();
+        switch (last) {
+            case 0:
+                System.exit(0);
+            case 1:
+                Selection();
+                break;
+            default:
+                System.out.println("Error");
+                System.exit(0);
+                break;
+        }   
+                }
+                indexNumber=true;
+                
+                
+                
+            }
+            else
+            {
+                
+            }
+            
+        }
+        
+        System.out.println("Please select index according to the index number");
+                
+        }while(indexNumber==false);
+        //here
+
+        
+        
+    }
       }
+      
 
 
