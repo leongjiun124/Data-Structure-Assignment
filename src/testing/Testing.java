@@ -189,7 +189,8 @@ public class Testing {
         System.out.println("5. Customized Floral Arrangement");
         System.out.println("6. Set Credit Limit");
         System.out.println("7. Pick Up Order");
-        System.out.println("8. Return to the main menu");       
+        System.out.println("8. Update Customer as Corporate Customer");
+        System.out.println("9. Return to the main menu");       
         
         System.out.printf("Please enter number to select the option:  ");
         int selection;
@@ -204,7 +205,8 @@ public class Testing {
             case 5:CustomizedFlowerMenu();break;
             case 6:SetCreditLimit();break;
             case 7: PickUpOrder();break;
-            case 8:menu(); break;
+            case 8:Corporate(); break;
+            case 9:menu(); break;
         }
         /*if(selection == 1){
            Booking();
@@ -421,7 +423,7 @@ public class Testing {
       public static void SetCreditLimit()throws AWTException, CloneNotSupportedException{
           Scanner scan = new Scanner(System.in);
         
-        String [] coporateDetails = {"1. Company A", "2. Company B", "3. Company C", "4. Company D"};
+        String [] coporateDetails = {"1. Company SellYou", "2. Company BuyYou", "3. Company CIaoYou", "4. Company DiaoYou"};
         for(int i = 0; i < coporateDetails.length; i++){
             System.out.println(coporateDetails[i]);
         }
@@ -673,5 +675,61 @@ public class Testing {
                 break;
         }
       }
+      
+      public static void Corporate() throws AWTException, CloneNotSupportedException{
+          Scanner scan = new Scanner(System.in);
+          System.out.println("Enter the customer'name that want to update as corporate customer");
+          String loginCust= input.nextLine();
+          boolean login = false;
+        
+        try{
+            for(int i = 0; i < custList.length(); i++){
+                if(custList.getData(i) != null){
+                    if((loginCust.equals(custList.getData(i).getCustName()))){
+                        currentUser = custList.getData(i);
+                        login = true;
+                        break;                        
+                    }
+                }
+            }
+        }catch(Exception e){         
+        }
+      
+      if(login == true){
+            System.out.println("Verify Success");
+            System.out.println("Are you sure want to update " +  custList.getData(0).getCustName() + " as a corporate customer");
+            System.out.print("Press 1 to yes, 0 to cancel: ");
+        int select = scan.nextInt();
+        switch (select) {
+            case 1:
+                System.out.println("Update " + custList.getData(0).getCustName() +"as corporate customer successful");
+                System.out.print("Press 1 to update more corporate customer, 0 to go back main menu: ");
+                int choose = scan.nextInt();
+            switch (choose) {
+            case 0:
+                menu();
+            case 1:
+                Corporate();
+                break;
+            default:
+                System.out.println("Error");
+                System.exit(0);
+                break;
+                        }
+            case 0:
+                System.out.println("Update fail!");
+                Selection();
+            default:
+                System.out.println("Error");
+                System.exit(0);
+                break;
+        }}else{
+            System.out.println("Verify Unsuccessful");
+            System.out.println("Please try again!");
+            Corporate();
+        }
        
 }
+      }
+
+
