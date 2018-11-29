@@ -119,7 +119,8 @@ public class Testing {
 
      public static void Register()throws AWTException, CloneNotSupportedException{
         clearScreen();
-        System.out.println("Register");     
+        System.out.println("================================================");
+        System.out.println("------------------Register----------------------");  
         
         String custUsername ="";
         String custPassword="";
@@ -232,7 +233,8 @@ public class Testing {
         System.out.println("7. Pick Up Order");
         System.out.println("8. Update Customer as Corporate Customer");
         System.out.println("9. Monthly Promotion");
-        System.out.println("10. Return to the main menu");
+        System.out.println("10. Generate Sales Order");
+        System.out.println("11. Return to the main menu");
         System.out.println("================================================");
         
         System.out.printf("Please enter number to select the option:  ");
@@ -250,7 +252,8 @@ public class Testing {
             case 7: PickUpOrder();break;
             case 8:Corporate(); break;
             //case 9:MonthlyPromotion();break;
-            case 10:menu(); break;
+            case 10:SalesOrder(); break;
+            case 11:menu(); break;
         }
         /*if(selection == 1){
            Booking();
@@ -994,6 +997,42 @@ public class Testing {
         
         
     }*/
+      
+      public static void SalesOrder() throws AWTException, CloneNotSupportedException{
+          Scanner scan = new Scanner(System.in);
+          System.out.println("Please enter the customer'name : ");
+           String loginCust= input.nextLine();
+          boolean loginAccess = false;
+        
+        try{
+            for(int i = 0; i < custList.length(); i++){
+                if(custList.getData(i) != null){
+                    if((loginCust.equals(custList.getData(i).getCustName()))){
+                        currentUser = custList.getData(i);
+                        loginAccess = true;
+                        break;                        
+                    }
+                }
+            }
+        }catch(Exception e){         
+        }
+        
+        if(loginAccess == true){
+            System.out.println("Verify Successfull!");
+            System.out.println("Please select the Sales Order that you want generate : ");
+            System.out.println("================================================");
+            System.out.println("-----------------Sales Order--------------------"); 
+            System.out.println("1.Flower Name: ");
+            System.out.println("================================================");
+        }else{
+            System.out.println("Verify Fail!");
+            System.out.println("Invalid Customer'name, Please try again!");
+            SalesOrder();
+        }
+          
+        
+      }
+      
       }
       
 
