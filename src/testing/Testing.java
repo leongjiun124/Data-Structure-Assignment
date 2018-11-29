@@ -38,11 +38,14 @@ public class Testing {
      }    
       
         public static void menu() throws AWTException, CloneNotSupportedException{
-        System.out.println("Welcome!!!");             
+        System.out.println("================================================");
+        System.out.println("----------------Fiore Flowershop----------------");       
+        System.out.println("-----------------Welcome Staff------------------");             
         System.out.println("1. Login");
         System.out.println("2. Register");
-        System.out.println("3. Exit");   
-        System.out.printf("Please enter number 1 to 3 to select the option:  ");
+        System.out.println("3. Exit");
+        System.out.println("================================================");
+        System.out.printf("Please enter number 1 to 3 to select the option:  "); 
         int selection;
         selection = sc.nextInt();
         sc.nextLine();  
@@ -62,34 +65,55 @@ public class Testing {
         
     public static void Login()throws AWTException, CloneNotSupportedException{
       clearScreen();
-      System.out.println("Login"); 
+      System.out.println("================================================");
+      System.out.println("--------------------Login-----------------------"); 
       System.out.printf("Username: ");
       String loginCust= input.nextLine();
+      if(loginCust.isEmpty()){
+        do{
+            if(loginCust.isEmpty()){
+               System.out.println("Please enter your Username !");
+               System.out.printf("Username: ");
+               loginCust = sc.nextLine();              
+            }
+        }while((loginCust.isEmpty()));
+         }
       System.out.printf("Password: ");
       String loginPassword = input.nextLine();
+      if(loginPassword.isEmpty()){
+        do{
+            if(loginPassword.isEmpty()){
+               System.out.println("Please enter your Password !");
+               System.out.printf("Password: ");
+               loginPassword = sc.nextLine();              
+            }
+        }while((loginPassword.isEmpty()));
+         }
       boolean loginAccess = false;
-        
-        try{
+      
+               try{
             for(int i = 0; i < custList.length(); i++){
                 if(custList.getData(i) != null){
                     if((loginCust.equals(custList.getData(i).getCustUsername()) && (loginPassword.equals(custList.getData(i).getCustPassword())))){
                         currentUser = custList.getData(i);
                         loginAccess = true;
-                        break;                        
+                        break;                       
                     }
                 }
             }
-        }catch(Exception e){
+        }catch(Exception e){    
             
         }
-        
+               
         if(loginAccess == true){
-            System.out.println("LOGIN SUCCESSFUL!!!");
+            System.out.println("Login Successfull!");
             Testing.Selection();
         }else{
-            System.out.println("LOGIN UNSUCCESSFUL,PLEASE TRY AGAIN!!!");
+            System.out.println("Login Fail!");
+            System.out.println("Invalid Username or Password, Please try again!");
             Login();
         }
+          
       }
     
 
@@ -103,40 +127,34 @@ public class Testing {
         String ic="";
         String phone="";
         String address ="";
-        
             
-        System.out.printf("Username             : ");
+        System.out.printf("Username        : ");
          custUsername = sc.nextLine();
         
          if(custUsername.isEmpty()){
         do{
             if(custUsername.isEmpty()){
-               System.out.println("Please enter your username !");
-               System.out.println("");
-               System.out.println("Username             : ");
+               System.out.println("Please enter your Username !");
+               System.out.printf("Username        : ");
                custUsername = sc.nextLine();              
             }
         }while((custUsername.isEmpty()));
          }
-         
-         System.out.printf("Password            : ");
+           
+         System.out.printf("Password        : ");
          custPassword = sc.nextLine();
          
-        if((custPassword.isEmpty()) || (custPassword.length() < 5) ){
-            
+        if((custPassword.isEmpty()) || (custPassword.length() < 5) ){         
         do{
             if(custPassword.isEmpty()){
                System.out.println("Please enter your password !");
-               System.out.println("");
-               System.out.println("Password             : ");
+               System.out.printf("Password        : ");
                custPassword = sc.nextLine();
             }else if(custPassword.length() < 5){
                 System.out.println("Your password cannot be less than 5 words, please enter again ! ");
-                System.out.println("");
-               System.out.println("Password             : ");
-               custPassword = sc.nextLine();
+                System.out.printf("Password        : ");
+                custPassword = sc.nextLine();
             }
-       
         }while((custPassword.isEmpty()) || (custPassword.length() < 5));
         }
         
@@ -146,46 +164,65 @@ public class Testing {
          do{
             if((custName.isEmpty())){
                 System.out.println("Please enter your Name ! ");
+                System.out.printf("Name            : ");
                 custName = sc.nextLine();
             }
         }while(custName.isEmpty());      
-         
-         
-        System.out.printf("IC Number            : ");
+        
+        System.out.println("Example of IC Number : 987664-69-6968 ");
+        System.out.printf("IC Number       : ");
         ic = sc.nextLine();
         
-         do{
+        if((ic.isEmpty()) || (ic.length() < 14) ){
+           do{
             if((ic.isEmpty())){
-                System.out.println("Please enter your IC number ! ");
+                System.out.println("Please enter your IC Number ! ");
+                System.out.printf("IC Number       : ");
                 ic = sc.nextLine();
+            }else if(ic.length() < 14){
+                 System.out.println("Your IC Number cannot be less than 14 words, please enter again ! ");
+                 System.out.printf("IC Number       : ");
+                 ic = sc.nextLine();
             }
-        }while(ic.isEmpty());      
-         
-        System.out.printf("Phone Number            : ");
+        }while((ic.isEmpty()) || (ic.length() < 14));       
+        }
+        
+        System.out.println("Example of Phone Number : 010-123-6968 or 03-91011069");
+        System.out.printf("Phone Number    : ");
         phone = sc.nextLine();
         
+        if((phone.isEmpty()) || (phone.length() < 11) ){
         do{
             if((phone.isEmpty())){
-                System.out.println("Please enter your phone number ! ");
+                System.out.println("Please enter your Phone Number ! ");
+                System.out.printf("Phone Number    : ");
+                phone = sc.nextLine();
+            }else if(phone.length() < 11){
+                System.out.println("Your Phone Number cannot be less than 11 words, please enter again ! ");
+                System.out.printf("Phone Number    : ");
                 phone = sc.nextLine();
             }
-        }while(phone.isEmpty());
+        }while((phone.isEmpty()) || (phone.length() < 11));
+        }
         
-        System.out.printf("Address            : ");
+        System.out.printf("Address         : ");
         address = sc.nextLine();
         
          do{
             if((address.isEmpty())){
                 System.out.println("Please enter your address ! ");
+                System.out.printf("Address         : ");
                 address = sc.nextLine();
             }
         }while(address.isEmpty());
-         custList.add(new Customer(custUsername,custPassword,custName,ic,phone,address));     
-         System.out.println("Register Successful!!!");    
+         custList.add(new Customer(custUsername,custPassword,custName,ic,phone,address));
+         System.out.println("Register Successful!");
          menu();                      
      }
      
-     public static void Selection()throws AWTException, CloneNotSupportedException{       
+     public static void Selection()throws AWTException, CloneNotSupportedException{  
+        System.out.println("================================================");
+        System.out.println("------------------Selection---------------------");      
         System.out.println("1. Booking flowers");
         System.out.println("2. Track Product Stock"); 
         System.out.println("3. Generate Monthly Invoice");
@@ -195,7 +232,8 @@ public class Testing {
         System.out.println("7. Pick Up Order");
         System.out.println("8. Update Customer as Corporate Customer");
         System.out.println("9. Monthly Promotion");
-        System.out.println("10. Return to the main menu");       
+        System.out.println("10. Return to the main menu");
+        System.out.println("================================================");
         
         System.out.printf("Please enter number to select the option:  ");
         int selection;
@@ -211,7 +249,7 @@ public class Testing {
             case 6:SetCreditLimit();break;
             case 7: PickUpOrder();break;
             case 8:Corporate(); break;
-            case 9:MonthlyPromotion();break;
+            //case 9:MonthlyPromotion();break;
             case 10:menu(); break;
         }
         /*if(selection == 1){
@@ -737,7 +775,7 @@ public class Testing {
        
 }
       
-      public static void MonthlyPromotion() throws AWTException, CloneNotSupportedException{
+      /*public static void MonthlyPromotion() throws AWTException, CloneNotSupportedException{
           LocalDateTime now = LocalDateTime.now();
         int currentYear=now.getYear();
         int currentMonth=now.getMonthValue();
@@ -955,7 +993,7 @@ public class Testing {
 
         
         
-    }
+    }*/
       }
       
 
