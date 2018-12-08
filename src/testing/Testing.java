@@ -234,7 +234,8 @@ public class Testing {
         System.out.println("8. Update Customer as Corporate Customer");
         System.out.println("9. Monthly Promotion");
         System.out.println("10. Generate Sales Order");
-        System.out.println("11. Return to the main menu");
+        System.out.println("11. Itemized Bill");
+        System.out.println("12. Return to the main menu");
         System.out.println("================================================");
         
         System.out.printf("Please enter number to select the option:  ");
@@ -253,7 +254,8 @@ public class Testing {
             case 8:Corporate(); break;
             //case 9:MonthlyPromotion();break;
             case 10:SalesOrder(); break;
-            case 11:menu(); break;
+            case 11:ItemizedBill();break;
+            case 12:menu(); break;
         }
         /*if(selection == 1){
            Booking();
@@ -1031,6 +1033,90 @@ public class Testing {
         }
           
         
+      }
+      
+      public static void ItemizedBill() throws AWTException, CloneNotSupportedException{
+          FlowerCustomized[] flowerBill = new FlowerCustomized[10];
+          /*        String[] flowerType = {"Elliptical flower arrangement", "Vertical flower arrangement", "The crescent flower arrangement"
+        , "The 'S' shaped flower arrangement"};
+        String[] flowerSize = {"Small", "Intermediate", "Big"};
+        String[] flower = {"Lily", "Rose", "Sunflower", "White Rose"};
+        String[] accessories = {"Double Artificial Holly Berry Stamens", "Bouquet Holder", "No need"};
+          String[] priority = {"Express (Highest)", "Normal", "Flexi (Lowest)"};*/
+          flowerBill[0] = new FlowerCustomized("Elliptical flower arrangement", "Small", "Rose", "Double Artificial Holly Berry Stamens","Normal");
+          flowerBill[1] = new FlowerCustomized("Vertical flower arrangement", "Big", "White Rose", "Bouquet Holder","Express (Highest)");
+          Scanner scan = new Scanner(System.in);
+          double flowerArrangePrice = 0;
+          double sizePrice = 0;
+          double flowerPrice = 0;
+          double accessoriesPrice = 0;
+          double pickUpPrice = 0;
+          double totalPrice = 0;
+          //calculate flower arrangement type price
+          if(flowerBill[0].getFlowerType().equals("Elliptical flower arrangement")){
+              flowerArrangePrice = 25.00;
+          }else if(flowerBill[0].getFlowerType().equals("Vertical flower arrangement")){
+              flowerArrangePrice = 30.00;
+          }
+          //calculate flower size price
+          if(flowerBill[0].getFlowerSize().equals("Small")){
+              sizePrice = 2.00;
+          }else if(flowerBill[0].getFlowerSize().equals("Medium")){
+              sizePrice = 5.00;
+          }else if(flowerBill[0].getFlowerSize().equals("Big")){
+              sizePrice = 10.00;
+          }
+          
+          //calculate flower type price
+          if(flowerBill[0].getFlowerName().equals("Rose")){
+              flowerPrice = 10.00;
+          }else if(flowerBill[0].getFlowerName().equals("White Rose")){
+              flowerPrice = 12.00;
+          }
+          
+          //calculate accessories
+          if(flowerBill[0].getFlowerAccessory().equals("Double Artificial Holly Berry Stamens")){
+              accessoriesPrice = 2.00;
+          }else if(flowerBill[0].getFlowerAccessory().equals("Bouquet Holder")){
+              accessoriesPrice = 3.00;
+          }else if(flowerBill[0].getFlowerAccessory().equals("No need")){
+              accessoriesPrice = 0;
+          }
+          
+          //calculate priority price
+          if(flowerBill[0].getPickUpPriority().equals("Express (Highest)")){
+              pickUpPrice = 5.00;
+          }else if(flowerBill[0].getPickUpPriority().equals("Normal")){
+              pickUpPrice = 2.00;
+          }else if(flowerBill[0].getPickUpPriority().equals("Flexi (Lowest)")){
+              pickUpPrice = 0.50;          }
+          totalPrice = pickUpPrice + accessoriesPrice + flowerPrice + flowerArrangePrice + sizePrice;
+          System.out.println("==================================================================================");          
+          System.out.println("\t\t\t\tItemized Bill");
+          System.out.println("==================================================================================");
+          System.out.println("\t\t\t\t\t\t\t\t\tPrice");
+          System.out.println("\t\t\t\t\t\t\t\t\t------");
+          System.out.println("Flower Arrangement Type: " + flowerBill[0].getFlowerType() + "\t\t\tRM " + String.format("%.2f", flowerArrangePrice));
+          System.out.println("Flower Size: " + flowerBill[0].getFlowerSize() + "\t\t\t\t\t\t\tRM " + String.format("%.2f", sizePrice));
+          System.out.println("Flower Type: " + flowerBill[0].getFlowerName() + "\t\t\t\t\t\t\tRM " + String.format("%.2f", flowerPrice));
+          System.out.println("Flower Accessories: " + flowerBill[0].getFlowerAccessory() + "\t\tRM " + String.format("%.2f", accessoriesPrice));
+          System.out.println("Pick Up Priority: " + flowerBill[0].getPickUpPriority() + "\t\t\t\t\t\tRM " + String.format("%.2f", pickUpPrice));
+          System.out.println("==================================================================================");
+          System.out.println("\t\t\t\t\t\t\t   Total Price: RM"+ String.format("%.2f", totalPrice));
+          System.out.print("Press 0 to exit, Press 1 to continue: ");
+            int select = scan.nextInt();
+            switch (select) {
+            case 0:
+                System.exit(0);
+            case 1:
+                Selection();
+                break;
+            default:
+                System.out.println("Error");
+                System.exit(0);
+                break;
+        }
+          
       }
       
       }
