@@ -1003,6 +1003,7 @@ public class Testing {
     }*/
       
       public static void SalesOrder() throws AWTException, CloneNotSupportedException{
+          Scanner scan = new Scanner(System.in);
           Calendar cal = Calendar.getInstance();
           int month = cal.get(Calendar.MONTH)+1;
           int Lily;
@@ -1045,13 +1046,26 @@ public class Testing {
             System.out.println("1.Lily : " + Lily);
             System.out.println("2.Rose : " + Rose);
             System.out.println("3.White Rose : " + whiteRose);
-            System.out.println("4.sunFlower : " + sunFlower);
+            System.out.println("4.Sunflower : " + sunFlower);
             System.out.println("Customer'name : " + loginCust);
             System.out.println("Address : " +custList.getData(0).getAddress());
             System.out.println("Phone Number : " + custList.getData(0).getPhone());
             System.out.println("Date : "+ cal.get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" +cal.get(Calendar.YEAR));
             System.out.println("Time : " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
             System.out.println("================================================");
+            System.out.print("Press 0 to exit, Press 1 to continue: ");
+            int select = scan.nextInt();
+            switch (select) {
+            case 0:
+                System.exit(0);
+            case 1:
+                SalesOrder();
+                break;
+            default:
+                System.out.println("Error");
+                System.exit(0);
+                break;
+        }
         }else{
             System.out.println("Verify Fail!");
             System.out.println("Invalid Customer'name, Please try again!");
