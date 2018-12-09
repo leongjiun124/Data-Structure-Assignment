@@ -11,11 +11,13 @@ import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Calendar;
 /**
  *
  * @author han wen
@@ -1001,7 +1003,12 @@ public class Testing {
     }*/
       
       public static void SalesOrder() throws AWTException, CloneNotSupportedException{
-          Scanner scan = new Scanner(System.in);
+          Calendar cal = Calendar.getInstance();
+          int month = cal.get(Calendar.MONTH)+1;
+          int Lily;
+          int Rose;
+          int whiteRose;
+          int sunFlower;
           System.out.println("Please enter the customer'name : ");
            String loginCust= input.nextLine();
           boolean loginAccess = false;
@@ -1021,10 +1028,29 @@ public class Testing {
         
         if(loginAccess == true){
             System.out.println("Verify Successfull!");
-            System.out.println("Please select the Sales Order that you want generate : ");
+            System.out.println("Please enter the quantity of Lily: ");
+            Lily = input.nextInt();
+            input.nextLine();
+            System.out.println("Please enter the quantity of Rose: ");
+            Rose = input.nextInt();
+            input.nextLine();
+            System.out.println("Please enter the quantity of White Rose: ");
+            whiteRose = input.nextInt();
+            input.nextLine();
+            System.out.println("Please enter the quantity of Sunflower: ");
+            sunFlower = input.nextInt();
+            input.nextLine();   
             System.out.println("================================================");
             System.out.println("-----------------Sales Order--------------------"); 
-            System.out.println("1.Flower Name: ");
+            System.out.println("1.Lily : " + Lily);
+            System.out.println("2.Rose : " + Rose);
+            System.out.println("3.White Rose : " + whiteRose);
+            System.out.println("4.sunFlower : " + sunFlower);
+            System.out.println("Customer'name : " + loginCust);
+            System.out.println("Address : " +custList.getData(0).getAddress());
+            System.out.println("Phone Number : " + custList.getData(0).getPhone());
+            System.out.println("Date : "+ cal.get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" +cal.get(Calendar.YEAR));
+            System.out.println("Time : " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
             System.out.println("================================================");
         }else{
             System.out.println("Verify Fail!");
