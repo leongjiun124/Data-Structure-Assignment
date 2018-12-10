@@ -10,6 +10,11 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -18,6 +23,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Calendar;
+import java.util.Date;
 /**
  *
  * @author han wen
@@ -49,8 +55,7 @@ public class Testing {
         System.out.println("================================================");
         System.out.printf("Please enter number 1 to 3 to select the option:  "); 
         int selection;
-        selection = sc.nextInt();
-        sc.nextLine();  
+        selection = sc.nextInt(); 
         switch (selection) {
             case 1:
                 Login();
@@ -70,6 +75,7 @@ public class Testing {
       System.out.println("================================================");
       System.out.println("--------------------Login-----------------------"); 
       System.out.printf("Username: ");
+      while(input.hasNextLine()){
       String loginCust= input.nextLine();
       if(loginCust.isEmpty()){
         do{
@@ -115,6 +121,7 @@ public class Testing {
             System.out.println("Invalid Username or Password, Please try again!");
             Login();
         }
+      }
           
       }
     
@@ -237,13 +244,17 @@ public class Testing {
         System.out.println("9. Monthly Promotion");
         System.out.println("10. Generate Sales Order");
         System.out.println("11. Itemized Bill");
-        System.out.println("12. Return to the main menu");
+        System.out.println("12. Payment List");
+        System.out.println("13. Reset Credit Limit");
+        System.out.println("14. Maintain Catalog");
+        System.out.println("15. Return to the main menu");
         System.out.println("================================================");
         
         System.out.printf("Please enter number to select the option:  ");
         int selection;
+        while(sc.hasNextInt()){
         selection = sc.nextInt();
-        sc.nextLine();
+        //sc.nextLine();
         
         switch(selection){
             case 1:Booking();break;
@@ -257,13 +268,17 @@ public class Testing {
             //case 9:MonthlyPromotion();break;
             case 10:SalesOrder(); break;
             case 11:ItemizedBill();break;
-            case 12:menu(); break;
+            case 12: PaymentList();break;
+            case 13: ResetCreditLimit(); break;
+            case 14: MaintainCatalog();break;
+            case 15: menu();break;
         }
         /*if(selection == 1){
            Booking();
         }else if(selection == 2){
            menu();                 
       }*/
+        }
      }
      
      public static void CustomizedFlowerMenu()throws AWTException, CloneNotSupportedException{
@@ -663,7 +678,7 @@ public class Testing {
             case 0:
                 System.exit(0);
             case 1:
-                Selection();
+                //Selection();
                 break;
             default:
                 System.out.println("Error");
@@ -688,7 +703,7 @@ public class Testing {
             case 0:
                 System.exit(0);
             case 1:
-                Selection();
+                //Selection();
                 break;
             default:
                 System.out.println("Error");
@@ -718,7 +733,7 @@ public class Testing {
             case 0:
                 System.exit(0);
             case 1:
-                Selection();
+                //Selection();
                 break;
             default:
                 System.out.println("Error");
@@ -730,7 +745,8 @@ public class Testing {
       public static void Corporate() throws AWTException, CloneNotSupportedException{
           Scanner scan = new Scanner(System.in);
           System.out.println("Enter the customer'name that want to update as corporate customer");
-          String loginCust= input.nextLine();
+          while(scan.hasNextLine()){
+          String loginCust= scan.nextLine();
           boolean login = false;
         
         try{
@@ -779,6 +795,7 @@ public class Testing {
             System.out.println("Please try again!");
             Corporate();
         }
+          }
        
 }
       
@@ -1011,7 +1028,8 @@ public class Testing {
           int whiteRose;
           int sunFlower;
           System.out.println("Please enter the customer'name : ");
-           String loginCust= input.nextLine();
+          while(scan.hasNextLine()){
+          String loginCust= scan.nextLine();
           boolean loginAccess = false;
         
         try{
@@ -1071,9 +1089,135 @@ public class Testing {
             System.out.println("Invalid Customer'name, Please try again!");
             SalesOrder();
         }
-          
+         }
         
       }
+      
+      public static void PaymentList() throws AWTException, CloneNotSupportedException{
+          Scanner scan = new Scanner(System.in);
+        Connection myconObj = null;
+        Statement mystatObj = null;
+        ResultSet myresObj = null;
+        String query = "Select * from lee.MyTable" ;
+    try{
+        myconObj = DriverManager.getConnection("jdbc:derby://localhost:1527/MyDataBase","lee", "123");
+        mystatObj = myconObj.createStatement();
+        myresObj = mystatObj.executeQuery(query);
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%1s %15s %19s %18s %13s %21s %22s", "ORDER ID", "ITEM NAME", "PICKUP DATE", "PICKUP TIME", "QUANTITY", "Payment Amount", "Payment Status");
+        System.out.println();
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------");
+        while(myresObj.next()){
+            String id = myresObj.getString("OrderId");
+            String itemName = myresObj.getString("ItemName");
+            Date pickupDate = myresObj.getDate("PickupDate");
+            String pickupTime = myresObj.getString("PickupTime");
+            int quantity = myresObj.getInt("Quantity");
+            double paymentAmount = myresObj.getDouble("PaymentAmount");
+            String paymentStatus = myresObj.getString("PaymentStatus");     
+            System.out.println(id+"\t\t"+ itemName +"\t "+ pickupDate +"\t\t" + pickupTime +"\t\t"+ quantity +"\t\t"+ "RM"+ String.format("%.2f", paymentAmount) +"\t\t\t"+ paymentStatus);
+        }
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("The totol order has been paid on 12/07/2018: 3");     
+        System.out.println("The totol order haven't been paid on 12/07/2018: 2");
+         System.out.println("Press 0 to exit, 1 to continue: ");
+        int last = scan.nextInt();
+        switch (last) {
+            case 0:
+                System.exit(0);
+            case 1:
+                Selection();
+                break;
+            default:
+                System.out.println("Error");
+                System.exit(0);
+                break;
+        }   
+    }
+    catch(SQLException e){
+        e.printStackTrace();
+    }
+ /*
+        List<PaymentDetails> payDetails = new ArrayList<PaymentDetails>();
+        payDetails.add(new PaymentDetails("OR001", "Flower 1", "12/07/2018", "13:00", "34",34.00, "Paid"));
+        payDetails.add(new PaymentDetails("OR002", "Flower 2", "12/07/2018", "15:00", "13",34.00, "Paid"));
+        payDetails.add(new PaymentDetails("OR003", "Flower 3", "12/07/2018", "17:00", "50",34.00, "\tNot Yet"));
+        payDetails.add(new PaymentDetails("OR004", "Flower 2", "12/07/2018", "19:00", "22",34.00, "\tNot Yet"));
+        payDetails.add(new PaymentDetails("OR005", "Flower 1", "12/07/2018", "21:00", "41",34.00, "Paid"));
+ 
+        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%10s %18s %19s %18s %16s %22s %20s", "ORDER ID", "ITEM NAME", "PICKUP DATE", "PICKUP TIME", "QUANTITY", "Payment Amont", "Payment STATUS");
+        System.out.println();
+        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
+        for(PaymentDetails pay: payDetails){
+            System.out.format("%8s %20s %19s %15s %16s %18s %20s",
+                pay.getOrderId(), pay.getItemName(), pay.getPickDate(), pay.getPickTime(), pay.getQuantity(), pay.getPaymentAmount(), pay.getPaymentStatus());
+            System.out.println();
+        }
+            System.out.println("-------------------------------------------------------------------------------------------------------------------------------------");
+    
+            System.out.println("The totol order has been paid on 12/07/2018: 3");     
+            System.out.println("The totol order haven't been paid on 12/07/2018: 2"); */
+    } 
+      
+      public static void ResetCreditLimit() throws AWTException, CloneNotSupportedException{
+          Scanner scan = new Scanner(System.in);
+        CompanyDetail[] companyDetail = new CompanyDetail[5];
+        companyDetail[0] = new CompanyDetail("Company A", 5000.00, "Not Cleared");
+        companyDetail[1] = new CompanyDetail("Company B", 5000.00, "Not Cleared");
+        companyDetail[2] = new CompanyDetail("Company C", 5000.00, "Not Cleared");
+        companyDetail[3] = new CompanyDetail("Company D", 5000.00, "Not Cleared");  
+        char cont = 'n';
+        //String [] custCreditList = {"1. CompanyA 5000 Payment Not Cleared", "2. CompanyB 5000 Payment Not Cleared", "3. CompanyC 5000 Payment Not Cleared", "4. CompanyD 5000 Payment Not Cleared"};        
+        System.out.println("Monthly Payment Status");
+        System.out.println("========================");
+        do{
+        for(int i = 0; i<companyDetail.length; i++){
+            if(companyDetail[i] != null){
+                System.out.println(i+1 + "." + companyDetail[i].toString());
+            }
+        }
+        System.out.print("Please choose the company: ");
+        int chose = scan.nextInt();
+        
+        System.out.print("Did the company have settle the credit limit before 7th? (y for yes, n for no): ");
+        char confirm = scan.next().charAt(0);
+        if(confirm == 'y'){
+            switch(chose){
+                case 1: companyDetail[0].setCreditLimit(10000.00);companyDetail[0].setPaymentStatus("Cleared");break;
+                case 2: companyDetail[1].setCreditLimit(10000.00);companyDetail[1].setPaymentStatus("Cleared");break;
+                case 3: companyDetail[2].setCreditLimit(10000.00);companyDetail[2].setPaymentStatus("Cleared");break;
+                case 4: companyDetail[3].setCreditLimit(10000.00);companyDetail[3].setPaymentStatus("Cleared");break;
+            }
+        }
+        
+                for(int i = 0; i<companyDetail.length; i++){
+            if(companyDetail[i] != null){
+                System.out.println(i+1 + "." + companyDetail[i].toString());
+            }
+        }
+         System.out.print("Do you want to continue?(y/n): ");
+         while(scan.hasNext()){
+         cont = scan.next().charAt(0);
+         }
+        }while(cont == 'y');
+         System.out.println("Press 0 to exit, 1 to continue: ");
+         while(scan.hasNextInt()){
+        int last = scan.nextInt();
+        switch (last) {
+            case 0:
+                System.exit(0);
+            case 1:
+                Selection();
+                break;
+            default:
+                System.out.println("Error");
+                System.exit(0);
+                break;
+        }   
+         }
+    }
+      
       
       public static void ItemizedBill() throws AWTException, CloneNotSupportedException{
           FlowerCustomized[] flowerBill = new FlowerCustomized[10];
@@ -1156,6 +1300,12 @@ public class Testing {
                 System.exit(0);
                 break;
         }
+          
+      }
+      
+      private static void MaintainCatalog() throws AWTException, CloneNotSupportedException{
+          //MaintainCatalogUI mainui = new MaintainCatalogUI();
+          MaintainCatalogUI.MaintainCatalogMenu();
           
       }
       
