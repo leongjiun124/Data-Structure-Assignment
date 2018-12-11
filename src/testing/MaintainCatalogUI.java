@@ -525,7 +525,7 @@ public class MaintainCatalogUI {
         int selection=0;
         String category="";
         boolean valid=false; 
-        while(sc.hasNextInt()){
+        //while(sc.hasNextInt()){
         do
         {
            
@@ -563,7 +563,7 @@ public class MaintainCatalogUI {
             
             
         }while(valid==false);
-        }
+        
         int number=0;
         System.out.println("===================================================================");
         System.out.println("No        Flower        Description     Quantity      Warning Level");
@@ -586,7 +586,7 @@ public class MaintainCatalogUI {
         }
         int modify;
         boolean indexvalid=false;
-        while(sc.hasNextLine()){
+       // while(sc.hasNextLine()){
         do{
             modify = sc.nextInt();
             if(modify<=number)
@@ -655,7 +655,7 @@ public class MaintainCatalogUI {
                 MaintainCatalogMenu();;
                 break;
         }
-        }
+        //}
         
         
         
@@ -684,7 +684,7 @@ public class MaintainCatalogUI {
         
         //sc.nextLine();  
         do{
-            while(sc.hasNextInt()){
+            //while(sc.hasNextInt()){
             selection = sc.nextInt();
             switch (selection) {
             case 1:
@@ -708,7 +708,7 @@ public class MaintainCatalogUI {
             {
                 System.out.printf("Invalid number, press enter again");
             }
-            }
+           // }
             
         }while(selection!=0 && selection!=1 && selection!=2 && selection!=3);
         
