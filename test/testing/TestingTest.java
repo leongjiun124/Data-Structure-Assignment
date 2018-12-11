@@ -58,12 +58,12 @@ public class TestingTest {
 
     /**
      * Test of menu method, of class Testing.
-     *//*
+     */
     @Test
     public void testMenu() throws Exception {
-        String input = "1";
+        String input = "1\n";
         System.setIn(new java.io.ByteArrayInputStream(input.getBytes()));
-        //InputStream in = new ByteArrayInputStream(input.getBytes());
+        InputStream in = new ByteArrayInputStream(input.getBytes());
         //assertEquals(input, in);
         System.out.println("menu");
       
@@ -253,7 +253,11 @@ public class TestingTest {
 
     public void testItemizedBill() throws Exception {
             String input = "1\n";
-            System.setIn(new java.io.ByteArrayInputStream(input.getBytes()));
+            String input2 = "0\n";
+            String input3 = "9\n";
+            //System.setIn(new java.io.ByteArrayInputStream(input.getBytes()));
+            //System.setIn(new java.io.ByteArrayInputStream(input2.getBytes()));
+            System.setIn(new java.io.ByteArrayInputStream(input3.getBytes()));
             System.out.println("ItemizedBill");
             Testing.ItemizedBill();
 
@@ -265,7 +269,11 @@ public class TestingTest {
     public void testTrackProductStock() throws Exception {
         System.out.println("TrackProductStock");
         String input = "1\n";
+        String input2 = "0\n";
+        String input3 = "9\n";
         System.setIn(new java.io.ByteArrayInputStream(input.getBytes()));
+//        System.setIn(new java.io.ByteArrayInputStream(input2.getBytes()));
+//        System.setIn(new java.io.ByteArrayInputStream(input3.getBytes()));
         Testing.TrackProductStock();
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -278,7 +286,11 @@ public class TestingTest {
     public void testReport() throws Exception {
         System.out.println("Report");
         String input = "1\n";
-        System.setIn(new java.io.ByteArrayInputStream(input.getBytes()));        
+        String input2 = "0\n";
+        String input3 = "9\n";
+        System.setIn(new java.io.ByteArrayInputStream(input.getBytes()));
+//        System.setIn(new java.io.ByteArrayInputStream(input2.getBytes()));
+//        System.setIn(new java.io.ByteArrayInputStream(input3.getBytes()));       
         Testing.Report();
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -291,7 +303,11 @@ public class TestingTest {
     public void testDeliveryList() throws Exception {
         System.out.println("DeliveryList");
         String input = "1\n";
-        System.setIn(new java.io.ByteArrayInputStream(input.getBytes()));        
+        String input2 = "0\n";
+        String input3 = "9\n";
+        System.setIn(new java.io.ByteArrayInputStream(input.getBytes()));
+//        System.setIn(new java.io.ByteArrayInputStream(input2.getBytes()));
+//        System.setIn(new java.io.ByteArrayInputStream(input3.getBytes()));      
         Testing.DeliveryList();
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -334,10 +350,13 @@ public class TestingTest {
      */
     @Test
     public void testPaymentList() throws Exception {
-        String input = "1\n";
         System.out.println("PaymentList");
-        InputStream in = new java.io.ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
+        String input = "1\n";
+        String input2 = "0\n";
+        String input3 = "9\n";
+        System.setIn(new java.io.ByteArrayInputStream(input.getBytes()));
+//        System.setIn(new java.io.ByteArrayInputStream(input2.getBytes()));
+//        System.setIn(new java.io.ByteArrayInputStream(input3.getBytes()));
         Testing.PaymentList();
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");

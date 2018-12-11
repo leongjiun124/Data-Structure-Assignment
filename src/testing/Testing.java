@@ -43,7 +43,17 @@ public class Testing {
      public static void main(String[] args) throws AWTException, ParseException, CloneNotSupportedException {
          custList.add( new Customer("Mia Khalifa","12345","Mia Khalifa","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur."));
          menu();
-     }    
+     }  
+     
+     public static void attachShutDownHook() {
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+        @Override
+        public void run() {
+            System.out.println("exit");
+        }
+    });
+
+}
       
         public static void menu() throws AWTException, CloneNotSupportedException{
         System.out.println("================================================");
@@ -64,7 +74,7 @@ public class Testing {
                 Register();
                 break;                  
             case 3:
-                System.exit(0);
+                attachShutDownHook();
             default:
                 break;
         }
@@ -676,13 +686,13 @@ public class Testing {
         int select = scan.nextInt();
         switch (select) {
             case 0:
-                System.exit(0);
+                attachShutDownHook();
             case 1:
                 //Selection();
                 break;
             default:
                 System.out.println("Error");
-                System.exit(0);
+                attachShutDownHook();
                 break;
         }
       }
@@ -731,13 +741,13 @@ public class Testing {
             int select = scan.nextInt();
             switch (select) {
             case 0:
-                System.exit(0);
+                attachShutDownHook();
             case 1:
                 //Selection();
                 break;
             default:
                 System.out.println("Error");
-                System.exit(0);
+                attachShutDownHook();
                 break;
         }
       }
@@ -774,13 +784,13 @@ public class Testing {
                 int choose = scan.nextInt();
             switch (choose) {
             case 0:
-                menu();
+                attachShutDownHook();
             case 1:
                 Corporate();
                 break;
             default:
                 System.out.println("Error");
-                System.exit(0);
+                attachShutDownHook();;
                 break;
                         }
             case 0:
@@ -788,7 +798,7 @@ public class Testing {
                 Selection();
             default:
                 System.out.println("Error");
-                System.exit(0);
+                attachShutDownHook();
                 break;
         }}else{
             System.out.println("Verify Unsuccessful");
@@ -1075,13 +1085,13 @@ public class Testing {
             int select = scan.nextInt();
             switch (select) {
             case 0:
-                System.exit(0);
+                attachShutDownHook();
             case 1:
                 SalesOrder();
                 break;
             default:
                 System.out.println("Error");
-                System.exit(0);
+               attachShutDownHook();
                 break;
         }
         }else{
@@ -1124,13 +1134,13 @@ public class Testing {
         int last = scan.nextInt();
         switch (last) {
             case 0:
-                System.exit(0);
+                attachShutDownHook();
             case 1:
                 Selection();
                 break;
             default:
                 System.out.println("Error");
-                System.exit(0);
+                attachShutDownHook();
                 break;
         }   
     }
@@ -1206,13 +1216,13 @@ public class Testing {
         int last = scan.nextInt();
         switch (last) {
             case 0:
-                System.exit(0);
+                attachShutDownHook();
             case 1:
                 Selection();
                 break;
             default:
                 System.out.println("Error");
-                System.exit(0);
+                attachShutDownHook();
                 break;
         }   
          }
@@ -1291,13 +1301,13 @@ public class Testing {
             int select = scan.nextInt();
             switch (select) {
             case 0:
-                System.exit(0);
+                attachShutDownHook();
             case 1:
                 Selection();
                 break;
             default:
                 System.out.println("Error");
-                System.exit(0);
+                attachShutDownHook();
                 break;
         }
           
