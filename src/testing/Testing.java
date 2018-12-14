@@ -74,7 +74,7 @@ public class Testing {
                 Register();
                 break;                  
             case 3:
-                attachShutDownHook();
+                attachShutDownHook();break;
             default:
                 break;
         }
@@ -686,7 +686,7 @@ public class Testing {
         int select = scan.nextInt();
         switch (select) {
             case 0:
-                attachShutDownHook();
+                attachShutDownHook();break;
             case 1:
                 //Selection();
                 break;
@@ -741,7 +741,7 @@ public class Testing {
             int select = scan.nextInt();
             switch (select) {
             case 0:
-                attachShutDownHook();
+                attachShutDownHook();break;
             case 1:
                 //Selection();
                 break;
@@ -784,7 +784,7 @@ public class Testing {
                 int choose = scan.nextInt();
             switch (choose) {
             case 0:
-                attachShutDownHook();
+                attachShutDownHook();break;
             case 1:
                 Corporate();
                 break;
@@ -1085,13 +1085,13 @@ public class Testing {
             int select = scan.nextInt();
             switch (select) {
             case 0:
-                attachShutDownHook();
+                System.exit(0);break;
             case 1:
                 SalesOrder();
                 break;
             default:
                 System.out.println("Error");
-               attachShutDownHook();
+                System.exit(0);
                 break;
         }
         }else{
@@ -1134,7 +1134,7 @@ public class Testing {
         int last = scan.nextInt();
         switch (last) {
             case 0:
-                attachShutDownHook();
+                attachShutDownHook();break;
             case 1:
                 Selection();
                 break;
@@ -1216,7 +1216,7 @@ public class Testing {
         int last = scan.nextInt();
         switch (last) {
             case 0:
-                attachShutDownHook();
+                attachShutDownHook();break;
             case 1:
                 Selection();
                 break;
@@ -1301,7 +1301,7 @@ public class Testing {
             int select = scan.nextInt();
             switch (select) {
             case 0:
-                attachShutDownHook();
+                attachShutDownHook();break;
             case 1:
                 Selection();
                 break;
