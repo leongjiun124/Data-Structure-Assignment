@@ -571,14 +571,17 @@ public class Testing {
           int Rose;
           int whiteRose;
           int sunFlower;
-         BookingControl bookingControl = new BookingControl();
-         ArrayInterface<Booking> viewAll = bookingControl.getAllProduct();
+         CustomerControl customerControl = new CustomerControl();
+         BookingControl bookingControl = new  BookingControl();
+         ArrayInterface<Customer> viewAll = customerControl.getAllCustomer();
          for(int i = 0; i < viewAll.length(); i++){
-             System.out.println("=================================");
-             System.out.println("ID         Name         IC       Phone Number      Address Status      Credit Limit ");
-             System.out.println( );
+             System.out.println("================================================");
+             System.out.println("ID         Name             IC       Phone Number      Address               Status      Credit Limit ");
+             System.out.println( viewAll.getData(i).getCustId() + "  " +  viewAll.getData(i).getCustName() + "  " +  viewAll.getData(i).getIc() + "  " +  viewAll.getData(i).getPhone() + "  " +  viewAll.getData(i).getAddress() + "  " +
+                      viewAll.getData(i).getStatus() + "  " +  viewAll.getData(i).getCreditLimit());
+             System.out.println("================================================");
           }
-          System.out.println("Please enter the customer'IC: ");
+          System.out.printf("Please enter the customer'ID: ");
           while(scan.hasNextLine()){
           String loginCust= scan.nextLine();
           boolean loginAccess = false;
@@ -586,7 +589,7 @@ public class Testing {
         try{
             for(int i = 0; i < custList.length(); i++){
                 if(custList.getData(i) != null){
-                    if((loginCust.equals(custList.getData(i).getIc()))){
+                    if((loginCust.equals(custList.getData(i).getCustId()))){
                         currentUser = custList.getData(i);
                         loginAccess = true;
                         break;                        
@@ -616,17 +619,29 @@ public class Testing {
             System.out.println("2.Rose : " + Rose);
             System.out.println("3.White Rose : " + whiteRose);
             System.out.println("4.Sunflower : " + sunFlower);
-            System.out.println("Customer'name : " + loginCust);
-            System.out.println("Address : " +custList.getData(0).getAddress());
+            System.out.println("Customer'ID : " + custList.getData(0).getCustId());
+            System.out.println("Customer'Name : " + custList.getData(0).getCustName());
             System.out.println("Phone Number : " + custList.getData(0).getPhone());
+            System.out.println("Address : " + custList.getData(0).getAddress());
+            System.out.println("Status : " + custList.getData(0).getStatus());
+            System.out.println("Credit Limit : " + custList.getData(0).getCreditLimit());
             System.out.println("Date : "+ cal.get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" +cal.get(Calendar.YEAR));
             System.out.println("Time : " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
             System.out.println("================================================");
+            System.out.println("Are you sure to booking? (y/n)");
+            int select = scan.next().charAt(0);
+        if(select == 'y'){
+            bookingControl.addBooking(new Booking(bookList.add(newEntry)addCustId() + custList.getData(0).getCustName()  + custList.getData(0).getPhone() + custList.getData(0).getAddress()  ));
+        }else{
+            System.out.println("Booking Fail!");
+            StaffSelection();
+        }
             System.out.print("Press 0 to exit, Press 1 to continue: ");
-            int select = scan.nextInt();
-            switch (select) {
+            int choose = scan.nextInt();
+            switch (choose) {
             case 0:
-                System.exit(0);break;
+                StaffSelection();
+                break;
             case 1:
                 Booking();
                 break;
