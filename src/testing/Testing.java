@@ -5,6 +5,18 @@
  */
 package testing;
 
+import Entity.PickUpOrder;
+import Control.FlowerCustomizedControl;
+import Entity.Item;
+import Entity.PromotionList;
+import Entity.FlowerCustomized;
+import Entity.DeliveryOrderList;
+import Entity.Customer;
+import Entity.CompanyDetail;
+import Entity.Booking;
+import Entity.DomainCatalogMaintain;
+import Entity.Staff;
+import da.FlowerCustomizedDA;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.Toolkit;
@@ -33,15 +45,37 @@ public class Testing {
     //generate Linked Array of each classes
     public static ArrayInterface<Customer> custList = new Array<>();
     public static ArrayInterface<Booking> bookList = new Array<>();
+    public static QueueInterface<String> flowerList = new Queue<>();
+    public static QueueInterface<String> arrangementList = new Queue<>();
+    public static QueueInterface<String> sizeList = new Queue<>();
+    public static QueueInterface<String> accessoryList = new Queue<>();
+    public static QueueInterface<String> priorityList = new Queue<>();
+    public static QueueInterface<Staff> staffList = new Queue<>();
     public static Scanner sc = new Scanner(System.in);
     public static Scanner input = new Scanner(System.in);
     public static Customer currentUser;
+    public static Staff currentStaff;
     public int date2;
     public int discount1;
     public int month1;
     
      public static void main(String[] args) throws AWTException, ParseException, CloneNotSupportedException {
          custList.add( new Customer("Mia Khalifa","12345","Mia Khalifa","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur."));
+         staffList.enqueue(new Staff("S1", "Staff 1", "abc123", "abc123"));
+         flowerList.enqueue("Rose");
+         flowerList.enqueue("White Rose");
+         flowerList.enqueue("Sunflower");
+         flowerList.enqueue("Lily");
+         arrangementList.enqueue("Elliptical flower arrangement");
+         arrangementList.enqueue("Vertical flower arrangement");
+         arrangementList.enqueue("The crescent flower arrangement");
+         arrangementList.enqueue("The 'S' shaped flower arrangement");
+         sizeList.enqueue("Small");
+         sizeList.enqueue("Intermediate");
+         sizeList.enqueue("Big");
+         accessoryList.enqueue("Double Artificial Holly Berry Stamens");
+         accessoryList.enqueue("Bouquet Holder");
+         accessoryList.enqueue("No need");
          menu();
      }  
      
@@ -58,32 +92,93 @@ public class Testing {
         public static void menu() throws AWTException, CloneNotSupportedException{
         System.out.println("================================================");
         System.out.println("----------------Fiore Flowershop----------------");       
-        System.out.println("-----------------Welcome Staff------------------");             
-        System.out.println("1. Login");
-        System.out.println("2. Register");
-        System.out.println("3. Exit");
+//        System.out.println("-----------------Welcome Staff------------------"); 
+        System.out.println("------------------------------------------------"); 
+        System.out.println("1. Staff Login");
+        System.out.println("2. Customer Login");
+        System.out.println("3. Customer Register");
+        System.out.println("4. Exit");
         System.out.println("================================================");
         System.out.printf("Please enter number 1 to 3 to select the option:  "); 
         int selection;
         selection = sc.nextInt(); 
         switch (selection) {
             case 1:
-                Login();
+                StaffLogin();
                 break;
             case 2:
+                Login();
+                break;
+            case 3:
                 Register();
                 break;                  
-            case 3:
+            case 4:
                 attachShutDownHook();break;
             default:
                 break;
         }
     } 
         
+    public static void StaffLogin() throws AWTException, CloneNotSupportedException{
+//      clearScreen();
+      System.out.println("======================================================");
+      System.out.println("--------------------Staff Login-----------------------"); 
+      System.out.println("======================================================");
+      System.out.printf("Username: ");
+      while(input.hasNextLine()){
+      String loginCust= input.nextLine();
+      if(loginCust.isEmpty()){
+        do{
+            if(loginCust.isEmpty()){
+               System.out.println("Please enter your Username !");
+               System.out.printf("Username: ");
+               loginCust = sc.nextLine();              
+            }
+        }while((loginCust.isEmpty()));
+         }
+      System.out.printf("Password: ");
+      String loginPassword = input.nextLine();
+      if(loginPassword.isEmpty()){
+        do{
+            if(loginPassword.isEmpty()){
+               System.out.println("Please enter your Password !");
+               System.out.printf("Password: ");
+               loginPassword = sc.nextLine();              
+            }
+        }while((loginPassword.isEmpty()));
+         }
+      boolean loginAccess = false;
+      
+               try{
+            for(int i = 0; i < staffList.size(); i++){
+                if(staffList.getItem(i) != null){
+                    if((loginCust.equals(staffList.getItem(i).getUserName()) && (loginPassword.equals(staffList.getItem(i).getPassword())))){
+                        currentStaff = staffList.getItem(i);
+                        loginAccess = true;
+                        break;                       
+                    }
+                }
+            }
+        }catch(Exception e){    
+            
+        }
+               
+        if(loginAccess == true){
+            System.out.println("Login Successfull!");
+            Testing.StaffSelection();
+        }else{
+            System.out.println("Login Fail!");
+            System.out.println("Invalid Username or Password, Please try again!");
+            Login();
+        }
+      }
+    }
+        
     public static void Login()throws AWTException, CloneNotSupportedException{
       clearScreen();
-      System.out.println("================================================");
-      System.out.println("--------------------Login-----------------------"); 
+      System.out.println("=========================================================");
+      System.out.println("--------------------Customer Login-----------------------"); 
+      System.out.println("=========================================================");
       System.out.printf("Username: ");
       while(input.hasNextLine()){
       String loginCust= input.nextLine();
@@ -240,24 +335,59 @@ public class Testing {
          menu();                      
      }
      
+     public static void StaffSelection() throws AWTException, CloneNotSupportedException{
+         Scanner scan = new Scanner(System.in);
+         int selection;
+        System.out.println("======================================================");
+        System.out.println("------------------Staff Selection---------------------");  
+        System.out.println("======================================================");
+        System.out.println("1. Customer/Corporate Consumer Maintenence");
+        System.out.println("2. Maintain Product Information");
+        System.out.println("3. Maintain Promotion");
+        System.out.println("4. Order Pickup");
+        System.out.println("=======================================================");
+        
+        System.out.printf("Please enter number to select the option:  ");
+        selection = scan.nextInt();
+        switch(selection){
+            case 1:CustMaintenence();break;
+            
+        }
+     }
+     
+     public static void CustMaintenence() throws AWTException, CloneNotSupportedException{
+        Scanner scan = new Scanner(System.in);
+        System.out.println("================================================");
+        System.out.println("------------------Selection---------------------");  
+        System.out.println("================================================");
+        System.out.println("1. Set Customer Status");
+        System.out.println("2. Set Credit Limit");
+        System.out.println("3. Generate Monthly Invoice");
+        System.out.println("4. Invoice Payment");
+        System.out.println("=======================================================");
+        
+     }
+     
      public static void Selection()throws AWTException, CloneNotSupportedException{  
         System.out.println("================================================");
         System.out.println("------------------Selection---------------------");      
-        System.out.println("1. Booking flowers");
-        System.out.println("2. Track Product Stock"); 
-        System.out.println("3. Generate Monthly Invoice");
-        System.out.println("4. Delivery Order List");
-        System.out.println("5. Customized Floral Arrangement");
-        System.out.println("6. Set Credit Limit");
-        System.out.println("7. Pick Up Order");
-        System.out.println("8. Update Customer as Corporate Customer");
-        System.out.println("9. Monthly Promotion");
-        System.out.println("10. Generate Sales Order");
-        System.out.println("11. Itemized Bill");
-        System.out.println("12. Payment List");
-        System.out.println("13. Reset Credit Limit");
-        System.out.println("14. Maintain Catalog");
-        System.out.println("15. Return to the main menu");
+//        System.out.println("1. Booking flowers");
+//        System.out.println("2. Track Product Stock"); 
+//        System.out.println("3. Generate Monthly Invoice");
+//        System.out.println("4. Delivery Order List");
+//        System.out.println("5. Customized Floral Arrangement");
+//        System.out.println("6. Set Credit Limit");
+//        System.out.println("7. Pick Up Order");
+//        System.out.println("8. Update Customer as Corporate Customer");
+//        System.out.println("9. Monthly Promotion");
+//        System.out.println("10. Generate Sales Order");
+//        System.out.println("11. Itemized Bill");
+//        System.out.println("12. Payment List");
+//        System.out.println("13. Reset Credit Limit");
+//        System.out.println("14. Maintain Catalog");
+//        System.out.println("15. Return to the main menu");
+          System.out.println("1. Booking Item");
+          System.out.println("2. Customized Floral Arrangement");
         System.out.println("================================================");
         
         System.out.printf("Please enter number to select the option:  ");
@@ -275,7 +405,7 @@ public class Testing {
             case 6:SetCreditLimit();break;
             case 7: PickUpOrder();break;
             case 8:Corporate(); break;
-            //case 9:MonthlyPromotion();break;
+            case 9:MonthlyPromotion();break;
             case 10:SalesOrder(); break;
             case 11:ItemizedBill();break;
             case 12: PaymentList();break;
@@ -405,88 +535,101 @@ public class Testing {
       public static void CustomizedFlower() throws AWTException, CloneNotSupportedException{
         Scanner scan = new Scanner(System.in);
         char select;
-        String[] flowerType = {"Elliptical flower arrangement", "Vertical flower arrangement", "The crescent flower arrangement"
-        , "The 'S' shaped flower arrangement"};
-        String[] flowerSize = {"Small", "Intermediate", "Big"};
-        String[] flower = {"Lily", "Rose", "Sunflower", "White Rose"};
-        String[] accessories = {"Double Artificial Holly Berry Stamens", "Bouquet Holder", "No need"};
-        String decisionFlowerType = "";
-        String decisionFlowerSize = "";
-        String decisionFlower = "";
-        String decisionAccessories = "";
+        FlowerCustomizedDA flowerCustomizedDA = new FlowerCustomizedDA();
+        int index = 1;
+        String productId;
+        String id;
+        do {
+            id = FlowerCustomized.generateID(index);
+            index++;
+        } while (flowerCustomizedDA.getRecord(id) != null);
+        productId = id;
+//        String[] flowerType = {"Elliptical flower arrangement", "Vertical flower arrangement", "The crescent flower arrangement"
+//        , "The 'S' shaped flower arrangement"};
+//        String[] flowerSize = {"Small", "Intermediate", "Big"};
+        //String[] flower = {"Lily", "Rose", "Sunflower", "White Rose"};
+//        String[] accessories = {"Double Artificial Holly Berry Stamens", "Bouquet Holder", "No need"};
+//        String decisionFlowerType = "";
+//        String decisionFlowerSize = "";
+//        String decisionFlower = "";
+//        String decisionAccessories = "";
         System.out.println("Type of flower arrangement style");
         do{
         //1. Choose the flower arrangement type
-        for(int i = 0; i < flowerType.length; i++){
-            System.out.println(i+1 + ") " + flowerType[i]);
-        }
+        arrangementList.displayItem();
         System.out.print("Step 1: Choose the flower arrangement style from above: ");
         
         //Scan the arrangement style that the user choose
         int selection1 = scan.nextInt();
         
         //initialise the selection from user into the decisionFlowerType
-        switch(selection1){
-            case 1: decisionFlowerType = flowerType[0];break;
-            case 2: decisionFlowerType = flowerType[1];break;
-            case 3: decisionFlowerType = flowerType[2];break;
-            case 4: decisionFlowerType = flowerType[3];break;  
-            default: System.out.println("Error");System.exit(0);break;
-        }
-        
+//        switch(selection1){
+//            case 1: decisionFlowerType = flowerType[0];break;
+//            case 2: decisionFlowerType = flowerType[1];break;
+//            case 3: decisionFlowerType = flowerType[2];break;
+//            case 4: decisionFlowerType = flowerType[3];break;  
+//            default: System.out.println("Error");System.exit(0);break;
+//        }
+//        
         //2. Choose the flower arrangement size
-        for(int i = 0; i < flowerSize.length; i++){
-            System.out.println(i+1 + ") " + flowerSize[i]);
-        }
+        sizeList.displayItem();
+//        for(int i = 0; i < flowerSize.length; i++){
+//            System.out.println(i+1 + ") " + flowerSize[i]);
+//        }
         System.out.print("Step 2: Please choose the arrangement size from above: ");
         int selection2 = scan.nextInt();
-        switch(selection2){
-            case 1: decisionFlowerSize = flowerSize[0];break;
-            case 2: decisionFlowerSize = flowerSize[1];break;
-            case 3: decisionFlowerSize = flowerSize[2];break;
-            default: System.out.println("Error");System.exit(0);break;    
-        }
+//        switch(selection2){
+//            case 1: decisionFlowerSize = flowerSize[0];break;
+//            case 2: decisionFlowerSize = flowerSize[1];break;
+//            case 3: decisionFlowerSize = flowerSize[2];break;
+//            default: System.out.println("Error");System.exit(0);break;    
+//        }
         
         //3. Choose the Flower
-        for(int i = 0; i < flower.length; i++){
-            System.out.println(i+1 + ") " + flower[i]);
-        }
+//        for(int i = 0; i < flower.length; i++){
+//            System.out.println(i+1 + ") " + flower[i]);
+//        }
+        flowerList.displayItem();
         System.out.print("Step 3: Please choose the flower you want from above: ");
         int selection3 = scan.nextInt();
-        switch(selection3){
-            case 1: decisionFlower = flower[0];break;
-            case 2: decisionFlower = flower[1];break;
-            case 3: decisionFlower = flower[2];break;
-            case 4: decisionFlower = flower[3];break;  
-            default: System.out.println("Error");System.exit(0);break;
-        }
+//        switch(selection3){
+//            case 1: decisionFlower = flowerList.getItem(0);break;
+//            case 2: decisionFlower = flowerList.getItem(1);break;
+//            case 3: decisionFlower = flowerList.getItem(2);break;
+//            case 4: decisionFlower = flowerList.getItem(3);break;  
+//            default: System.out.println("Error");System.exit(0);break;
+//        }
         
         //4. Select Accessories
-        for(int i = 0; i < accessories.length; i++){
-            System.out.println(i+1 + ") " + accessories[i]);
-        }
+        accessoryList.displayItem();
+//        for(int i = 0; i < accessories.length; i++){
+//            System.out.println(i+1 + ") " + accessories[i]);
+//        }
         System.out.print("Step 4: Please choose the accessories that you want to put from above: ");
         int selection4 = scan.nextInt();
-        switch(selection4){
-            case 1: decisionAccessories = accessories[0];break;
-            case 2: decisionAccessories = accessories[1];break;
-            case 3: decisionAccessories = accessories[2];break;
-            default: System.out.println("Error");System.exit(0);break;
-        }
+//        switch(selection4){
+//            case 1: decisionAccessories = accessories[0];break;
+//            case 2: decisionAccessories = accessories[1];break;
+//            case 3: decisionAccessories = accessories[2];break;
+//            default: System.out.println("Error");System.exit(0);break;
+//        }
         
         //Show the customized summary and comfirm with user
-        System.out.printf("\nYour selection is: " + "\nFlower Arrangement Type: " + decisionFlowerType + "\nFlowerSize: " 
-                + decisionFlowerSize + "\nFlower Type: " +
-                decisionFlower + "\nAccessories: " + decisionAccessories + "\nAre you sure? (y/n): ");
+        System.out.printf("\nYour selection is: " + "\nFlower Arrangement Type: " + arrangementList.getItem(selection1 - 1) + "\nFlowerSize: " 
+                + sizeList.getItem(selection2 - 1) + "\nFlower Type: " +
+                flowerList.getItem(selection3 - 1) + "\nAccessories: " + accessoryList.getItem(selection4 - 1) + "\nAre you sure? (y/n): ");
         select = scan.next().charAt(0);
+        if(select == 'y'){
+            flowerCustomizedDA.addFlower(new FlowerCustomized(productId,arrangementList.getItem(selection1 - 1),sizeList.getItem(selection2 - 1),flowerList.getItem(selection3 - 1),accessoryList.getItem(selection4 - 1)));
+        }
         }while(select != 'y');
-        System.out.println("Press 0 to exit, 1 to continue: ");
+        System.out.println("Press 0 to exit, 1 to continue to choose priority: ");
         int last = scan.nextInt();
         switch (last) {
             case 0:
                 System.exit(0);
             case 1:
-                CustomizedFlowerMenu();
+                PickUpPriority();
                 break;
             default:
                 System.out.println("Error");
@@ -570,10 +713,13 @@ public class Testing {
       }
       
       public static void PickUpPriority() throws AWTException, CloneNotSupportedException{
-          String[] priority = {"Express (Highest)", "Normal", "Flexi (Lowest)"};
-          FlowerCustomized[] flowerCustomed = new FlowerCustomized[2];
-          flowerCustomed[0] = new FlowerCustomized("Vertical flower arrangement", "Small", "Lily", "Double Artificial Holly Berry Stamens");
-          flowerCustomed[1] = new FlowerCustomized("Elliptical flower arrangement", "Big", "Rose", "No Need");
+//          String[] priority = {"Express (Highest)", "Normal", "Flexi (Lowest)"};
+          priorityList.enqueue("Express (Highest)");
+          priorityList.enqueue("Normal");
+          priorityList.enqueue("Flexi (Lowest)");
+          FlowerCustomized flower = null;
+          FlowerCustomizedControl flowerControl = new FlowerCustomizedControl();
+          QueueInterface<FlowerCustomized> viewData = flowerControl.getAllProduct();
           
           /*String flowerType = type;
           String flowerSize = size;
@@ -582,32 +728,48 @@ public class Testing {
           char select;
           Scanner scan = new Scanner(System.in);
           do{
-          for(int i = 0; i<flowerCustomed.length; i++){
-              System.out.println(i+1 + ") " + flowerCustomed[i].toString());
+//          for(int i = 0; i<flowerCustomized.length; i++){
+//              System.out.println(i+1 + ") " + flowerCustomed[i].toString());
+//          }
+//          flowerCustomized.getFlowerAccessory();
+          for(int i = 0; i < viewData.size(); i++){
+              if(viewData.getItem(i).getPickUpPriority() == null){
+                  
+                  System.out.println(i+1 + ") " + viewData.getItem(i) + "\n");
+              }
           }
           System.out.print("Please choose the order you want to choose: ");
           int order = scan.nextInt();
-          if(order > flowerCustomed.length){
+          if(order > viewData.size()){
               System.out.println("Error");
-              System.exit(0);
+              menu();
           }
-          System.out.println("1. " + priority[0]);
-          System.out.println("2. " + priority[1]);
-          System.out.println("3. " + priority[2]);
+          flower = viewData.getItem(order - 1);
+//          if(order > flowerCustomed.length){
+//              System.out.println("Error");
+//              System.exit(0);
+//          }
+//          System.out.println("1. " + priority[0]);
+//          System.out.println("2. " + priority[1]);
+//          System.out.println("3. " + priority[2]);
+          priorityList.displayItem();
           System.out.print("Please select your pick up priority: ");
           int selection = scan.nextInt();
-          System.out.print("Your selection: ");
-          switch(selection){
-              case 1: System.out.println(priority[0]);break;
-              case 2: System.out.println(priority[1]);break;
-              case 3: System.out.println(priority[2]);break;
-              default:System.out.println("Error");System.exit(0);
-          }
+          System.out.print("Your selection: " + priorityList.getItem(selection - 1));
+//          switch(selection){
+//              case 1: System.out.println(priority[0]);break;
+//              case 2: System.out.println(priority[1]);break;
+//              case 3: System.out.println(priority[2]);break;
+//              default:System.out.println("Error");System.exit(0);
+//          }
           /*System.out.printf("\nYour Flower Arrangement Type: " + flowerType + "\nFlowerSize: " 
                 + flowerSize + "\nFlower Type: " +
                 flowerName + "\nAccessories: " + flowerAccessories + "\nThey will be in " + priority[selection - 1] + " priority.\nAre you sure(y/n): ");*/
-          System.out.print(flowerCustomed[order - 1].toString() + "\nThey will be in " + priority[selection - 1] + " priority.\nAre you sure(y/n): ");
+          System.out.print(flower + "\nThey will be in " + priorityList.getItem(selection - 1) + " priority.\nAre you sure(y/n): ");
           select = scan.next().charAt(0);
+          if(select == 'y'){
+              flowerControl.updateProduct(new FlowerCustomized(flower.getFlowerId(),flower.getFlowerName(),flower.getFlowerSize(),flower.getFlowerType(),flower.getFlowerAccessory(),priorityList.getItem(selection - 1)));
+          }
           }while (select != 'y');
         System.out.print("Press 0 to exit, 1 to continue: ");
         int last = scan.nextInt();
@@ -711,13 +873,13 @@ public class Testing {
         int select = scan.nextInt();
         switch (select) {
             case 0:
-                System.exit(0);
+                attachShutDownHook();
             case 1:
                 //Selection();
                 break;
             default:
                 System.out.println("Error");
-                System.exit(0);
+                attachShutDownHook();
                 break;
         }
       }
@@ -805,17 +967,17 @@ public class Testing {
             System.out.println("Please try again!");
             Corporate();
         }
-          }
+       }   
        
 }
       
-      /*public static void MonthlyPromotion() throws AWTException, CloneNotSupportedException{
+      public static void MonthlyPromotion() throws AWTException, CloneNotSupportedException{
           LocalDateTime now = LocalDateTime.now();
         int currentYear=now.getYear();
         int currentMonth=now.getMonthValue();
         
         List<Item> flowerInventory = new ArrayList<Item>();
-        List<promotionList> Promotion = new ArrayList<promotionList>();
+        List<PromotionList> Promotion = new ArrayList<PromotionList>();
         String line = new String(new char[90]).replace('\0', '-');
          String line2 = new String(new char[90]).replace('\0', '=');
         Scanner scan=new Scanner(System.in);
@@ -1027,7 +1189,7 @@ public class Testing {
 
         
         
-    }*/
+    }
       
       public static void SalesOrder() throws AWTException, CloneNotSupportedException{
           Scanner scan = new Scanner(System.in);
@@ -1198,6 +1360,7 @@ public class Testing {
                 case 2: companyDetail[1].setCreditLimit(10000.00);companyDetail[1].setPaymentStatus("Cleared");break;
                 case 3: companyDetail[2].setCreditLimit(10000.00);companyDetail[2].setPaymentStatus("Cleared");break;
                 case 4: companyDetail[3].setCreditLimit(10000.00);companyDetail[3].setPaymentStatus("Cleared");break;
+                default:System.out.println("Error");
             }
         }
         
@@ -1230,15 +1393,18 @@ public class Testing {
       
       
       public static void ItemizedBill() throws AWTException, CloneNotSupportedException{
-          FlowerCustomized[] flowerBill = new FlowerCustomized[10];
+//          FlowerCustomized[] flowerBill = new FlowerCustomized[10];
           /*        String[] flowerType = {"Elliptical flower arrangement", "Vertical flower arrangement", "The crescent flower arrangement"
         , "The 'S' shaped flower arrangement"};
         String[] flowerSize = {"Small", "Intermediate", "Big"};
         String[] flower = {"Lily", "Rose", "Sunflower", "White Rose"};
         String[] accessories = {"Double Artificial Holly Berry Stamens", "Bouquet Holder", "No need"};
           String[] priority = {"Express (Highest)", "Normal", "Flexi (Lowest)"};*/
-          flowerBill[0] = new FlowerCustomized("Elliptical flower arrangement", "Small", "Rose", "Double Artificial Holly Berry Stamens","Normal");
-          flowerBill[1] = new FlowerCustomized("Vertical flower arrangement", "Big", "White Rose", "Bouquet Holder","Express (Highest)");
+//          flowerBill[0] = new FlowerCustomized("Elliptical flower arrangement", "Small", "Rose", "Double Artificial Holly Berry Stamens","Normal");
+//          flowerBill[1] = new FlowerCustomized("Vertical flower arrangement", "Big", "White Rose", "Bouquet Holder","Express (Highest)");
+          FlowerCustomized flower = null;
+          FlowerCustomizedControl flowerControl = new FlowerCustomizedControl();
+          QueueInterface<FlowerCustomized> viewData = flowerControl.getAllProduct();          
           Scanner scan = new Scanner(System.in);
           double flowerArrangePrice = 0;
           double sizePrice = 0;
@@ -1246,43 +1412,65 @@ public class Testing {
           double accessoriesPrice = 0;
           double pickUpPrice = 0;
           double totalPrice = 0;
-          //calculate flower arrangement type price
-          if(flowerBill[0].getFlowerType().equals("Elliptical flower arrangement")){
-              flowerArrangePrice = 25.00;
-          }else if(flowerBill[0].getFlowerType().equals("Vertical flower arrangement")){
-              flowerArrangePrice = 30.00;
+          
+          for(int i = 0; i < viewData.size(); i++){
+              if(viewData.getItem(i).getPickUpPriority() != null){
+                  System.out.println(i+1 + ") " + viewData.getItem(i) + "\n");
+              }
           }
+          System.out.print("Please choose the order you want to choose: ");
+          int order = scan.nextInt();
+          if(order > viewData.size()){
+              System.out.println("Error");
+              menu();
+          }
+          flower = viewData.getItem(order - 1);
+          //calculate flower arrangement type price
+          if(flower.getFlowerType().equals("Elliptical flower arrangement")){
+              flowerArrangePrice = 25.00;
+          }else if(flower.getFlowerType().equals("Vertical flower arrangement")){
+              flowerArrangePrice = 30.00;
+          }else if(flower.getFlowerType().equals("The crescent flower arrangement")){
+              flowerArrangePrice = 28.00;
+          }else if(flower.getFlowerType().equals("The 'S' shaped flower arrangement")){
+              
+          }
+                  
           //calculate flower size price
-          if(flowerBill[0].getFlowerSize().equals("Small")){
+          if(flower.getFlowerSize().equals("Small")){
               sizePrice = 2.00;
-          }else if(flowerBill[0].getFlowerSize().equals("Medium")){
+          }else if(flower.getFlowerSize().equals("Intermediate")){
               sizePrice = 5.00;
-          }else if(flowerBill[0].getFlowerSize().equals("Big")){
+          }else if(flower.getFlowerSize().equals("Big")){
               sizePrice = 10.00;
           }
           
           //calculate flower type price
-          if(flowerBill[0].getFlowerName().equals("Rose")){
+          if(flower.getFlowerName().equals("Rose")){
               flowerPrice = 10.00;
-          }else if(flowerBill[0].getFlowerName().equals("White Rose")){
+          }else if(flower.getFlowerName().equals("White Rose")){
               flowerPrice = 12.00;
+          }else if(flower.getFlowerName().equals("Sunflower")){
+              
+          }else if(flower.getFlowerName().equals("Lily")){
+              
           }
           
           //calculate accessories
-          if(flowerBill[0].getFlowerAccessory().equals("Double Artificial Holly Berry Stamens")){
+          if(flower.getFlowerAccessory().equals("Double Artificial Holly Berry Stamens")){
               accessoriesPrice = 2.00;
-          }else if(flowerBill[0].getFlowerAccessory().equals("Bouquet Holder")){
+          }else if(flower.getFlowerAccessory().equals("Bouquet Holder")){
               accessoriesPrice = 3.00;
-          }else if(flowerBill[0].getFlowerAccessory().equals("No need")){
+          }else if(flower.getFlowerAccessory().equals("No need")){
               accessoriesPrice = 0;
           }
           
           //calculate priority price
-          if(flowerBill[0].getPickUpPriority().equals("Express (Highest)")){
+          if(flower.getPickUpPriority().equals("Express (Highest)")){
               pickUpPrice = 5.00;
-          }else if(flowerBill[0].getPickUpPriority().equals("Normal")){
+          }else if(flower.getPickUpPriority().equals("Normal")){
               pickUpPrice = 2.00;
-          }else if(flowerBill[0].getPickUpPriority().equals("Flexi (Lowest)")){
+          }else if(flower.getPickUpPriority().equals("Flexi (Lowest)")){
               pickUpPrice = 0.50;          }
           totalPrice = pickUpPrice + accessoriesPrice + flowerPrice + flowerArrangePrice + sizePrice;
           System.out.println("==================================================================================");          
@@ -1290,11 +1478,11 @@ public class Testing {
           System.out.println("==================================================================================");
           System.out.println("\t\t\t\t\t\t\t\t\tPrice");
           System.out.println("\t\t\t\t\t\t\t\t\t------");
-          System.out.println("Flower Arrangement Type: " + flowerBill[0].getFlowerType() + "\t\t\tRM " + String.format("%.2f", flowerArrangePrice));
-          System.out.println("Flower Size: " + flowerBill[0].getFlowerSize() + "\t\t\t\t\t\t\tRM " + String.format("%.2f", sizePrice));
-          System.out.println("Flower Type: " + flowerBill[0].getFlowerName() + "\t\t\t\t\t\t\tRM " + String.format("%.2f", flowerPrice));
-          System.out.println("Flower Accessories: " + flowerBill[0].getFlowerAccessory() + "\t\tRM " + String.format("%.2f", accessoriesPrice));
-          System.out.println("Pick Up Priority: " + flowerBill[0].getPickUpPriority() + "\t\t\t\t\t\tRM " + String.format("%.2f", pickUpPrice));
+          System.out.println("Flower Arrangement Type: " + flower.getFlowerType() + " ---> RM " + String.format("%.2f", flowerArrangePrice));
+          System.out.println("Flower Size: " + flower.getFlowerSize() + " ---> RM " + String.format("%.2f", sizePrice));
+          System.out.println("Flower Type: " + flower.getFlowerName() + " ---> RM " + String.format("%.2f", flowerPrice));
+          System.out.println("Flower Accessories: " + flower.getFlowerAccessory() + " ---> RM " + String.format("%.2f", accessoriesPrice));
+          System.out.println("Pick Up Priority: " + flower.getPickUpPriority() + " ---> RM " + String.format("%.2f", pickUpPrice));
           System.out.println("==================================================================================");
           System.out.println("\t\t\t\t\t\t\t   Total Price: RM"+ String.format("%.2f", totalPrice));
           System.out.print("Press 0 to exit, Press 1 to continue: ");

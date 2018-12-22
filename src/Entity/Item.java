@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testing;
+package Entity;
 
 /**
  *
@@ -11,8 +11,8 @@ package testing;
  */
 public class Item {
     String itemName="| %1$-20s | ";
-    int quantity;
-    int warningLevel;
+    public int quantity;
+    public int warningLevel;
     String date1;
     
     public String getItemName() {

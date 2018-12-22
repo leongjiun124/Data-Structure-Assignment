@@ -5,6 +5,9 @@
  */
 package testing;
 
+import Entity.DomainCatalogMaintain;
+import da.CatalogMaintainDA;
+import Control.ControlCatalogMaintain;
 import java.awt.AWTException;
 import java.text.ParseException;
 import java.time.LocalDateTime;
@@ -59,8 +62,7 @@ public class MaintainCatalogUI {
         System.out.println("----------------Fiore Flowershop----------------");       
         System.out.println("-------------------Add Product------------------");
         System.out.println("Product Name : "); 
-        while(sc.hasNextLine()){
-        sc.nextLine();
+        while(sc.hasNext()){
         productName = sc.nextLine();
         
         
@@ -243,9 +245,10 @@ public class MaintainCatalogUI {
         int selection=0;
         String category="";
         boolean valid=false;
-        
+        while(sc.hasNext()){
         do
         {
+            
             selection=sc.nextInt();
             switch(selection){
                 case 1: category="Alstromeria";
@@ -434,6 +437,7 @@ public class MaintainCatalogUI {
                     MaintainCatalogMenu();
                     break;
             }
+        }
         
         
         
@@ -525,7 +529,7 @@ public class MaintainCatalogUI {
         int selection=0;
         String category="";
         boolean valid=false; 
-        //while(sc.hasNextInt()){
+        while( sc.hasNextInt()){
         do
         {
            
@@ -576,6 +580,7 @@ public class MaintainCatalogUI {
                 System.out.println("" + number + "     " + viewAll.get(j).getProductName() + "      " + viewAll.get(j).getProductDesc() + "      " + viewAll.get(j).getProductQuantity() + "     " + viewAll.get(j).getProductWarningLvl());
             }
         }
+        
         System.out.println("Please select one if the index : ");
        
         
@@ -584,9 +589,9 @@ public class MaintainCatalogUI {
             //back to menu
             
         }
-        int modify;
+        int modify = 0;
         boolean indexvalid=false;
-       // while(sc.hasNextLine()){
+//        while(sc.hasNext()){
         do{
             modify = sc.nextInt();
             if(modify<=number)
@@ -597,6 +602,7 @@ public class MaintainCatalogUI {
             {
                 System.out.println("Please Re-enter : ");
             }
+        
             
         }while(indexvalid==false);
         
@@ -622,6 +628,7 @@ public class MaintainCatalogUI {
                
             }
         }
+        
         
         System.out.println("Do you want to remove the following product? Press 1 to confirm or press 0 to cancel : " );
         int decisonIndex=0;
@@ -656,6 +663,7 @@ public class MaintainCatalogUI {
                 break;
         }
         //}
+        }
         
         
         
@@ -684,7 +692,7 @@ public class MaintainCatalogUI {
         
         //sc.nextLine();  
         do{
-            //while(sc.hasNextInt()){
+            while(sc.hasNextInt()){
             selection = sc.nextInt();
             switch (selection) {
             case 1:
@@ -708,7 +716,7 @@ public class MaintainCatalogUI {
             {
                 System.out.printf("Invalid number, press enter again");
             }
-           // }
+            }
             
         }while(selection!=0 && selection!=1 && selection!=2 && selection!=3);
         

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testing;
+package Entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,32 +47,32 @@ public class FlowerInventory {
 }
 
     
-class promotionList
-{
-    int month;
-    int year;
-    String Title;
-    
-    public int getMonth() {
-        return month;
-    } 
-    public int getYear() {
-        return year;
-    } 
-     public String getTitle() {
-        return Title;
-    } 
-     
-     public void setMonth(int month) {
-        this.month = month;
-    }
-     
-     public void setYear(int year) {
-        this.year = year;
-    }
-     
-      public void setTitle(String Title) {
-        this.Title = Title;
-    }
-    
-}
+//class promotionList
+//{
+//    int month;
+//    int year;
+//    String Title;
+//    
+//    public int getMonth() {
+//        return month;
+//    } 
+//    public int getYear() {
+//        return year;
+//    } 
+//     public String getTitle() {
+//        return Title;
+//    } 
+//     
+//     public void setMonth(int month) {
+//        this.month = month;
+//    }
+//     
+//     public void setYear(int year) {
+//        this.year = year;
+//    }
+//     
+//      public void setTitle(String Title) {
+//        this.Title = Title;
+//    }
+//    
+//}

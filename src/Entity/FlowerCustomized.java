@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testing;
+package Entity;
 
 /**
  *
  * @author Admin
  */
 public class FlowerCustomized {
+    private String flowerId;
     private String flowerType;
     private String flowerSize;
     private String flowerName;
@@ -20,19 +21,29 @@ public class FlowerCustomized {
         
     }
     
-    public FlowerCustomized(String flowerType, String flowerSize, String flowerName, String flowerAccessory){
+    public FlowerCustomized(String flowerId, String flowerType, String flowerSize, String flowerName, String flowerAccessory){
+        this.flowerId = flowerId;
         this.flowerType = flowerType;
         this.flowerSize = flowerSize;
         this.flowerName = flowerName;
         this.flowerAccessory = flowerAccessory;
     }
     
-    public FlowerCustomized(String flowerType, String flowerSize, String flowerName, String flowerAccessory, String pickUpPriority){
+    public FlowerCustomized(String flowerId, String flowerType, String flowerSize, String flowerName, String flowerAccessory, String pickUpPriority){
+        this.flowerId = flowerId;
         this.flowerType = flowerType;
         this.flowerSize = flowerSize;
         this.flowerName = flowerName;
         this.flowerAccessory = flowerAccessory;
         this.pickUpPriority = pickUpPriority;
+    }
+    
+    public void setFlowerId(String flowerId){
+        this.flowerId = flowerId;
+    }
+    
+    public String getFlowerId(){
+        return flowerId;
     }
     
     public String getFlowerType(){
@@ -78,6 +89,17 @@ public class FlowerCustomized {
     public String toString(){
         return "Flower Arrangement Style: " + flowerType + "\nFlower Size: " + flowerSize + "\nFlower :"
                 + flowerName + "\nFlower Accessory: " + flowerAccessory;
+    }
+    
+    public static String generateID(int index) {
+        char[] id = "F00000".toCharArray();
+        int length = id.length;
+        while (index != 0) {
+            id[length - 1] = (char) (index % 10 + 48);
+            length--;
+            index /= 10;
+        }
+        return String.valueOf(id);
     }
     
 }

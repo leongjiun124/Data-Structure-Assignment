@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testing;
+package Entity;
 
 /**
  *
@@ -16,15 +16,25 @@ public class Customer {
     private String ic;
     private String phone;
     private String address;
+    private String status;
     
-    
-    Customer(String custUsername,String custPassword,String custName,String ic,String phone,String address){   
+    public Customer(String custUsername,String custPassword,String custName,String ic,String phone,String address){   
         this.custUsername = custUsername;
         this.custPassword = custPassword;
         this.custName = custName;
         this.ic = ic;
         this.phone = phone;
         this.address = address;
+    }
+    
+    public Customer(String custUsername,String custPassword,String custName,String ic,String phone,String address, String status){   
+        this.custUsername = custUsername;
+        this.custPassword = custPassword;
+        this.custName = custName;
+        this.ic = ic;
+        this.phone = phone;
+        this.address = address;
+        this.status = status;
     }
     
      @Override
@@ -80,4 +90,14 @@ public class Customer {
     public void setAddress(String address) {
         this.address = address;
     }   
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    
 }

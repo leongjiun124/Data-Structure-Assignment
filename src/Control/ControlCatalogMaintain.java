@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testing;
+package Control;
 
 import java.util.ArrayList;
+import da.CatalogMaintainDA;
+import Entity.DomainCatalogMaintain;
 
 
 /**
@@ -25,6 +27,7 @@ public class ControlCatalogMaintain {
     {
         catalogMaintainDA.addProduct(catalogMaintain);
     }
+    
     public ArrayList<DomainCatalogMaintain> getAllProduct() {
         return catalogMaintainDA.getAllProduct();
     }

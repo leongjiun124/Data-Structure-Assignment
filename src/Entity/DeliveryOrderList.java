@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testing;
+package Entity;
 
 /**
  *
@@ -15,7 +15,7 @@ public class DeliveryOrderList {
     private double price;
     private String description;
     private String deliveryMan;
-    static int totalList;
+    public static int totalList;
     /**
      * @param args the command line arguments
      */
