@@ -44,7 +44,7 @@ public class BookingDA {
     
         public void addBooking(Booking booking) {
         
-        String insertStr = "INSERT INTO " + tableName + " VALUES(?,?,?,?,?,?)";
+        String insertStr = "INSERT INTO " + tableName + " VALUES(?,?,?,?,?,?,?)";
         try {
             stmt = conn.prepareStatement(insertStr);
             stmt.setString(1, booking.getBookingId());
@@ -53,6 +53,7 @@ public class BookingDA {
             stmt.setString(4, booking.getDate());
             stmt.setString(5, booking.getAddress());
             stmt.setString(6, booking.getCustId());
+            stmt.setInt(7, booking.getQuantity());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex);

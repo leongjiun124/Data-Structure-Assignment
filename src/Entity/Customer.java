@@ -18,8 +18,14 @@ public class Customer {
     private String phone;
     private String address;
     private String status;
+    private int creditLimit;
     
-    public Customer(String custID, String custUsername,String custPassword,String custName,String ic,String phone,String address){   
+    
+    public Customer(){
+        
+    }
+    
+    public Customer(String custID, String custUsername,String custPassword,String custName,String ic,String phone,String address, int creditLimit){   
         this.custId = custID;
         this.custUsername = custUsername;
         this.custPassword = custPassword;
@@ -27,6 +33,19 @@ public class Customer {
         this.ic = ic;
         this.phone = phone;
         this.address = address;
+        this.creditLimit = creditLimit;
+    }
+    
+    public Customer(String custId, String custUsername,String custPassword,String custName,String ic,String phone,String address, String status,int creditLimit){   
+        this.custId = custId;
+        this.custUsername = custUsername;
+        this.custPassword = custPassword;
+        this.custName = custName;
+        this.ic = ic;
+        this.phone = phone;
+        this.address = address;
+        this.status = status;
+        this.creditLimit = creditLimit;
     }
     
     public Customer(String custId, String custUsername,String custPassword,String custName,String ic,String phone,String address, String status){   
@@ -38,6 +57,16 @@ public class Customer {
         this.phone = phone;
         this.address = address;
         this.status = status;
+    }
+        
+    public Customer(String custId, String custUsername,String custPassword,String custName,String ic,String phone,String address){   
+        this.custId = custId;
+        this.custUsername = custUsername;
+        this.custPassword = custPassword;
+        this.custName = custName;
+        this.ic = ic;
+        this.phone = phone;
+        this.address = address;
     }
     
      @Override
@@ -100,6 +129,22 @@ public class Customer {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getCustId() {
+        return custId;
+    }
+
+    public void setCustId(String custId) {
+        this.custId = custId;
+    }
+
+    public int getCreditLimit() {
+        return creditLimit;
+    }
+
+    public void setCreditLimit(int creditLimit) {
+        this.creditLimit = creditLimit;
     }
     
     public static String generateID(int index) {

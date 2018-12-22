@@ -52,7 +52,7 @@ public class Booking {
         this.flowerName = flowerName;
     }
     
-     public int Quantity() {
+     public int getQuantity() {
         return quantity;
     }
 
@@ -83,6 +83,7 @@ public class Booking {
     public void setAddress(String address ) {
         this.address = address;
     }  
+    
     
     public static String generateID(int index) {
         char[] id = "B00000".toCharArray();

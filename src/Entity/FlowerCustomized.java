@@ -16,26 +16,38 @@ public class FlowerCustomized {
     private String flowerName;
     private String flowerAccessory;
     private String pickUpPriority;
+    private String bookingId;
     
     public FlowerCustomized(){
         
     }
     
-    public FlowerCustomized(String flowerId, String flowerType, String flowerSize, String flowerName, String flowerAccessory){
+    public FlowerCustomized(String flowerId, String flowerType, String flowerSize, String flowerName, String flowerAccessory,String bookingId){
         this.flowerId = flowerId;
         this.flowerType = flowerType;
         this.flowerSize = flowerSize;
         this.flowerName = flowerName;
         this.flowerAccessory = flowerAccessory;
+        this.bookingId = bookingId;
     }
-    
-    public FlowerCustomized(String flowerId, String flowerType, String flowerSize, String flowerName, String flowerAccessory, String pickUpPriority){
+//    
+//    public FlowerCustomized(String flowerId, String flowerType, String flowerSize, String flowerName, String flowerAccessory, String pickUpPriority,String bookingId){
+//        this.flowerId = flowerId;
+//        this.flowerType = flowerType;
+//        this.flowerSize = flowerSize;
+//        this.flowerName = flowerName;
+//        this.flowerAccessory = flowerAccessory;
+//        this.pickUpPriority = pickUpPriority;
+//    }
+//    
+    public FlowerCustomized(String flowerId, String flowerType, String flowerSize, String flowerName, String flowerAccessory, String pickUpPriority, String bookingId){
         this.flowerId = flowerId;
         this.flowerType = flowerType;
         this.flowerSize = flowerSize;
         this.flowerName = flowerName;
         this.flowerAccessory = flowerAccessory;
         this.pickUpPriority = pickUpPriority;
+        this.bookingId = bookingId;
     }
     
     public void setFlowerId(String flowerId){
@@ -84,6 +96,14 @@ public class FlowerCustomized {
     
     public void setPickUpPriority(String pickUpPriority){
         this.pickUpPriority = pickUpPriority;
+    }
+
+    public String getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(String bookingId) {
+        this.bookingId = bookingId;
     }
     
     public String toString(){

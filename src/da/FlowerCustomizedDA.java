@@ -37,7 +37,7 @@ public class FlowerCustomizedDA {
     
         public void addFlower(FlowerCustomized data) {
         
-        String insertStr = "INSERT INTO " + tableName + " VALUES(?,?,?,?,?,?)";
+        String insertStr = "INSERT INTO " + tableName + " VALUES(?,?,?,?,?,?,?)";
         try {
             stmt = conn.prepareStatement(insertStr);
             stmt.setString(1, data.getFlowerId());
@@ -46,6 +46,7 @@ public class FlowerCustomizedDA {
             stmt.setString(4, data.getFlowerName());
             stmt.setString(5, data.getFlowerAccessory());
             stmt.setString(6, data.getPickUpPriority());
+            stmt.setString(7, data.getBookingId());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex);

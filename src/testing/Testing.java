@@ -6,6 +6,7 @@
 package testing;
 
 import Control.BookingControl;
+import Control.CustomerControl;
 import Entity.PickUpOrder;
 import Control.FlowerCustomizedControl;
 import Entity.Item;
@@ -18,6 +19,7 @@ import Entity.Booking;
 import Entity.DomainCatalogMaintain;
 import Entity.Staff;
 import da.BookingDA;
+import da.CustomerDA;
 import da.FlowerCustomizedDA;
 import java.awt.AWTException;
 import java.awt.Robot;
@@ -62,8 +64,8 @@ public class Testing {
     public int month1;
     
      public static void main(String[] args) throws AWTException, ParseException, CloneNotSupportedException {
-         custList.add(new Customer("C1","Mia Khalifa","12345","Mia Khalifa","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur.","Corporate"));
-         custList.add(new Customer("C2","abc123","12345","abc123","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur.","Normal"));
+         custList.add(new Customer("C00001","Mia Khalifa","12345","Mia Khalifa","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur.","Corporate"));
+         custList.add(new Customer("C00002","abc123","12345","abc123","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur.","Normal"));
          staffList.enqueue(new Staff("S1", "Staff 1", "abc123", "abc123"));
          flowerList.enqueue("Rose");
          flowerList.enqueue("White Rose");
@@ -369,6 +371,7 @@ public class Testing {
      
      public static void CustMaintenence() throws AWTException, CloneNotSupportedException{
         Scanner scan = new Scanner(System.in);
+        int selection;
         System.out.println("================================================");
         System.out.println("------------------Selection---------------------");  
         System.out.println("================================================");
@@ -378,6 +381,61 @@ public class Testing {
         System.out.println("4. Invoice Payment");
         System.out.println("=======================================================");
         
+        System.out.printf("Please enter number to select the option:  ");
+        selection = scan.nextInt();
+        switch(selection){
+            case 1: setCustStatus();break;
+           // case 2: setCreditLimit();break;
+        }
+     }
+     
+     public static void setCustStatus() throws AWTException, CloneNotSupportedException{
+         Scanner scan = new Scanner(System.in);
+         CustomerControl custControl = new CustomerControl();
+         int chooseStatus;
+         int status;
+         int choice;
+         int back;
+         String choosenStatus = null;
+         Customer customer = new Customer();
+         ArrayInterface<Customer> viewAll = custControl.getAllCustomer();
+         for(int i = 0; i < viewAll.length(); i++){
+              if(viewAll.getData(i).getStatus() == null){
+                  
+                  System.out.println(i+1 + ") " + viewAll.getData(i).getCustName() + "\n");
+              }
+          }
+         System.out.print("Please choose the customer you want to update the status: ");
+         chooseStatus = scan.nextInt();
+         customer = viewAll.getData(chooseStatus - 1);
+         System.out.println("1. Corporate Customer");
+         System.out.println("2. Consumer");
+         System.out.print("What type of customer you want to update for " + customer.getCustName() + ": ");
+         status = scan.nextInt();
+        switch (status) {
+            case 1:
+                choosenStatus = "Corporate";
+                break;
+            case 2:
+                choosenStatus = "Consumer";
+                break;
+            default:
+                System.out.println("Error");
+                StaffSelection();
+                break;
+        }
+         System.out.print("Are you sure? (1 to continue, 0 to return to menu): ");
+         choice = scan.nextInt();
+         if(choice == 1){
+             custControl.updateStatus(new Customer(customer.getCustId(), customer.getCustUsername(), customer.getCustPassword(), customer.getCustName(), customer.getIc(), customer.getPhone(), customer.getAddress(), choosenStatus, customer.getCreditLimit()));
+         }
+         System.out.print("1 to return to staff menu, 0 to exit: ");
+         back = scan.nextInt();
+         switch(back){
+             case 0: System.exit(0);break;
+             case 1: StaffSelection();break;
+             default: System.out.println("Error");System.exit(0);break;
+         }
      }
      
      public static void Selection()throws AWTException, CloneNotSupportedException{  
@@ -409,21 +467,22 @@ public class Testing {
         //sc.nextLine();
         
         switch(selection){
-            case 1:Booking();break;
-            case 2: TrackProductStock();break;
-            case 3: Report();break;
-            case 4: DeliveryList(); break;
-            case 5:CustomizedFlowerMenu();break;
-            case 6:SetCreditLimit();break;
-            case 7: PickUpOrder();break;
-            case 8:Corporate(); break;
-            case 9:MonthlyPromotion();break;
-            case 10:SalesOrder(); break;
-            case 11:ItemizedBill();break;
-            case 12: PaymentList();break;
-            case 13: ResetCreditLimit(); break;
-            case 14: MaintainCatalog();break;
-            case 15: menu();break;
+//            case 1:Booking();break;
+//            case 2: TrackProductStock();break;
+//            case 3: Report();break;
+//            case 4: DeliveryList(); break;
+//            case 5:CustomizedFlowerMenu();break;
+//            case 6:SetCreditLimit();break;
+//            case 7: PickUpOrder();break;
+//            case 8:Corporate(); break;
+//            case 9:MonthlyPromotion();break;
+//            case 10:SalesOrder(); break;
+//            case 11:ItemizedBill();break;
+//            case 12: PaymentList();break;
+//            case 13: ResetCreditLimit(); break;
+//            case 14: MaintainCatalog();break;
+//            case 15: menu();break;
+            case 2: CustomizedFlowerMenu();break;
         }
         /*if(selection == 1){
            Booking();
@@ -549,6 +608,7 @@ public class Testing {
         char select;
         FlowerCustomizedDA flowerCustomizedDA = new FlowerCustomizedDA();
         int index = 1;
+        String priority = null;
         String productId;
         String id;
         do {
@@ -556,6 +616,17 @@ public class Testing {
             index++;
         } while (flowerCustomizedDA.getRecord(id) != null);
         productId = id;
+        BookingControl bookCont = new BookingControl();
+        Booking book = null;
+        ArrayInterface<Booking> viewAll = bookCont.getAllProduct();
+         for(int i = 0; i < viewAll.length(); i++){
+              if(viewAll.getData(i).getCustId().equals(currentUser.getCustId())){
+                  System.out.println(i+1 + ") " + viewAll.getData(i).getBookingId() + "\n");
+              }
+          }
+         System.out.println("Please Choose the order you wanted to customized: ");
+         int orderChoose = scan.nextInt();
+         book = viewAll.getData(orderChoose - 1);
 //        String[] flowerType = {"Elliptical flower arrangement", "Vertical flower arrangement", "The crescent flower arrangement"
 //        , "The 'S' shaped flower arrangement"};
 //        String[] flowerSize = {"Small", "Intermediate", "Big"};
@@ -632,7 +703,7 @@ public class Testing {
                 flowerList.getItem(selection3 - 1) + "\nAccessories: " + accessoryList.getItem(selection4 - 1) + "\nAre you sure? (y/n): ");
         select = scan.next().charAt(0);
         if(select == 'y'){
-            flowerCustomizedDA.addFlower(new FlowerCustomized(productId,arrangementList.getItem(selection1 - 1),sizeList.getItem(selection2 - 1),flowerList.getItem(selection3 - 1),accessoryList.getItem(selection4 - 1)));
+            flowerCustomizedDA.addFlower(new FlowerCustomized(productId,arrangementList.getItem(selection1 - 1),sizeList.getItem(selection2 - 1),flowerList.getItem(selection3 - 1),accessoryList.getItem(selection4 - 1),priority, book.getBookingId()));
         }
         }while(select != 'y');
         System.out.println("Press 0 to exit, 1 to continue to choose priority: ");
@@ -780,7 +851,7 @@ public class Testing {
           System.out.print(flower + "\nThey will be in " + priorityList.getItem(selection - 1) + " priority.\nAre you sure(y/n): ");
           select = scan.next().charAt(0);
           if(select == 'y'){
-              flowerControl.updateProduct(new FlowerCustomized(flower.getFlowerId(),flower.getFlowerName(),flower.getFlowerSize(),flower.getFlowerType(),flower.getFlowerAccessory(),priorityList.getItem(selection - 1)));
+              flowerControl.updateProduct(new FlowerCustomized(flower.getFlowerId(),flower.getFlowerName(),flower.getFlowerSize(),flower.getFlowerType(),flower.getFlowerAccessory(),priorityList.getItem(selection - 1),flower.getBookingId()));
           }
           }while (select != 'y');
         System.out.print("Press 0 to exit, 1 to continue: ");
