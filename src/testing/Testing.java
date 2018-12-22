@@ -514,7 +514,7 @@ public class Testing {
          ArrayInterface<Booking> viewAll = bookingControl.getAllProduct();
          for(int i = 0; i < viewAll.length(); i++){
              System.out.println("=================================");
-             System.out.println("ID Name IC Phone Number Address Status creditlimit ");
+             System.out.println("ID         Name         IC       Phone Number      Address Status      Credit Limit ");
              System.out.println( );
           }
           System.out.println("Please enter the customer'IC: ");
