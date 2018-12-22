@@ -9,7 +9,8 @@ package Entity;
  *
  * @author han wen
  */
-public class Customer {    
+public class Customer {  
+    private String custId;
     private String custUsername;
     private String custPassword;
     private String custName;
@@ -18,7 +19,8 @@ public class Customer {
     private String address;
     private String status;
     
-    public Customer(String custUsername,String custPassword,String custName,String ic,String phone,String address){   
+    public Customer(String custID, String custUsername,String custPassword,String custName,String ic,String phone,String address){   
+        this.custId = custID;
         this.custUsername = custUsername;
         this.custPassword = custPassword;
         this.custName = custName;
@@ -27,7 +29,8 @@ public class Customer {
         this.address = address;
     }
     
-    public Customer(String custUsername,String custPassword,String custName,String ic,String phone,String address, String status){   
+    public Customer(String custId, String custUsername,String custPassword,String custName,String ic,String phone,String address, String status){   
+        this.custId = custId;
         this.custUsername = custUsername;
         this.custPassword = custPassword;
         this.custName = custName;
@@ -99,5 +102,14 @@ public class Customer {
         this.status = status;
     }
     
-    
+    public static String generateID(int index) {
+        char[] id = "C00000".toCharArray();
+        int length = id.length;
+        while (index != 0) {
+            id[length - 1] = (char) (index % 10 + 48);
+            length--;
+            index /= 10;
+        }
+        return String.valueOf(id);
+    }
 }

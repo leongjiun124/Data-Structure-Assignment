@@ -5,6 +5,7 @@
  */
 package testing;
 
+import Control.BookingControl;
 import Entity.PickUpOrder;
 import Control.FlowerCustomizedControl;
 import Entity.Item;
@@ -16,6 +17,7 @@ import Entity.CompanyDetail;
 import Entity.Booking;
 import Entity.DomainCatalogMaintain;
 import Entity.Staff;
+import da.BookingDA;
 import da.FlowerCustomizedDA;
 import java.awt.AWTException;
 import java.awt.Robot;
@@ -60,7 +62,8 @@ public class Testing {
     public int month1;
     
      public static void main(String[] args) throws AWTException, ParseException, CloneNotSupportedException {
-         custList.add( new Customer("Mia Khalifa","12345","Mia Khalifa","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur."));
+         custList.add(new Customer("C1","Mia Khalifa","12345","Mia Khalifa","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur.","Corporate"));
+         custList.add(new Customer("C2","abc123","12345","abc123","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur.","Normal"));
          staffList.enqueue(new Staff("S1", "Staff 1", "abc123", "abc123"));
          flowerList.enqueue("Rose");
          flowerList.enqueue("White Rose");
@@ -242,6 +245,7 @@ public class Testing {
         String ic="";
         String phone="";
         String address ="";
+        BookingControl bookingCont = new BookingControl();
             
         System.out.printf("Username        : ");
          custUsername = sc.nextLine();
@@ -330,7 +334,15 @@ public class Testing {
                 address = sc.nextLine();
             }
         }while(address.isEmpty());
-         custList.add(new Customer(custUsername,custPassword,custName,ic,phone,address));
+                 int index = 1;
+        String custId;
+        String id;
+        do {
+            id = Booking.generateID(index);
+            index++;
+        } while (bookingCont.getRecord(id) != null);
+         custId = id;
+         custList.add(new Customer(custId, custUsername,custPassword,custName,ic,phone,address));
          System.out.println("Register Successful!");
          menu();                      
      }
