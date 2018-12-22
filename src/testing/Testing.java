@@ -376,7 +376,7 @@ public class Testing {
         System.out.println("2. Set Credit Limit");
         System.out.println("3. Generate Monthly Invoice");
         System.out.println("4. Invoice Payment");
-        System.out.println("=======================================================");
+        System.out.println("================================================");
         
      }
      
