@@ -359,13 +359,14 @@ public class Testing {
         System.out.println("2. Maintain Product Information");
         System.out.println("3. Maintain Promotion");
         System.out.println("4. Order Pickup");
+        System.out.println("5. Booking for flowers");
         System.out.println("=======================================================");
         
         System.out.printf("Please enter number to select the option:  ");
         selection = scan.nextInt();
         switch(selection){
             case 1:CustMaintenence();break;
-            
+            case 5:Booking();break;           
         }
      }
      
@@ -379,7 +380,7 @@ public class Testing {
         System.out.println("2. Set Credit Limit");
         System.out.println("3. Generate Monthly Invoice");
         System.out.println("4. Invoice Payment");
-        System.out.println("=======================================================");
+        System.out.println("================================================");
         
         System.out.printf("Please enter number to select the option:  ");
         selection = scan.nextInt();
@@ -450,7 +451,6 @@ public class Testing {
 //        System.out.println("7. Pick Up Order");
 //        System.out.println("8. Update Customer as Corporate Customer");
 //        System.out.println("9. Monthly Promotion");
-//        System.out.println("10. Generate Sales Order");
 //        System.out.println("11. Itemized Bill");
 //        System.out.println("12. Payment List");
 //        System.out.println("13. Reset Credit Limit");
@@ -467,22 +467,20 @@ public class Testing {
         //sc.nextLine();
         
         switch(selection){
-//            case 1:Booking();break;
-//            case 2: TrackProductStock();break;
-//            case 3: Report();break;
-//            case 4: DeliveryList(); break;
-//            case 5:CustomizedFlowerMenu();break;
-//            case 6:SetCreditLimit();break;
-//            case 7: PickUpOrder();break;
-//            case 8:Corporate(); break;
-//            case 9:MonthlyPromotion();break;
-//            case 10:SalesOrder(); break;
-//            case 11:ItemizedBill();break;
-//            case 12: PaymentList();break;
-//            case 13: ResetCreditLimit(); break;
-//            case 14: MaintainCatalog();break;
-//            case 15: menu();break;
-            case 2: CustomizedFlowerMenu();break;
+            case 1:Booking();break;
+            case 2: TrackProductStock();break;
+            case 3: Report();break;
+            case 4: DeliveryList(); break;
+            case 5:CustomizedFlowerMenu();break;
+            case 6:SetCreditLimit();break;
+            case 7: PickUpOrder();break;
+            case 8:Corporate(); break;
+            case 9:MonthlyPromotion();break;
+            case 11:ItemizedBill();break;
+            case 12: PaymentList();break;
+            case 13: ResetCreditLimit(); break;
+            case 14: MaintainCatalog();break;
+            case 15: menu();break;
         }
         /*if(selection == 1){
            Booking();
@@ -504,85 +502,85 @@ public class Testing {
         }
      }
         
-    public static void Booking()throws AWTException, CloneNotSupportedException{      
-       char select;
-       Scanner scan = new Scanner(System.in);
-       String[] flowerName = {"Lily", "Rose", "Sunflower", "White Rose"};
-       int quantity;
-       String time ="";
-       String date="";
-       String address ="";
-       String decisionFlowerName = "";
-       System.out.println("Booking"); 
-       System.out.println("Please choose the flowers that want to purchase");
-        do{
-        for(int i = 0; i < flowerName.length; i++){
-            System.out.println(i+1 + ") " + flowerName[i]);
+    public static void Booking()throws AWTException, CloneNotSupportedException{    
+          Scanner scan = new Scanner(System.in);
+          Calendar cal = Calendar.getInstance();
+          int month = cal.get(Calendar.MONTH)+1;
+          int Lily;
+          int Rose;
+          int whiteRose;
+          int sunFlower;
+         BookingControl bookingControl = new BookingControl();
+         ArrayInterface<Booking> viewAll = bookingControl.getAllProduct();
+         for(int i = 0; i < viewAll.length(); i++){
+             System.out.println("=================================");
+             System.out.println("ID Name IC Phone Number Address Status creditlimit ");
+             System.out.println( );
+          }
+          System.out.println("Please enter the customer'IC: ");
+          while(scan.hasNextLine()){
+          String loginCust= scan.nextLine();
+          boolean loginAccess = false;
+        
+        try{
+            for(int i = 0; i < custList.length(); i++){
+                if(custList.getData(i) != null){
+                    if((loginCust.equals(custList.getData(i).getIc()))){
+                        currentUser = custList.getData(i);
+                        loginAccess = true;
+                        break;                        
+                    }
+                }
+            }
+        }catch(Exception e){         
         }
-        System.out.print("Step 1: Choose the flower from above: ");
-
-        int selection1 = scan.nextInt();
-   
-        switch(selection1){
-            case 1: decisionFlowerName = flowerName[0];break;
-            case 2: decisionFlowerName = flowerName[1];break;
-            case 3: decisionFlowerName = flowerName[2];break;
-            case 4: decisionFlowerName = flowerName[3];break;  
-            default: System.out.println("Error");System.exit(0);break;
-        }
-       
-        System.out.printf("Enter the quantity:   ");
-        quantity = input.nextInt();
-        input.nextLine();
         
-        System.out.printf("Time           : ");
-        time = sc.nextLine();
-        
-        do{
-            if((time.isEmpty())){
-                System.out.println("Please enter your phone number ! ");
-                time = sc.nextLine();
-            }
-        }while(time.isEmpty());
-        
-        System.out.printf("Date           : ");
-        date = sc.nextLine();
-        
-        do{
-            if((date.isEmpty())){
-                System.out.println("Please enter your phone number ! ");
-                date = sc.nextLine();
-            }
-        }while(date.isEmpty());
-        
-        System.out.printf("Address            : ");
-        address = sc.nextLine();
-        
-         do{
-            if((address.isEmpty())){
-                System.out.println("Please enter your address ! ");
-                address = sc.nextLine();
-            }
-        }while(address.isEmpty());                             
-        
-          System.out.printf("\nYour flower is: " + "\nFlower Arrangement Type: " + decisionFlowerName + "\nQuantity: " 
-                + quantity + "\nTime: " +
-                time + "\nDate: " + date + "\nAddress: " + address+ "\nAre you sure? (y/n): ");
-        select = scan.next().charAt(0);
-        }while(select != 'y');  
-        System.out.println("Press 0 to exit, 1 to continue: ");
-        int last = scan.nextInt();
-        switch (last) {
+        if(loginAccess == true){
+            System.out.println("Verify Successfull!");
+            System.out.println("Please enter the quantity of Lily: ");
+            Lily = input.nextInt();
+            input.nextLine();
+            System.out.println("Please enter the quantity of Rose: ");
+            Rose = input.nextInt();
+            input.nextLine();
+            System.out.println("Please enter the quantity of White Rose: ");
+            whiteRose = input.nextInt();
+            input.nextLine();
+            System.out.println("Please enter the quantity of Sunflower: ");
+            sunFlower = input.nextInt();
+            input.nextLine();   
+            System.out.println("================================================");
+            System.out.println("-----------------Sales Order--------------------"); 
+            System.out.println("1.Lily : " + Lily);
+            System.out.println("2.Rose : " + Rose);
+            System.out.println("3.White Rose : " + whiteRose);
+            System.out.println("4.Sunflower : " + sunFlower);
+            System.out.println("Customer'name : " + loginCust);
+            System.out.println("Address : " +custList.getData(0).getAddress());
+            System.out.println("Phone Number : " + custList.getData(0).getPhone());
+            System.out.println("Date : "+ cal.get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" +cal.get(Calendar.YEAR));
+            System.out.println("Time : " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
+            System.out.println("================================================");
+            System.out.print("Press 0 to exit, Press 1 to continue: ");
+            int select = scan.nextInt();
+            switch (select) {
             case 0:
-                System.exit(0);
+                System.exit(0);break;
             case 1:
-                Selection();
+                Booking();
                 break;
             default:
                 System.out.println("Error");
                 System.exit(0);
                 break;
-        }   
+        }
+        }else{
+            System.out.println("Verify Fail!");
+            System.out.println("Invalid Customer'name, Please try again!");
+            Booking();
+        }
+         }
+        
       }
         
       
@@ -1272,81 +1270,8 @@ public class Testing {
 
         
         
-    }
-      
-      public static void SalesOrder() throws AWTException, CloneNotSupportedException{
-          Scanner scan = new Scanner(System.in);
-          Calendar cal = Calendar.getInstance();
-          int month = cal.get(Calendar.MONTH)+1;
-          int Lily;
-          int Rose;
-          int whiteRose;
-          int sunFlower;
-          System.out.println("Please enter the customer'name : ");
-          while(scan.hasNextLine()){
-          String loginCust= scan.nextLine();
-          boolean loginAccess = false;
-        
-        try{
-            for(int i = 0; i < custList.length(); i++){
-                if(custList.getData(i) != null){
-                    if((loginCust.equals(custList.getData(i).getCustName()))){
-                        currentUser = custList.getData(i);
-                        loginAccess = true;
-                        break;                        
-                    }
-                }
-            }
-        }catch(Exception e){         
-        }
-        
-        if(loginAccess == true){
-            System.out.println("Verify Successfull!");
-            System.out.println("Please enter the quantity of Lily: ");
-            Lily = input.nextInt();
-            input.nextLine();
-            System.out.println("Please enter the quantity of Rose: ");
-            Rose = input.nextInt();
-            input.nextLine();
-            System.out.println("Please enter the quantity of White Rose: ");
-            whiteRose = input.nextInt();
-            input.nextLine();
-            System.out.println("Please enter the quantity of Sunflower: ");
-            sunFlower = input.nextInt();
-            input.nextLine();   
-            System.out.println("================================================");
-            System.out.println("-----------------Sales Order--------------------"); 
-            System.out.println("1.Lily : " + Lily);
-            System.out.println("2.Rose : " + Rose);
-            System.out.println("3.White Rose : " + whiteRose);
-            System.out.println("4.Sunflower : " + sunFlower);
-            System.out.println("Customer'name : " + loginCust);
-            System.out.println("Address : " +custList.getData(0).getAddress());
-            System.out.println("Phone Number : " + custList.getData(0).getPhone());
-            System.out.println("Date : "+ cal.get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" +cal.get(Calendar.YEAR));
-            System.out.println("Time : " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
-            System.out.println("================================================");
-            System.out.print("Press 0 to exit, Press 1 to continue: ");
-            int select = scan.nextInt();
-            switch (select) {
-            case 0:
-                System.exit(0);break;
-            case 1:
-                SalesOrder();
-                break;
-            default:
-                System.out.println("Error");
-                System.exit(0);
-                break;
-        }
-        }else{
-            System.out.println("Verify Fail!");
-            System.out.println("Invalid Customer'name, Please try again!");
-            SalesOrder();
-        }
-         }
-        
-      }
+    }     
+          
       
       public static void PaymentList() throws AWTException, CloneNotSupportedException{
           Scanner scan = new Scanner(System.in);
