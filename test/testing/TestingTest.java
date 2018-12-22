@@ -336,15 +336,15 @@ public class TestingTest {
      * Test of SalesOrder method, of class Testing.
      */
     @Test
-    public void testSalesOrder() throws Exception {
-        String input = "Mia Khalifa";
-        InputStream in = new java.io.ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
-        System.out.println("SalesOrder");
-        Testing.SalesOrder();
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-    }
+//    public void testSalesOrder() throws Exception {
+//        String input = "Mia Khalifa";
+//        InputStream in = new java.io.ByteArrayInputStream(input.getBytes());
+//        System.setIn(in);
+//        System.out.println("SalesOrder");
+//        Testing.SalesOrder();
+//        // TODO review the generated test code and remove the default call to fail.
+//        //fail("The test case is a prototype.");
+//    }
 
     /**
      * Test of main method, of class Testing.
@@ -354,7 +354,7 @@ public class TestingTest {
     /**
      * Test of PaymentList method, of class Testing.
      */
-    @Test
+//    @Test
     public void testPaymentList() throws Exception {
         System.out.println("PaymentList");
         String input = "1\n";
