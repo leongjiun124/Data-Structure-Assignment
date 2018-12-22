@@ -88,10 +88,11 @@ public class CustomerDA {
     
     public void updateStatus(Customer customer) {
         try {
-            String updateStr = "UPDATE " + tableName + " SET STATUS = ? WHERE CUSTID = ?";
+            String updateStr = "UPDATE " + tableName + " SET STATUS = ?, CREDITLIMIT = ? WHERE CUSTID = ?";
             stmt = conn.prepareStatement(updateStr);
             stmt.setString(1, customer.getStatus());
-            stmt.setString(2, customer.getCustId());
+            stmt.setInt(2, customer.getCreditLimit());
+            stmt.setString(3, customer.getCustId());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex);
