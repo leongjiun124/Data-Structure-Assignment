@@ -15,7 +15,7 @@ public class Array<T> implements ArrayInterface<T>{
     private Node lastNode;
     private Node currentNode;
     
-    Array(){
+    public Array(){
         firstNode = null;
         lastNode = null;
         currentNode = null;

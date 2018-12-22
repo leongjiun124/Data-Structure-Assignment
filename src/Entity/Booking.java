@@ -10,18 +10,38 @@ package Entity;
  * @author han wen
  */
 public class Booking {
+    private String bookingId;
     private String flowerName;
     private int quantity;
     private String time;
     private String date;
     private String address;
+    private String custId;
     
-    Booking(String flowerName, int quantity, String time, String date, String address){
+    public Booking(String bookingId, String flowerName, int quantity, String time, String date, String address, String custId){
+        this.bookingId = bookingId;
         this.flowerName = flowerName;
         this.quantity = quantity;
         this.time = time;
         this.date = date;
         this.address = address;
+        this.custId = custId;
+    }
+
+    public String getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(String bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public String getCustId() {
+        return custId;
+    }
+
+    public void setCustId(String custId) {
+        this.custId = custId;
     }
     
      public String getFlowerName() {
@@ -63,4 +83,15 @@ public class Booking {
     public void setAddress(String address ) {
         this.address = address;
     }  
+    
+    public static String generateID(int index) {
+        char[] id = "B00000".toCharArray();
+        int length = id.length;
+        while (index != 0) {
+            id[length - 1] = (char) (index % 10 + 48);
+            length--;
+            index /= 10;
+        }
+        return String.valueOf(id);
+    }
 }
