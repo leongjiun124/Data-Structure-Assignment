@@ -48,6 +48,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 /**
  *
  * @author han wen
@@ -67,6 +70,7 @@ public class Testing {
     public static QueueInterface<String> efficientRoute = new ArrayQueue<>();
     public static Scanner sc = new Scanner(System.in);
     public static Scanner input = new Scanner(System.in);
+    public static Booking currentBooking;
     public static Customer currentUser;
     public static Staff currentStaff;
     public int date2;
@@ -226,19 +230,25 @@ public class Testing {
         }while((loginPassword.isEmpty()));
          }
       boolean loginAccess = false;
-      
-               try{
-            for(int i = 0; i < custList.length(); i++){
-                if(custList.getData(i) != null){
-                    if((loginCust.equals(custList.getData(i).getCustUsername()) && (loginPassword.equals(custList.getData(i).getCustPassword())))){
-                        currentUser = custList.getData(i);
-                        loginAccess = true;
-                        break;                       
-                    }
-                }
+            try{
+            int flag = 1;
+            Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/MyDataBase", "lee", "123");
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("select * from CUSTOMER");
+            while(rs.next()){
+                if(rs.getString(2).equals(loginCust) && rs.getString(3).equals(loginPassword))
+                {
+                    flag = 0;                   
+                    break;
+                }               
             }
-        }catch(Exception e){    
-            
+            if(flag==0){    
+                loginAccess = true;
+            }else{
+                System.out.println("Invalid Username and Password! Plese try again!");
+            }
+        }catch (SQLException ex){
+            System.out.println("Invalid Username and Password! Plese try again!");
         }
                
         if(loginAccess == true){
@@ -970,17 +980,21 @@ public class Testing {
           Scanner scan = new Scanner(System.in);
           Calendar cal = Calendar.getInstance();
           ArrayInterface<Booking> booking = new Array<>();
+          ArrayInterface<Customer> customer = new Array<>();
           BookingControl bookingControl = new  BookingControl();
-          
+         
           int index = 1;
-          String id;        
-          int month = cal.get(Calendar.MONTH)+1;
+          String id;
+          int month = cal.get(Calendar.MONTH)+1;          
+          int amount = 0;
+          int total = 0;
           int Lily;
+          int sunFlower;
           int Rose;
           int whiteRose;
-          int sunFlower;
-          int total;
-          int amount = 0;
+          int price = 0;
+          String flower ="";
+          int selection = 0;
           do {
             id = Booking.generateID(index);
             index++;
@@ -997,61 +1011,142 @@ public class Testing {
           System.out.printf("Please enter the customer'ID: ");
           while(scan.hasNextLine()){
           String loginCust= scan.nextLine();
-          boolean loginAccess = false;
-        
+          boolean loginAccess = false;        
         try{
-            for(int i = 0; i < custList.length(); i++){
-                if(custList.getData(i) != null){
-                    if((loginCust.equals(custList.getData(i).getCustId()))){
-                        currentUser = custList.getData(i);
-                        loginAccess = true;
-                        break;                        
-                    }
-                }
+            int flag = 1;
+            Connection conn = DriverManager.getConnection("jdbc:derby://localhost:1527/MyDataBase", "lee", "123");
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("select * from CUSTOMER");
+            while(rs.next()){
+                if(rs.getString(1).equals(loginCust))
+                {
+                    flag = 0;                   
+                    break;
+                }               
             }
-        }catch(Exception e){         
+            if(flag==0){    
+                loginAccess = true;
+            }else{
+                System.out.println("Invalid customer ID! Plese try again!");
+            }
+        }catch (SQLException ex){
         }
         
         if(loginAccess == true){
             System.out.println("Verify Successfull!");
-            System.out.println("Please enter the quantity of Lily: ");
-            Lily = input.nextInt();
-            input.nextLine();
-            System.out.println("Please enter the quantity of Rose: ");
-            Rose = input.nextInt();
-            input.nextLine();
-            System.out.println("Please enter the quantity of White Rose: ");
-            whiteRose = input.nextInt();
-            input.nextLine();
-            System.out.println("Please enter the quantity of Sunflower: ");
-            sunFlower = input.nextInt();
-            input.nextLine();   
-            total = Lily + Rose + whiteRose + sunFlower;
+            System.out.println("=============================");    
+            flowerList.displayItem();
+            System.out.println("=============================");
+            do{
+            System.out.print("Please enter number 1 to 4 to select the flower: ");    
+           try{
+                sc = new Scanner(System.in);
+                selection = sc.nextInt();
+                sc.nextLine();
+                System.out.println("\n\n\n\n");              
+                if(selection== 1){
+                   flower = "Rose";
+                   System.out.println("Each Rose costs RM 2");
+                   System.out.println("Enter the quantity that you want to purchase : ");
+                   Rose = input.nextInt();
+                   input.nextLine(); 
+                   price = Rose * 2; 
+                   if(Rose > 100){
+        do{
+            if(Rose > 100){
+               System.out.println("Purchase amount cannot more than 100 !");
+               System.out.println("Enter the quantity that you want to purchase : ");
+                Rose = input.nextInt();
+                input.nextLine(); ;              
+            }
+        }while((Rose > 100));
+         }
+                }else if(selection == 2){
+                   flower = "White Rose";
+                   System.out.println("Each Rose costs RM 3");
+                   System.out.println("Enter the quantity that you want to purchase : ");
+                   whiteRose = input.nextInt();
+                   input.nextLine();
+                   price = whiteRose * 3;
+                   if(whiteRose > 100){
+        do{
+            if(whiteRose > 100){
+               System.out.println("Purchase amount cannot more than 100 !");
+               System.out.println("Enter the quantity that you want to purchase : ");
+                whiteRose = input.nextInt();
+                input.nextLine(); ;              
+            }
+        }while((whiteRose > 100));
+         }
+                }else if(selection == 3){
+                   flower = "Sunflower";
+                   System.out.println("Each Rose costs RM 2");
+                   System.out.println("Enter the quantity that you want to purchase : ");
+                   sunFlower = input.nextInt();                   
+                   input.nextLine();
+                   price = sunFlower * 2; 
+                   if(sunFlower > 100){
+        do{
+            if(sunFlower > 100){
+               System.out.println("Purchase amount cannot more than 100 !");
+               System.out.println("Enter the quantity that you want to purchase : ");
+                sunFlower = input.nextInt();
+                input.nextLine();              
+            }
+        }while((sunFlower > 100));
+         }
+                }else if(selection == 4){
+                   flower = "Lily";
+                   System.out.println("Each Lily costs RM 1");
+                   System.out.println("Enter the quantity that you want to purchase : ");
+                   Lily = input.nextInt();
+                   input.nextLine(); 
+                   price = Lily * 1;
+                   if(Lily > 100){
+        do{
+            if(Lily > 100){
+               System.out.println("Purchase amount cannot more than 100 !");
+               System.out.println("Enter the quantity that you want to purchase : ");
+                Lily = input.nextInt();
+                input.nextLine(); ;              
+            }
+        }while((Lily > 100));
+         }                   
+                }else{
+                    System.out.println("Invalid input! Please enter number 1 to 4 only! \n");
+                } 
+            }catch(InputMismatchException e){
+                System.out.println("Invalid input! Please enter number 1 to 4 only! \n");
+            }
+            
+            
+      
+           total = input.nextInt();
             System.out.println("================================================");
             System.out.println("-----------------Sales Order--------------------"); 
-            System.out.println("1.Lily : " + Lily);
-            System.out.println("2.Rose : " + Rose);
-            System.out.println("3.White Rose : " + whiteRose);
-            System.out.println("4.Sunflower : " + sunFlower);
+            System.out.println("1.Flower that you pucrhase : " + flower);
             System.out.println("Total flower: " + total);
-            System.out.println("Customer'ID : " + currentUser.getCustId());
-            System.out.println("Customer'Name : " + currentUser.getCustName());
-            System.out.println("Phone Number : " + currentUser.getPhone());
-            System.out.println("Address : " + currentUser.getAddress());
-            System.out.println("Status : " + currentUser.getStatus());
-            System.out.println("Credit Limit : " + currentUser.getCreditLimit());
+            System.out.println("Total Price: " + "RM " + price);
+            System.out.println("Customer'ID : " + viewAll.getItem(0).getCustId());
+            System.out.println("Customer'Name : " + viewAll.getItem(0).getCustName());
+            System.out.println("Phone Number : " + viewAll.getItem(0).getPhone());
+            System.out.println("Address : " + viewAll.getItem(0).getAddress());
+            System.out.println("Status : " + viewAll.getItem(0).getStatus());
+            System.out.println("Credit Limit : " + viewAll.getItem(0).getCreditLimit());
             System.out.println("Date : "+ cal.get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" +cal.get(Calendar.YEAR));
             System.out.println("Time : " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
             System.out.println("================================================");
             System.out.println("Are you sure to booking? (y/n)");
-            int select = scan.next().charAt(0);
+            int select = scan.next().charAt(0);           
         if(select == 'y'){
-            if(currentUser.getStatus().equals("Corporate")){
-                amount = currentUser.getCreditLimit() - ( total * 10 );
+            if(viewAll.getItem(0).getStatus().equals("Corporate")){
+                amount = viewAll.getItem(0).getCreditLimit() - price;
             }
-            customerControl.updateCreditLimit(new Customer(currentUser.getCustId(),currentUser.getCustUsername(),currentUser.getCustPassword(),currentUser.getCustName(), currentUser.getIc(), currentUser.getPhone(), currentUser.getAddress(),currentUser.getStatus(), amount));
-            booking.add(new Booking(id, currentUser.getCustName(),total, cal.get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()), cal.get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" +cal.get(Calendar.YEAR),currentUser.getAddress(),currentUser.getCustId()));
-            bookingControl.addBooking(booking.getAndRemoveData(0));
+                customerControl.updateCreditLimit(new Customer(viewAll.getItem(0).getCustId(),viewAll.getItem(0).getCustUsername(),viewAll.getItem(0).getCustPassword(),viewAll.getItem(0).getCustName(), viewAll.getItem(0).getIc(), viewAll.getItem(0).getPhone(), viewAll.getItem(0).getAddress(),viewAll.getItem(0).getStatus(), amount));
+                booking.add(new Booking(id, flower, new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()), cal.get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" +cal.get(Calendar.YEAR),viewAll.getItem(0).getAddress(),viewAll.getItem(0).getCustId(),total));
+                bookingControl.addBooking(booking.getAndRemoveData(0));
+                System.out.println("Booking Suceess!");
+                System.out.println("Generate Sales Order Success!");
         }else{
             System.out.println("Booking Fail!");
             StaffSelection();
@@ -1069,19 +1164,19 @@ public class Testing {
                 System.out.println("Error");
                 System.exit(0);
                 break;
-        }
+            }
         }else{
             System.out.println("Verify Fail!");
-            System.out.println("Invalid Customer'name, Please try again!");
+            System.out.println("Invalid Customer'ID, Please try again!");
             Booking();
-        }
-         }
+        }                     
+    }
+    }
+    }
+    
+    
         
-      }
-        
-      
       public static void clearScreen() throws AWTException{
-        
         //get width of Screen size /3*2
         int width = (Toolkit.getDefaultToolkit().getScreenSize().width)/3*2;
         //get height of Screen size /5*4
