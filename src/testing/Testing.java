@@ -394,6 +394,7 @@ public class Testing {
         System.out.println("2. Maintain Product Information");
         System.out.println("3. Maintain Promotion");
         System.out.println("4. Order Pickup/Delivery and Consumer Payment Management");
+        System.out.println("5. Booking Item");
         System.out.println("=======================================================");
         
         System.out.printf("Please enter number to select the option:  ");
@@ -402,7 +403,8 @@ public class Testing {
             case 1:CustMaintenence();break;
             case 2:MaintainCatalog.MaintainCatalogMenu();break;
             case 3: Promotion();break;
-            case 4:OrderPickup();break;          
+            case 4:OrderPickup();break;  
+            case 5:Booking();break;
         }
      }
      
@@ -924,9 +926,8 @@ public class Testing {
 //        System.out.println("12. Payment List");
 //        System.out.println("13. Reset Credit Limit");
 //        System.out.println("14. Maintain Catalog");
-//        System.out.println("15. Return to the main menu");
-          System.out.println("1. Booking Item");
-          System.out.println("2. Customized Floral Arrangement");
+//        System.out.println("15. Return to the main menu");         
+          System.out.println("1. Customized Floral Arrangement");
         System.out.println("================================================");
         
         System.out.printf("Please enter number to select the option:  ");
@@ -934,8 +935,7 @@ public class Testing {
         while(sc.hasNextInt()){
         selection = sc.nextInt();
         switch(selection){
-            case 1: Booking();break;
-            case 2: if(currentUser.getStatus().equals("Consumer")){
+            case 1: if(currentUser.getStatus().equals("Consumer")){
                 CustomizedFlowerMenu();
                 break;
             }else{
