@@ -10,11 +10,11 @@ package adt;
  * @author Admin
  */
 public class QueueFlowerCustomized<T> implements QueueFlowerCustomizedInterface<T>{
-    private T[] queueData;
-    private int frontIndex = 0;
-    private int backIndex;
+    private T[] queueData; //contain the data
+    private int frontIndex = 0; //use to label the front of the queue data
+    private int backIndex; //label the back of the queue data
     //private int size;
-    private static final int DEFAULT_INITIAL_CAPACITY = 50;
+    private static final int DEFAULT_INITIAL_CAPACITY = 50; //default size of the queue
     
     
     public QueueFlowerCustomized(int size){

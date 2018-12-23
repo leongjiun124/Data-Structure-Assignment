@@ -138,10 +138,5 @@ public boolean replace(int givenPosition, T newEntry) {
         return isSuccessful;
     }
   
-  
 
-       
-    
- 
-    
 }
