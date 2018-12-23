@@ -16,6 +16,7 @@ public class QueueFlowerCustomized<T> implements QueueFlowerCustomizedInterface<
     //private int size;
     private static final int DEFAULT_INITIAL_CAPACITY = 50;
     
+    
     public QueueFlowerCustomized(int size){
         queueData = (T[])new Object[size];
         backIndex = -1;
@@ -60,7 +61,7 @@ public class QueueFlowerCustomized<T> implements QueueFlowerCustomizedInterface<
     
     public void clear(){
         if(!isEmpty()){
-            for(int i = frontIndex; i <= backIndex; i++){
+            for(int i = frontIndex; i < backIndex; i++){
                 queueData[i] = null;
             }
             backIndex = -1;
@@ -68,9 +69,9 @@ public class QueueFlowerCustomized<T> implements QueueFlowerCustomizedInterface<
     }
     
     public int size(){
-        int size = 0;
+        int size = 1;
         if(!isEmpty()){
-            for(int i = frontIndex; i <= backIndex; i++){
+            for(int i = frontIndex; i < backIndex; i++){
                 if(queueData[i] != null){
                     size++;
                 }
@@ -118,7 +119,7 @@ public class QueueFlowerCustomized<T> implements QueueFlowerCustomizedInterface<
     }
     
     private void shiftPlace(){
-        for(int i = frontIndex; i <= backIndex; i++){
+        for(int i = frontIndex; i < backIndex; i++){
             queueData[i] = queueData[i+1];
         }
     }

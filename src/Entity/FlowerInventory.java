@@ -5,74 +5,142 @@
  */
 package Entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  *
- * @author Admin
+ * @author User
  */
 public class FlowerInventory {
-    List<Item> flowerInventory = new ArrayList<Item>();
+    private int productID;
+    private String productName;
+    private String productDesc;
+    private String productCategory;
+    private int productQuantity;
+    private int productWarningLvl;
+    private String lastUpdate;
     
-    
-    
-    public FlowerInventory()
-    {
-        Item item = new Item();
-        item.setItemName("Flower 1");
-        item.setQuantity(200);
-        item.setWarningLevel(20);
-        item.setDate1("12/11/2018");
-        flowerInventory.add(item);
-        
-        item = new Item();
-        item.setItemName("Flower 2");
-        item.setQuantity(100);
-        item.setWarningLevel(20);
-        item.setDate1("12/11/2018");
-        flowerInventory.add(item);
-        
-        item = new Item();
-        item.setItemName("Flower 3");
-        item.setQuantity(10);
-        item.setWarningLevel(20);
-        item.setDate1("12/11/2018");
-        flowerInventory.add(item);
-    }
-    
-    public List<Item> getInventory(){
-        return flowerInventory;
-    }
-}
+     LocalDateTime now = LocalDateTime.now();
+    int currentYear=now.getYear();
+    int currentMonth=now.getMonthValue();
+    int currentDay=now.getDayOfMonth();
+    String CombineAll= currentDay + ("-") + currentMonth + ("-") + currentYear;
 
+    public FlowerInventory(int productID, String productName, String productDesc, String productCategory, int productQuantity, int productWarningLvl, String lastUpdate) {
+        this.productID = productID;
+        this.productName = productName;
+        this.productDesc = productDesc;
+        this.productCategory = productCategory;
+        this.productQuantity = productQuantity;
+        this.productWarningLvl = productWarningLvl;
+        this.lastUpdate = lastUpdate;
+    }
+
+    public int getProductID() {
+        return productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductDesc() {
+        return productDesc;
+    }
+
+    public void setProductDesc(String productDesc) {
+        this.productDesc = productDesc;
+    }
+
+    public String getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(String productCategory) {
+        this.productCategory = productCategory;
+    }
+
+    public int getProductQuantity() {
+        return productQuantity;
+    }
+
+    public void setProductQuantity(int productQuantity) {
+        this.productQuantity = productQuantity;
+    }
+
+    public int getProductWarningLvl() {
+        return productWarningLvl;
+    }
+
+    public void setProductWarningLvl(int productWarningLvl) {
+        this.productWarningLvl = productWarningLvl;
+    }
+
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public LocalDateTime getNow() {
+        return now;
+    }
+
+    public void setNow(LocalDateTime now) {
+        this.now = now;
+    }
+
+    public int getCurrentYear() {
+        return currentYear;
+    }
+
+    public void setCurrentYear(int currentYear) {
+        this.currentYear = currentYear;
+    }
+
+    public int getCurrentMonth() {
+        return currentMonth;
+    }
+
+    public void setCurrentMonth(int currentMonth) {
+        this.currentMonth = currentMonth;
+    }
+
+    public int getCurrentDay() {
+        return currentDay;
+    }
+
+    public void setCurrentDay(int currentDay) {
+        this.currentDay = currentDay;
+    }
+
+    public String getCombineAll() {
+        return CombineAll;
+    }
+
+    public void setCombineAll(String CombineAll) {
+        this.CombineAll = CombineAll;
+    }
     
-//class promotionList
-//{
-//    int month;
-//    int year;
-//    String Title;
-//    
-//    public int getMonth() {
-//        return month;
-//    } 
-//    public int getYear() {
-//        return year;
-//    } 
-//     public String getTitle() {
-//        return Title;
-//    } 
-//     
-//     public void setMonth(int month) {
-//        this.month = month;
-//    }
-//     
-//     public void setYear(int year) {
-//        this.year = year;
-//    }
-//     
-//      public void setTitle(String Title) {
-//        this.Title = Title;
-//    }
-//    
-//}
+    public static String generateID(int index) {
+        char[] id = "P00000".toCharArray();
+        int length = id.length;
+        while (index != 0) {
+            id[length - 1] = (char) (index % 10 + 48);
+            length--;
+            index /= 10;
+        }
+        return String.valueOf(id);
+    }
+    
+}

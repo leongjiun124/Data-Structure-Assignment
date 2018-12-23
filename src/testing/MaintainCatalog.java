@@ -5,64 +5,128 @@
  */
 package testing;
 
-import Entity.DomainCatalogMaintain;
-import da.CatalogMaintainDA;
-import Control.ControlCatalogMaintain;
+import static testing.MainMenu.flowerStack;
 import java.awt.AWTException;
 import java.text.ParseException;
+import java.util.Scanner;
+import Entity.FlowerInventory;
+import static testing.MainMenu.initFlower;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  *
  * @author User
  */
-public class MaintainCatalogUI {
+public class MaintainCatalog {
+    
     public static Scanner sc = new Scanner(System.in);
-    
-    
-    
+   // public static FlowerInventoryStack<FlowerInventory> flowerStack= new FlowerInventoryStack<>() ;  
     public static void main(String[] args)throws AWTException, ParseException, CloneNotSupportedException {
-     
-        MaintainCatalogMenu();
+        initFlower();
+        //System.out.printf("Total =  " + flowerStack.getNumberOfEntries() + "\n");
+        //System.out.printf("Total =  " + flowerStack.peek().getProductID() + "\n");
         
-        
+       MaintainCatalogMenu();
+      
     }
     
     
-    public static void AddProduct()throws AWTException, CloneNotSupportedException{
+    public static void MaintainCatalogMenu()throws AWTException, CloneNotSupportedException
+    {
+        System.out.printf("Total =  " + flowerStack.getNumberOfEntries() + "\n");
+        
+         System.out.println("================================================");
+        System.out.println("----------------Fiore Flowershop----------------");       
+        System.out.println("----------------Maintain Catalog----------------");  
+        System.out.println("1. Add Product"); 
+        System.out.println("2. View Product");
+        System.out.println("3. Update Product");
+        System.out.println("4. Remove Product");
+        System.out.println("================================================");
+        System.out.printf("Please enter number 1 to 4 to select the option: ");
+        
+        int selection;
+        
+        //sc.nextLine();  
+        do{
+            selection = sc.nextInt();
+            switch (selection) {
+            case 1:
+                
+                AddProduct();
+                break;
+            case 2:
+                displayAll();
+                break;                  
+            case 3:
+                
+                UpdateProduct();
+                break;
+            case 4:
+                RemoveProduct();
+               
+                break;
+            default:System.exit(0);
+                break;
+        }
+            
+            if(selection!=0 && selection!=1 && selection!=2 && selection!=3 && selection!=4)
+            {
+                System.out.printf("Invalid number, press enter again");
+            }
+            
+        }while(selection!=0 && selection!=1 && selection!=2 && selection!=3 && selection!=4);
+        
+    }
+    public static void displayAll()throws AWTException, CloneNotSupportedException
+    {
+        int totalItem=0;
+        totalItem=flowerStack.getNumberOfEntries();
+        for(int a=1;a<=totalItem;a++)
+        {
+            System.out.println(flowerStack.getEntry(a).getProductID() + " " + flowerStack.getEntry(a).getProductName() +" " + flowerStack.getEntry(a).getProductCategory() + " " +
+            flowerStack.getEntry(a).getProductQuantity() + " " + flowerStack.getEntry(a).getProductWarningLvl() + " " + flowerStack.getEntry(a).getCombineAll());
+        }       
+        System.out.printf("Please enter number any key to back menu or 0 to exit system");
+        int backMene = sc.nextInt();
+        switch (backMene) {
+            case 0:
+                System.exit(0);;
+                break;
+            default:
+                MaintainCatalogMenu();
+                break;
+        }
+        
+        
+        
+    }
+   
+     public static void AddProduct()throws AWTException, CloneNotSupportedException{
         LocalDateTime now = LocalDateTime.now();
         int currentYear=now.getYear();
         int currentMonth=now.getMonthValue();
         int currentDay=now.getDayOfMonth();
         String lastUpdate= currentDay + ("-") + currentMonth + ("-") + currentYear;
         
-        String productID;
+        int productID;
         String productName="";
         String productDesc;
         String productCategory="";
         int productQuantity;
         int productWarningLvl;
-        //String lastUpdate="";
         boolean validCatogry=false;
-        CatalogMaintainDA catalogMaintainDA;
+        int id=0;
+          id=  flowerStack.lastIndex().getProductID();
+        productID=++id;
         
-        catalogMaintainDA = new CatalogMaintainDA();
-        int index = 1;
-        String id;
-        do {
-            id = DomainCatalogMaintain.generateID(index);
-            index++;
-        } while (catalogMaintainDA.getRecord(id) != null);
-        productID = id;
-        //idTf.setText(id);
         
         System.out.println("================================================");
         System.out.println("----------------Fiore Flowershop----------------");       
         System.out.println("-------------------Add Product------------------");
         System.out.println("Product Name : "); 
-        while(sc.hasNext()){
+        sc.nextLine();
         productName = sc.nextLine();
         
         
@@ -110,15 +174,14 @@ public class MaintainCatalogUI {
         System.out.println("Today : " + lastUpdate);
         
         System.out.println("Press 1 to save or press 0 to cancel :"); 
-        
         int saveProduct;
         
         do{
         saveProduct = sc.nextInt();
         switch(saveProduct){
             case 1: 
-                DomainCatalogMaintain d=new DomainCatalogMaintain(productID,productName,productDesc,productCategory,productQuantity,productWarningLvl,lastUpdate);
-                catalogMaintainDA.addProduct(d);
+                FlowerInventory d=new FlowerInventory(productID,productName,productDesc,productCategory,productQuantity,productWarningLvl,lastUpdate);
+                flowerStack.add(d);
                 
                 break;
             case 2:
@@ -135,7 +198,7 @@ public class MaintainCatalogUI {
             {
                 System.out.printf("Invalid number, press enter again");
             }
-        
+            
         }while(saveProduct!=0 && saveProduct!=1);
  
         //Testing Item
@@ -151,50 +214,46 @@ public class MaintainCatalogUI {
         }
         
         
-        }
-        
-        
-        
-        
-        
     }
-    
-    public static void UpdateProduct()throws AWTException, CloneNotSupportedException
+   
+     public static void UpdateProduct()throws AWTException, CloneNotSupportedException
     {
+        int totalItem=0;
+        totalItem=flowerStack.getNumberOfEntries();
         LocalDateTime now = LocalDateTime.now();
         int currentYear=now.getYear();
         int currentMonth=now.getMonthValue();
         int currentDay=now.getDayOfMonth();
         String lastUpdate= currentDay + ("-") + currentMonth + ("-") + currentYear;
         
-        ControlCatalogMaintain controlCatalog;
-        controlCatalog=new ControlCatalogMaintain();
-        ArrayList<DomainCatalogMaintain> viewAll = controlCatalog.getAllProduct();
+        //ControlCatalogMaintain controlCatalog;
+        //controlCatalog=new ControlCatalogMaintain();
+        //ArrayList<DomainCatalogMaintain> viewAll = controlCatalog.getAllProduct();
         int count=0;
         System.out.println("================================================");
         System.out.println("----------------Fiore Flowershop----------------");       
         System.out.println("-----------------Update Product-----------------");
-        for(int i=0;i<viewAll.size();i++)
+        for(int i=1;i<=totalItem;i++)
         {
-            if("Alstromeria".equals(viewAll.get(i).getProductCategory()))
+            if("Alstromeria".equals(flowerStack.getEntry(i).getProductCategory()))
             {
                 count++;
             }
         }
-        System.out.println("1.Alstromeria  " + "(" + count+")");
+        System.out.println("1.Alstromeria  " + "(" + count + ")");
         count=0;
-         for(int i=0;i<viewAll.size();i++)
+         for(int i=1;i<=totalItem;i++)
         {
-            if("Bouquets".equals(viewAll.get(i).getProductCategory()))
+            if("Bouquets".equals(flowerStack.getEntry(i).getProductCategory()))
             {
                 count++;
             }
         }
         System.out.println("2.Bouquets  " + "(" + count+")");
         count=0;
-         for(int i=0;i<viewAll.size();i++)
+         for(int i=1;i<=totalItem;i++)
         {
-            if("Asters".equals(viewAll.get(i).getProductCategory()))
+            if("Asters".equals(flowerStack.getEntry(i).getProductCategory()))
             {
                 count++;
             }
@@ -202,18 +261,18 @@ public class MaintainCatalogUI {
         System.out.println("3.Asters  " + "(" + count+")");
         
         count=0;
-         for(int i=0;i<viewAll.size();i++)
+         for(int i=1;i<=totalItem;i++)
         {
-            if("Carnations".equals(viewAll.get(i).getProductCategory()))
+            if("Carnations".equals(flowerStack.getEntry(i).getProductCategory()))
             {
                 count++;
             }
         }
         System.out.println("4.Carnations  " + "(" + count+")");
         count=0;
-         for(int i=0;i<viewAll.size();i++)
+         for(int i=1;i<=totalItem;i++)
         {
-            if("Chrysanthemum".equals(viewAll.get(i).getProductCategory()))
+            if("Chrysanthemum".equals(flowerStack.getEntry(i).getProductCategory()))
             {
                 count++;
             }
@@ -221,9 +280,9 @@ public class MaintainCatalogUI {
         System.out.println("5.Chrysanthemum  " + "(" + count+")");
         
         count=0;
-         for(int i=0;i<viewAll.size();i++)
+         for(int i=1;i<=totalItem;i++)
         {
-            if("Exotic Blooms".equals(viewAll.get(i).getProductCategory()))
+            if("Exotic Blooms".equals(flowerStack.getEntry(i).getProductCategory()))
             {
                 count++;
             }
@@ -231,9 +290,9 @@ public class MaintainCatalogUI {
         System.out.println("6.Exotic Blooms  " + "(" + count+")");
         
         count=0;
-         for(int i=0;i<viewAll.size();i++)
+         for(int i=1;i<=totalItem;i++)
         {
-            if("Gladiolas".equals(viewAll.get(i).getProductCategory()))
+            if("Gladiolas".equals(flowerStack.getEntry(i).getProductCategory()))
             {
                 count++;
             }
@@ -245,10 +304,8 @@ public class MaintainCatalogUI {
         int selection=0;
         String category="";
         boolean valid=false;
-        while(sc.hasNext()){
         do
         {
-            
             selection=sc.nextInt();
             switch(selection){
                 case 1: category="Alstromeria";
@@ -286,12 +343,12 @@ public class MaintainCatalogUI {
         System.out.println("===================================================================");
         System.out.println("No        Flower        Description     Quantity      Warning Level");
         System.out.println("===================================================================");
-        for(int j=0;j<viewAll.size();j++)
+        for(int j=1;j<=totalItem;j++)
         {
-            if(category.equals(viewAll.get(j).getProductCategory()))
+            if(category.equals(flowerStack.getEntry(j).getProductCategory()))
             {
                 number++;
-                System.out.println(" " + number + "       " + viewAll.get(j).getProductName() + "        " + viewAll.get(j).getProductDesc() + "         " + viewAll.get(j).getProductQuantity() + "         " + viewAll.get(j).getProductWarningLvl());
+                System.out.println(" " + number + "       " + flowerStack.getEntry(j).getProductName() + "        " + flowerStack.getEntry(j).getProductDesc() + "         " + flowerStack.getEntry(j).getProductQuantity() + "         " + flowerStack.getEntry(j).getProductWarningLvl());
             }
         }
         System.out.println("Please select one if the index : ");
@@ -321,36 +378,35 @@ public class MaintainCatalogUI {
         }while(indexvalid==false);
         
         int checkIndex=0;
-        String StoreProductID="";
+        int StoreProductID=0;
         String StoreProductName="";
         String StoreProductDesc="";
         int StoreQuantity=0;
         int StoreWarningLvl=0;
-        //String StoreDate="";
+        int storePosition=0;
         String StoreCategory="";
-        for(int a=0;a<viewAll.size();a++)
+        for(int a=1;a<=totalItem;a++)
         {
-            if(category.equals(viewAll.get(a).getProductCategory()))
+            if(category.equals(flowerStack.getEntry(a).getProductCategory()))
             {
                 checkIndex++;
                 if(checkIndex==modify)
                 {
-                    StoreProductID=viewAll.get(a).getProductID();
-                    StoreProductName=viewAll.get(a).getProductName();
-                    StoreProductDesc=viewAll.get(a).getProductDesc();
-                    StoreQuantity=viewAll.get(a).getProductQuantity();
-                    StoreWarningLvl=viewAll.get(a).getProductWarningLvl();
-                    //StoreDate=viewAll.get(a).getLastUpdate();
-                    StoreCategory=viewAll.get(a).getProductCategory();
+                    storePosition=a;
+                    StoreProductID=flowerStack.getEntry(a).getProductID();
+                    StoreProductName=flowerStack.getEntry(a).getProductName();
+                    StoreProductDesc=flowerStack.getEntry(a).getProductDesc();
+                    StoreQuantity=flowerStack.getEntry(a).getProductQuantity();
+                    StoreWarningLvl=flowerStack.getEntry(a).getProductWarningLvl();
+                    StoreCategory=flowerStack.getEntry(a).getProductCategory();
                     
-                    System.out.println("1. ProductName : " + viewAll.get(a).getProductName() );
-                    System.out.println("2. Product Descripton : " + viewAll.get(a).getProductDesc() );
-                    System.out.println("3. Product Category : "+ viewAll.get(a).getProductCategory());
-                    System.out.println("4. Product Quantity : " + viewAll.get(a).getProductQuantity() );
-                    System.out.println("5. Product Minimun Level : " + viewAll.get(a).getProductWarningLvl());
+                    System.out.println("1. ProductName : " + flowerStack.getEntry(a).getProductName() );
+                    System.out.println("2. Product Descripton : " + flowerStack.getEntry(a).getProductDesc() );
+                    System.out.println("3. Product Category : "+ flowerStack.getEntry(a).getProductCategory());
+                    System.out.println("4. Product Quantity : " + flowerStack.getEntry(a).getProductQuantity() );
+                    System.out.println("5. Product Minimun Level : " +flowerStack.getEntry(a).getProductWarningLvl());
                     System.out.println("0.Exit" );
                 }
-                //System.out.println("" + number + "" + viewAll.get(a).getProductName() + "" + viewAll.get(a).getProductDesc() + "" + viewAll.get(a).getProductQuantity() + "" + viewAll.get(a).getProductWarningLvl());
             }
         }
         System.out.println("Please select product index to Update : " );
@@ -373,7 +429,8 @@ public class MaintainCatalogUI {
         
         if(subModify==1 || subModify==2 || subModify==3)
         {
-            System.out.println("Update or change the contain = " );
+            
+            System.out.printf("Update or change the contain = \n" );
             updateAnswer = sc.next();
         }
         if(subModify==4 || subModify == 5)
@@ -403,17 +460,16 @@ public class MaintainCatalogUI {
             StoreWarningLvl=updateNumber;
         }
         
+
         System.out.println("Press 1 to save or press 0 to cancel :"); 
         int saveProduct;
-        sc.next();
         do
         {
             saveProduct = sc.nextInt();
             switch(saveProduct){
             case 1:    
-                DomainCatalogMaintain d;
-                d=new DomainCatalogMaintain(StoreProductID,StoreProductName,StoreProductDesc,StoreCategory,StoreQuantity,StoreWarningLvl,lastUpdate);
-                controlCatalog.updatedProduct(d);
+                FlowerInventory f= new FlowerInventory(StoreProductID,StoreProductName,StoreProductDesc,StoreCategory,StoreQuantity,StoreWarningLvl,lastUpdate);
+                flowerStack.replace(storePosition, f);
                 break;
             case 2:
                 System.exit(0);
@@ -428,7 +484,7 @@ public class MaintainCatalogUI {
             
         }while(saveProduct!=0 && saveProduct!=1);
         System.out.println("Successfully update"); 
-        sc.nextLine();
+        sc.next();
             System.out.println("Press any key to back menu");
             String back = sc.nextLine();
             switch(back)
@@ -437,48 +493,47 @@ public class MaintainCatalogUI {
                     MaintainCatalogMenu();
                     break;
             }
-        }
         
         
         
     }
-    
-    
-    public static void RemoveProduct()throws AWTException, CloneNotSupportedException{
+     
+     
+      public static void RemoveProduct()throws AWTException, CloneNotSupportedException{
+          int storePosition=0;
+        int totalItem=0;
+        totalItem=flowerStack.getNumberOfEntries();
         LocalDateTime now = LocalDateTime.now();
         int currentYear=now.getYear();
         int currentMonth=now.getMonthValue();
         int currentDay=now.getDayOfMonth();
         String lastUpdate= currentDay + ("-") + currentMonth + ("-") + currentYear;
         
-        ControlCatalogMaintain controlCatalog;
-        controlCatalog=new ControlCatalogMaintain();
-        ArrayList<DomainCatalogMaintain> viewAll = controlCatalog.getAllProduct();
         int count=0;
         System.out.println("================================================");
         System.out.println("----------------Fiore Flowershop----------------");       
         System.out.println("-----------------Delete Product-----------------");
-        for(int i=0;i<viewAll.size();i++)
+        for(int i=1;i<=totalItem;i++)
         {
-            if("Alstromeria".equals(viewAll.get(i).getProductCategory()))
+            if("Alstromeria".equals(flowerStack.getEntry(i).getProductCategory()))
             {
                 count++;
             }
         }
         System.out.println("1.Alstromeria  " + "(" + count+")");
         count=0;
-         for(int i=0;i<viewAll.size();i++)
+         for(int i=1;i<=totalItem;i++)
         {
-            if("Bouquets".equals(viewAll.get(i).getProductCategory()))
+            if("Bouquets".equals(flowerStack.getEntry(i).getProductCategory()))
             {
                 count++;
             }
         }
         System.out.println("2.Bouquets  " + "(" + count+")");
         count=0;
-         for(int i=0;i<viewAll.size();i++)
+         for(int i=1;i<=totalItem;i++)
         {
-            if("Asters".equals(viewAll.get(i).getProductCategory()))
+            if("Asters".equals(flowerStack.getEntry(i).getProductCategory()))
             {
                 count++;
             }
@@ -486,18 +541,18 @@ public class MaintainCatalogUI {
         System.out.println("3.Asters  " + "(" + count+")");
         
         count=0;
-         for(int i=0;i<viewAll.size();i++)
+         for(int i=1;i<=totalItem;i++)
         {
-            if("Carnations".equals(viewAll.get(i).getProductCategory()))
+            if("Carnations".equals(flowerStack.getEntry(i).getProductCategory()))
             {
                 count++;
             }
         }
         System.out.println("4.Carnations  " + "(" + count+")");
         count=0;
-         for(int i=0;i<viewAll.size();i++)
+         for(int i=1;i<=totalItem;i++)
         {
-            if("Chrysanthemum".equals(viewAll.get(i).getProductCategory()))
+            if("Chrysanthemum".equals(flowerStack.getEntry(i).getProductCategory()))
             {
                 count++;
             }
@@ -505,9 +560,9 @@ public class MaintainCatalogUI {
         System.out.println("5.Chrysanthemum  " + "(" + count+")");
         
         count=0;
-         for(int i=0;i<viewAll.size();i++)
+         for(int i=1;i<=totalItem;i++)
         {
-            if("Exotic Blooms".equals(viewAll.get(i).getProductCategory()))
+            if("Exotic Blooms".equals(flowerStack.getEntry(i).getProductCategory()))
             {
                 count++;
             }
@@ -515,9 +570,9 @@ public class MaintainCatalogUI {
         System.out.println("6.Exotic Blooms  " + "(" + count+")");
         
         count=0;
-         for(int i=0;i<viewAll.size();i++)
+         for(int i=1;i<=totalItem;i++)
         {
-            if("Gladiolas".equals(viewAll.get(i).getProductCategory()))
+            if("Gladiolas".equals(flowerStack.getEntry(i).getProductCategory()))
             {
                 count++;
             }
@@ -528,11 +583,9 @@ public class MaintainCatalogUI {
         System.out.println("Please select one of the option");
         int selection=0;
         String category="";
-        boolean valid=false; 
-        while( sc.hasNextInt()){
+        boolean valid=false;
         do
         {
-           
             selection=sc.nextInt();
             switch(selection){
                 case 1: category="Alstromeria";
@@ -565,22 +618,19 @@ public class MaintainCatalogUI {
                     
             }
             
-            
         }while(valid==false);
-        
         int number=0;
         System.out.println("===================================================================");
         System.out.println("No        Flower        Description     Quantity      Warning Level");
         System.out.println("===================================================================");
-        for(int j=0;j<viewAll.size();j++)
+        for(int j=1;j<=totalItem;j++)
         {
-            if(category.equals(viewAll.get(j).getProductCategory()))
+            if(category.equals(flowerStack.getEntry(j).getProductCategory()))
             {
                 number++;
-                System.out.println("" + number + "     " + viewAll.get(j).getProductName() + "      " + viewAll.get(j).getProductDesc() + "      " + viewAll.get(j).getProductQuantity() + "     " + viewAll.get(j).getProductWarningLvl());
+                System.out.println("" + number + "     " + flowerStack.getEntry(j).getProductName() + "      " +flowerStack.getEntry(j).getProductDesc() + "      " + flowerStack.getEntry(j).getProductQuantity() + "     " + flowerStack.getEntry(j).getProductWarningLvl());
             }
         }
-        
         System.out.println("Please select one if the index : ");
        
         
@@ -589,9 +639,8 @@ public class MaintainCatalogUI {
             //back to menu
             
         }
-        int modify = 0;
+        int modify;
         boolean indexvalid=false;
-//        while(sc.hasNext()){
         do{
             modify = sc.nextInt();
             if(modify<=number)
@@ -602,34 +651,32 @@ public class MaintainCatalogUI {
             {
                 System.out.println("Please Re-enter : ");
             }
-        
             
         }while(indexvalid==false);
         
         int checkIndex=0;
-        String StoreProductID="";
-        for(int a=0;a<viewAll.size();a++)
+        int StoreProductID=0;
+        for(int a=1;a<=totalItem;a++)
         {
-            if(category.equals(viewAll.get(a).getProductCategory()))
+            if(category.equals(flowerStack.getEntry(a).getProductCategory()))
             {
                 checkIndex++;
                 if(checkIndex==modify)
                 {
-                    StoreProductID=viewAll.get(a).getProductID();
+                    storePosition=a;
+                    StoreProductID=flowerStack.getEntry(a).getProductID();
                     
                     
-                    System.out.println("ProductName : " + viewAll.get(a).getProductName() );
-                    System.out.println("Product Descripton : " + viewAll.get(a).getProductDesc() );
-                    System.out.println("Product Category : "+ viewAll.get(a).getProductCategory());
-                    System.out.println(" Product Quantity : " + viewAll.get(a).getProductQuantity() );
-                    System.out.println("Product Minimun Level : " + viewAll.get(a).getProductWarningLvl());
+                    System.out.println("ProductName : " + flowerStack.getEntry(a).getProductName() );
+                    System.out.println("Product Descripton : " + flowerStack.getEntry(a).getProductDesc() );
+                    System.out.println("Product Category : "+ flowerStack.getEntry(a).getProductCategory());
+                    System.out.println(" Product Quantity : " + flowerStack.getEntry(a).getProductQuantity() );
+                    System.out.println("Product Minimun Level : " + flowerStack.getEntry(a).getProductWarningLvl());
                     System.out.println("Exit" );
                 }
                
             }
         }
-        
-        
         System.out.println("Do you want to remove the following product? Press 1 to confirm or press 0 to cancel : " );
         int decisonIndex=0;
         do
@@ -638,7 +685,7 @@ public class MaintainCatalogUI {
             switch(decisonIndex){
             case 1:    
                 
-                controlCatalog.deleteRecord(StoreProductID);
+                flowerStack.remove(storePosition);
                 break;
             case 2:
                 System.exit(0);
@@ -662,8 +709,6 @@ public class MaintainCatalogUI {
                 MaintainCatalogMenu();;
                 break;
         }
-        //}
-        }
         
         
         
@@ -672,55 +717,10 @@ public class MaintainCatalogUI {
         
         
         
-    }
-    
-    
-    
-    
-    public static void MaintainCatalogMenu()throws AWTException, CloneNotSupportedException
-    {
-         System.out.println("================================================");
-        System.out.println("----------------Fiore Flowershop----------------");       
-        System.out.println("----------------Maintain Catalog----------------");  
-        System.out.println("1. Add Product"); 
-        System.out.println("2. Update Product");
-        System.out.println("3. Remove Product");
-        System.out.println("================================================");
-        System.out.printf("Please enter number 1 to 3 to select the option: ");
-        
-        int selection = 0;
-        
-        //sc.nextLine();  
-        do{
-            while(sc.hasNextInt()){
-            selection = sc.nextInt();
-            switch (selection) {
-            case 1:
-                AddProduct();
-                break;
-            case 2:
-                UpdateProduct();
-                break;                  
-            case 3:
-                RemoveProduct();
-                break;
-            case 4:
-                System.exit(0);
-                break;
-            default:
-                break;
-        }
-            
-            
-            if(selection!=0 && selection!=1 && selection!=2 && selection!=3)
-            {
-                System.out.printf("Invalid number, press enter again");
-            }
-            }
-            
-        }while(selection!=0 && selection!=1 && selection!=2 && selection!=3);
         
     }
-    
-    
+     
+      
+      
+      
 }

@@ -5,8 +5,15 @@
  */
 package testing;
 
+import static testing.MainMenu.flowerStack;
+import static testing.MainMenu.initFlower;
+import static testing.MaintainCatalog.MaintainCatalogMenu;
+import static testing.MaintainCatalog.sc;
+import static testing.MainMenu.promotionItem;
+import Entity.PromotionDomain;
 import Control.BookingControl;
 import Control.CustomerControl;
+import Control.DeliveryOrderListControl;
 import Entity.PickUpOrder;
 import Control.FlowerCustomizedControl;
 import Entity.Item;
@@ -17,6 +24,7 @@ import Entity.Customer;
 import Entity.CompanyDetail;
 import Entity.Booking;
 import Entity.DomainCatalogMaintain;
+import Entity.FlowerInventory;
 import Entity.Staff;
 import da.BookingDA;
 import da.CustomerDA;
@@ -55,6 +63,8 @@ public class Testing {
     public static QueueFlowerCustomizedInterface<String> accessoryList = new QueueFlowerCustomized<>();
     public static QueueFlowerCustomizedInterface<String> priorityList = new QueueFlowerCustomized<>();
     public static QueueFlowerCustomizedInterface<Staff> staffList = new QueueFlowerCustomized<>();
+    public static FlowerInventoryLinkedList<FlowerInventory> flowerStack = new FlowerInventoryLinkedList<>();
+    public static QueueInterface<String> efficientRoute = new ArrayQueue<>();
     public static Scanner sc = new Scanner(System.in);
     public static Scanner input = new Scanner(System.in);
     public static Customer currentUser;
@@ -67,10 +77,18 @@ public class Testing {
          custList.add(new Customer("C00001","Mia Khalifa","12345","Mia Khalifa","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur.","Corporate"));
          custList.add(new Customer("C00002","abc123","12345","abc123","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur.","Consumer"));
          staffList.enqueue(new Staff("S1", "Staff 1", "abc123", "abc123"));
-         flowerList.enqueue("Rose");
-         flowerList.enqueue("White Rose");
-         flowerList.enqueue("Sunflower");
-         flowerList.enqueue("Lily");
+//         flowerList.enqueue("Rose");
+//         flowerList.enqueue("White Rose");
+//         flowerList.enqueue("Sunflower");
+//         flowerList.enqueue("Lily");
+        FlowerInventory flowerInventory = new FlowerInventory(100001, "Rose", "Happy Flower make you very 7 happy", "Alstromeria", 100, 50, "21-12-2018");
+        flowerStack.add(flowerInventory);
+        flowerInventory = new FlowerInventory(100002, "White Rose", "Happy Flower make you very 7 happy", "Alstromeria", 100, 50, "21-12-2018");
+        flowerStack.add(flowerInventory);
+        flowerInventory = new FlowerInventory(100003, "Sunflower", "Happy Flower make you very 7 happy", "Alstromeria", 100, 50, "21-12-2018");
+        flowerStack.add(flowerInventory);
+        flowerInventory = new FlowerInventory(100003, "Lily", "Happy Flower make you very 7 happy", "Alstromeria", 100, 50, "21-12-2018");
+        flowerStack.add(flowerInventory);  
          arrangementList.enqueue("Elliptical flower arrangement");
          arrangementList.enqueue("Vertical flower arrangement");
          arrangementList.enqueue("The crescent flower arrangement");
@@ -252,7 +270,6 @@ public class Testing {
         System.out.printf("Username        : ");
          custUsername = sc.nextLine();
         
-         if(custUsername.isEmpty()){
         do{
             if(custUsername.isEmpty()){
                System.out.println("Please enter your Username !");
@@ -260,7 +277,6 @@ public class Testing {
                custUsername = sc.nextLine();              
             }
         }while((custUsername.isEmpty()));
-         }
            
          System.out.printf("Password        : ");
          custPassword = sc.nextLine();
@@ -359,18 +375,391 @@ public class Testing {
         System.out.println("1. Customer/Corporate Consumer Maintenence");
         System.out.println("2. Maintain Product Information");
         System.out.println("3. Maintain Promotion");
-        System.out.println("4. Order Pickup");
-        System.out.println("5. Booking for flowers");
+        System.out.println("4. Order Pickup/Delivery and Consumer Payment Management");
         System.out.println("=======================================================");
         
         System.out.printf("Please enter number to select the option:  ");
         selection = scan.nextInt();
         switch(selection){
             case 1:CustMaintenence();break;
-            case 5:Booking();break;           
+            case 2:MaintainCatalog.MaintainCatalogMenu();break;
+            case 3: Promotion();break;
+            case 4:OrderPickup();break;          
         }
      }
      
+     public static void Promotion() throws AWTException, CloneNotSupportedException{
+                 initFlower();
+        int totalItem=0;
+        int id=0;
+        id=promotionItem.pop().getPromotionID();
+        totalItem=flowerStack.getNumberOfEntries();
+        
+        LocalDateTime now = LocalDateTime.now();
+        int currentYear=now.getYear();
+        int currentMonth=now.getMonthValue();
+        int currentDay=now.getDayOfMonth();
+        String CombineAll= currentDay + ("-") + currentMonth + ("-") + currentYear;
+        
+        
+        //System.out.print(CombineAll);
+        
+        String line = new String(new char[90]).replace('\0', '-');
+         String line2 = new String(new char[90]).replace('\0', '=');
+        Scanner scan=new Scanner(System.in);
+        boolean existingPromotion=false;
+        
+        
+        int promotionID=0;// testing
+        promotionID=id+1;
+        //Start
+        System.out.println("Creating Promotion");
+        //Title
+                System.out.println("Please enter year of the product promotion");
+                int dateYear;
+                do
+                {
+                    dateYear=scan.nextInt();
+                    if(currentYear>dateYear)
+                    {
+                        System.out.println("Input Year must greater then current year");
+                    }  
+                }while(currentYear>dateYear);
+                System.out.println("Please enter month of the product promotion(1-12)");
+                int dateMonth ;
+                do
+                {
+                    dateMonth=scan.nextInt();
+                    if(currentYear==dateYear && currentMonth>dateMonth || dateMonth>13)
+                    {
+                        System.out.println("Please enter valid month");
+                    }
+                }while(currentYear==dateYear && currentMonth>dateMonth || dateMonth>13);
+                
+                System.out.println("Please enter the promotion title");
+                String title=scan.next();
+                
+                
+        int count=0;
+        for(int a=1;a<=totalItem;a++)
+        {count++;
+            System.out.println( count +" "+ flowerStack.getEntry(a).getProductID() + " " + flowerStack.getEntry(a).getProductName() +" " + flowerStack.getEntry(a).getProductCategory() + " " +
+            flowerStack.getEntry(a).getProductQuantity() + " " + flowerStack.getEntry(a).getProductWarningLvl() + " " + flowerStack.getEntry(a).getCombineAll());
+        }       
+
+            System.out.println("Please select item(index number) for promotion");
+            int select=0;
+            do
+        {
+            select= scan.nextInt();
+            if(select>count)
+            {
+                System.out.println("Please Re-enter");
+            }
+        }while(select>count);
+            System.out.println("Please Enter Discount %");
+            int discount = scan.nextInt();
+            
+            System.out.println("To confirm please press 99 or 00 to cancel : ");
+                System.out.println("");
+                int confirm=scan.nextInt();
+                if(confirm ==99)
+                {
+                    PromotionDomain p=new PromotionDomain(promotionID,title,dateMonth,dateYear,discount,flowerStack.getEntry(select).getProductID());
+                    promotionItem.push(p);
+                    System.out.println("\n\n\n");
+                    System.out.println("Pomotion ID = " + promotionItem.pop().getPromotionID());
+                    System.out.println("Pomotion Name = " + title );
+                    System.out.println("Pomotion Year = " + dateYear);
+                    System.out.println("Pomotion Month = " + dateMonth);
+                    System.out.println("Pomotion Discount = " + discount);
+                    System.out.println("Product ID = " + flowerStack.getEntry(select).getProductID());
+                 System.out.println("Item sucessfully added to month promotion list");
+                }
+                if(confirm == 00)
+                {
+                 System.out.println("The selected item is canceled");
+                }
+ 
+    }
+     
+     
+     public static void OrderPickup() throws AWTException, CloneNotSupportedException{
+        int selection;
+        String cont;
+        Scanner myScanner = new Scanner(System.in);
+        do{
+            System.out.println("Welcome to Fiore Flowershop");
+            System.out.println("---------------------------------");
+            System.out.println("Selection of process");
+            System.out.println("1. View Delivery Order List");
+            System.out.println("2. Select Efficient Route");
+            System.out.println("3. View Pickup Order List");
+            System.out.println("4. Update Pickup Status");
+            System.out.println("5. Check Payment Status");
+            System.out.println("6. Update Payment Status");
+            System.out.println("7. Exit");
+            System.out.print("Selection : ");
+        	selection = myScanner.nextInt();
+        	if(selection < 1 || selection > 6){
+        		System.out.println("Wrong Selection. Please select again.");
+        	}
+        switch(selection){
+        	case 1: ViewDeliveryOrderList();break;
+        	case 2: SelectEfficientRoute();break;
+        	case 3: ViewPickupOrderList();break;
+        	case 4: UpdatePickupStatus();break;
+        	case 5: CheckPaymentStatus();break;
+                case 6: UpdatePaymentStatus();break;
+        	default: break;
+        }
+        System.out.print("Would you want to retry the selction of process? (YES to continue) :");
+        cont = myScanner.next();
+		}while(cont.toUpperCase().equals("YES"));
+        System.exit(0);
+     }
+     
+         public static void ViewDeliveryOrderList(){
+        Connection myconObj = null;
+        Statement mystatObj = null;
+        ResultSet myresObj = null;
+        String query = "Select * from Delivery" ;
+    try{
+        myconObj = DriverManager.getConnection("jdbc:derby://localhost:1527/MyDataBase","lee", "123");
+        mystatObj = myconObj.createStatement();
+        myresObj = mystatObj.executeQuery(query);
+        System.out.println("=============================================================================================================================================");
+        System.out.printf("%1s %15s %13s %20s %35s %24s", "ORDER ID", "ITEM NAME", "QUANTITY", "ADDRESS", "DELIVERY MAN IN CHARGE", "EFFICIENT ROUTE");
+        System.out.println();
+        System.out.println("=============================================================================================================================================");
+        if(!myresObj.next()){
+            System.out.println("No record found!");
+        }else{
+        
+        while(myresObj.next()){
+            String id = myresObj.getString("OrderId");
+            String itemName = myresObj.getString("ItemName");
+            int quantity = myresObj.getInt("Quantity");
+            String address = myresObj.getString("Address");
+            String deliveryMan = myresObj.getString("DeliveryMan");  
+            String efficientRoute = myresObj.getString("EfficientRoute");
+            System.out.println(id+"\t\t"+ itemName +"\t"+ quantity +"\t" + address +"\t\t"+ deliveryMan +"\t\t" + efficientRoute);
+        }
+        }
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
+            //int count = myresObj.getInt(query);
+            //System.out.println("MyTable has " + count + " row(s).");
+            System.out.println("Press 0 to exit, 1 to continue: ");     
+    }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+         
+         public static void UpdatePaymentStatus(){
+            Scanner scan = new Scanner(System.in);
+            DeliveryOrderListControl deliveryControl = new DeliveryOrderListControl();
+            int chooseStatus;
+            int status;
+            int choice;
+            int back;
+            String choosenStatus = null;
+            DeliveryOrderList delivery = new DeliveryOrderList();
+            QueueInterface<DeliveryOrderList> viewAll = deliveryControl.getAllDeliveryOrderList();
+            for(int i = 0; i < viewAll.totalLength(); i++){
+                if(viewAll.getItem(i).getPaymentStatus() == null || viewAll.getItem(i).getPaymentStatus().equals("Not Yet")){          
+                  System.out.println(i+1 + ") " + viewAll.getItem(i).getOrderId() + "\n");
+                }
+            }
+                System.out.print("Please choose the payment status you want to update the status: ");
+                chooseStatus = scan.nextInt();
+                delivery = viewAll.getItem(chooseStatus - 1);
+                System.out.println("1. Already");
+                System.out.println("2. Not Yet");
+                System.out.print("What type of pickup status you want to update for " + delivery.getOrderId() + ": ");
+                status = scan.nextInt();
+                    switch (status) {
+                        case 1:
+                            choosenStatus = "Already";
+                            break;
+                        case 2:
+                            choosenStatus = "Not Yet";
+                            break;
+                            default:
+                            System.out.println("Error");
+                            //StaffSelection();
+                            break;
+                    }
+                        System.out.print("Are you sure? (1 to continue, 0 to return to menu): ");
+                        choice = scan.nextInt();
+                        if(choice == 1){
+                            deliveryControl.updatePaymentStatus(new DeliveryOrderList(delivery.getOrderId(), delivery.getItemName(), delivery.getQuantity(), delivery.getAddress(), delivery.getDeliveryMan(), delivery.getEfficientRoute(), delivery.getPickupDate(), delivery.getPickupTime(), delivery.getPickupStatus(), delivery.getPaymentAmount(), choosenStatus));
+                        }
+         }
+    public static void ViewPickupOrderList(){
+    	Scanner scan = new Scanner(System.in);
+        Connection myconObj = null;
+        Statement mystatObj = null;
+        ResultSet myresObj = null;
+        String query = "Select * from lee.Delivery" ;
+    try{
+        myconObj = DriverManager.getConnection("jdbc:derby://localhost:1527/MyDataBase","lee", "123");
+        mystatObj = myconObj.createStatement();
+        myresObj = mystatObj.executeQuery(query);
+        System.out.println("====================================================================================================================");
+        System.out.printf("%1s %15s %19s %21s %17s %20s", "ORDER ID", "ITEM NAME", "PICKUP DATE", "PICKUP TIME", "QUANTITY", "PICKUP STATUS");
+        System.out.println();
+        System.out.println("====================================================================================================================");
+        while(myresObj.next()){
+            String id = myresObj.getString("OrderId");
+            String itemName = myresObj.getString("ItemName");
+            Date date = myresObj.getDate("PickupDate");
+            Date time = myresObj.getTime("PickupTime");
+            int quantity = myresObj.getInt("Quantity");
+            String pickupStatus = myresObj.getString("PickupStatus");     
+            System.out.println(id+"\t\t"+ itemName +"\t "+ date +"\t\t" + time +"\t\t"+ quantity +"\t\t" +pickupStatus);
+        }
+            System.out.println("--------------------------------------------------------------------------------------------------------------------");
+            System.out.println("The Total Number of Order have been Pickup: 1");   
+                    
+            System.out.println("Press 0 to exit, 1 to continue: ");     
+    }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public static void CheckPaymentStatus(){
+    	Scanner scan = new Scanner(System.in);
+        Connection myconObj = null;
+        Statement mystatObj = null;
+        ResultSet myresObj = null;
+        String query = "Select * from Delivery" ;
+    try{
+        myconObj = DriverManager.getConnection("jdbc:derby://localhost:1527/MyDataBase","lee", "123");
+        mystatObj = myconObj.createStatement();
+        myresObj = mystatObj.executeQuery(query);
+        System.out.println("===================================================================================================");
+        System.out.printf("%1s %15s %19s %23s %22s", "ORDER ID", "ITEM NAME", "QUANTITY", "PAYMENT AMOUNT", "PAYMENT STATUS");
+        System.out.println();
+        System.out.println("===================================================================================================");
+        while(myresObj.next()){
+            String id = myresObj.getString("OrderId");
+            String itemName = myresObj.getString("ItemName");
+            int quantity = myresObj.getInt("Quantity");
+            Double paymentAmount = myresObj.getDouble("PaymentAmount");
+            String paymentStatus = myresObj.getString("PaymentStatus");     
+            System.out.println(id+"\t\t"+ itemName +"\t\t"+ quantity +"\t\t" + "RM" + String.format("%.2f", paymentAmount) +"\t\t\t"+ paymentStatus);
+        }
+            System.out.println("---------------------------------------------------------------------------------------------------");
+            System.out.println("The totol order haven't been paid: 2"); 
+           
+            System.out.println("Press 0 to exit, 1 to continue: ");     
+    }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+        
+        public static void SelectEfficientRoute() throws AWTException, CloneNotSupportedException{
+          efficientRoute.enqueue("Ampang Road     (2km)");
+          efficientRoute.enqueue("Bangsar Road    (7km)");
+          efficientRoute.enqueue("Chow Kit Road   (10km)");
+          efficientRoute.enqueue("Campbell Road   (12km)");
+          efficientRoute.enqueue("Batu Road       (15km)");
+          efficientRoute.enqueue("Yap Ah Loy Road (18km)");
+          DeliveryOrderList delivery = null;
+          DeliveryOrderListControl deliveryControl = new DeliveryOrderListControl();
+          QueueInterface<DeliveryOrderList> viewData = deliveryControl.getAllDeliveryOrderList();
+          char select;
+          Scanner scan = new Scanner(System.in);
+          do{
+            for(int i = 0; i < viewData.totalLength(); i++){
+                if(viewData.getItem(i).getDeliveryMan() == null){           
+                    System.out.println(i+1 + ") " + viewData.getItem(i).getAddress() + "\n");
+              }
+          }
+          System.out.print("Please choose the efficient route you want to choose: ");
+          int route = scan.nextInt();
+          if(route > viewData.totalLength()){
+              System.out.println("Error");
+//              menu();
+          }
+          delivery = viewData.getItem(route - 1);
+
+          efficientRoute.displayItem();
+          System.out.print("Please select your efficient route: ");
+          int selection = scan.nextInt();
+          System.out.print("Your selection: " + efficientRoute.getItem(selection - 1));
+
+          System.out.print(delivery + "\nYou may take the " + efficientRoute.getItem(selection - 1) + " to deliver.\nAre you sure(y/n): ");
+          select = scan.next().charAt(0);
+          if(select == 'y'){
+              deliveryControl.updateDeliveryOrderList(new DeliveryOrderList(delivery.getOrderId(),delivery.getItemName(),delivery.getQuantity(),delivery.getAddress(),delivery.getDeliveryMan(),efficientRoute.getItem(selection - 1),delivery.getPickupDate(),delivery.getPickupTime(),delivery.getPickupStatus(),delivery.getPaymentAmount(),delivery.getPaymentStatus()));
+          }
+          }while (select != 'y');
+        System.out.print("Press 0 to exit, 1 to continue: ");
+        int last = scan.nextInt();
+        switch (last) {
+            case 0:
+                System.exit(0);
+            case 1:
+                //Selection();
+                break;
+            default:
+                System.out.println("Error");
+                System.exit(0);
+                break;
+        }          
+      }
+        
+        public static void UpdatePickupStatus() throws AWTException, CloneNotSupportedException{
+            Scanner scan = new Scanner(System.in);
+            DeliveryOrderListControl deliveryControl = new DeliveryOrderListControl();
+            int chooseStatus;
+            int status;
+            int choice;
+            int back;
+            String choosenStatus = null;
+            DeliveryOrderList delivery = new DeliveryOrderList();
+            QueueInterface<DeliveryOrderList> viewAll = deliveryControl.getAllDeliveryOrderList();
+            for(int i = 0; i < viewAll.totalLength(); i++){
+                if(viewAll.getItem(i).getPickupStatus() == null){          
+                  System.out.println(i+1 + ") " + viewAll.getItem(i).getOrderId() + "\n");
+                }
+            }
+                System.out.print("Please choose the pickup status you want to update the status: ");
+                chooseStatus = scan.nextInt();
+                delivery = viewAll.getItem(chooseStatus - 1);
+                System.out.println("1. Already");
+                System.out.println("2. Not Yet");
+                System.out.print("What type of pickup status you want to update for " + delivery.getOrderId() + ": ");
+                status = scan.nextInt();
+                    switch (status) {
+                        case 1:
+                            choosenStatus = "Already";
+                            break;
+                        case 2:
+                            choosenStatus = "Not Yet";
+                            break;
+                            default:
+                            System.out.println("Error");
+                            //StaffSelection();
+                            break;
+                    }
+                        System.out.print("Are you sure? (1 to continue, 0 to return to menu): ");
+                        choice = scan.nextInt();
+                        if(choice == 1){
+                            deliveryControl.updatePickupOrderList(new DeliveryOrderList(delivery.getOrderId(), delivery.getItemName(), delivery.getQuantity(), delivery.getAddress(), delivery.getDeliveryMan(), delivery.getEfficientRoute(), delivery.getPickupDate(), delivery.getPickupTime(), choosenStatus, delivery.getPaymentAmount(), delivery.getPaymentStatus()));
+                        }
+                      /*      System.out.print("1 to return to staff menu, 0 to exit: ");
+                            back = scan.nextInt();
+                        switch(back){
+                            case 0: System.exit(0);break;
+                            case 1: StaffSelection();break;
+                            default: System.out.println("Error");System.exit(0);break;
+                        }*/
+        }     
      public static void CustMaintenence() throws AWTException, CloneNotSupportedException{
         Scanner scan = new Scanner(System.in);
         int selection;
@@ -408,6 +797,8 @@ public class Testing {
                   
                   System.out.print(i+1 + ") " + viewAll.getItem(i).getCustName() + "\n");
               }
+                
+//                System.out.print(i+1 + ") " + viewAll.pop().getCustId() + "\n");
           }
          System.out.print("Please choose the customer you want to update the status: ");
          chooseStatus = scan.nextInt();
@@ -486,6 +877,8 @@ public class Testing {
          for(int i = 0; i < viewAll.getLength(); i++){
               if(viewAll.getItem(i).getStatus().equals("Corporate")){
                   System.out.println(i+1 + ") " + viewAll.getItem(i).getCustName() + " -------> Credit Left: " + viewAll.getItem(i).getCreditLimit() +"\n");
+              }else if(viewAll.getItem(i).getStatus() == null){
+                  
               }
           }
          System.out.print("1 to return to staff menu, 0 to exit: ");
@@ -563,11 +956,13 @@ public class Testing {
         Scanner scan = new Scanner(System.in);
         System.out.println("1. Customized Flower Order");
         System.out.println("2. Select Pick Up Priority"); 
+        System.out.println("3. Itemized Bill");
         System.out.printf("Please enter number to select the option:  ");
         int select = scan.nextInt();
         switch(select){
             case 1: CustomizedFlower();break;
             case 2: PickUpPriority();break;
+            case 3: ItemizedBill();break;
         }
      }
         
@@ -710,9 +1105,15 @@ public class Testing {
         String priority = null;
         String productId;
         String id;
+        String bookingId;
         Booking item = null;
+        boolean check = true;
+        DeliveryOrderListControl deliveryControl = new DeliveryOrderListControl();
+        QueueInterface<DeliveryOrderList> viewDelivery = deliveryControl.getAllDeliveryOrderList();
         char back = 'n';
         QueueFlowerCustomizedInterface<FlowerCustomized> flowerCust = new QueueFlowerCustomized<>();
+        FlowerCustomizedControl flowerControl = new FlowerCustomizedControl();
+        QueueFlowerCustomizedInterface<FlowerCustomized> viewData = flowerControl.getAllProduct();
         do{
         do {
             id = FlowerCustomized.generateID(index);
@@ -724,22 +1125,22 @@ public class Testing {
         ArrayInterface<Booking> viewAll = bookCont.getAllProduct();
          for(int i = 0; i < viewAll.length(); i++){
               if(viewAll.getData(i).getCustId().equals(currentUser.getCustId())){
-                        System.out.println(i+1 + ") " + viewAll.getData(i).getBookingId() + "\n");
+                  for(int j = 0; j < viewData.size(); j++){
+                      if(viewData.getItem(j).getBookingId().equals(viewAll.getData(i).getBookingId())){
+                          check = false;
+                            break;
+                      }
+//                        System.out.println(i+1 + ") " + viewAll.getData(i).getBookingId() + "\n");
+                  }
+                  if(check == true){
+                      System.out.println(i+1 + ") " + viewAll.getData(i).getBookingId() + "\n");
+                  }
 //                          item = viewAll.getData(i);
               }
           }
          System.out.println("Please Choose the order you wanted to customized: ");
          int orderChoose = scan.nextInt();
          book = viewAll.getData(orderChoose - 1);
-//        String[] flowerType = {"Elliptical flower arrangement", "Vertical flower arrangement", "The crescent flower arrangement"
-//        , "The 'S' shaped flower arrangement"};
-//        String[] flowerSize = {"Small", "Intermediate", "Big"};
-        //String[] flower = {"Lily", "Rose", "Sunflower", "White Rose"};
-//        String[] accessories = {"Double Artificial Holly Berry Stamens", "Bouquet Holder", "No need"};
-//        String decisionFlowerType = "";
-//        String decisionFlowerSize = "";
-//        String decisionFlower = "";
-//        String decisionAccessories = "";
         System.out.println("Type of flower arrangement style");
         //1. Choose the flower arrangement type
         arrangementList.displayItem();
@@ -749,56 +1150,22 @@ public class Testing {
         int selection1 = scan.nextInt();
         
         //initialise the selection from user into the decisionFlowerType
-//        switch(selection1){
-//            case 1: decisionFlowerType = flowerType[0];break;
-//            case 2: decisionFlowerType = flowerType[1];break;
-//            case 3: decisionFlowerType = flowerType[2];break;
-//            case 4: decisionFlowerType = flowerType[3];break;  
-//            default: System.out.println("Error");System.exit(0);break;
-//        }
-//        
+
         //2. Choose the flower arrangement size
         sizeList.displayItem();
-//        for(int i = 0; i < flowerSize.length; i++){
-//            System.out.println(i+1 + ") " + flowerSize[i]);
-//        }
+
         System.out.print("Step 2: Please choose the arrangement size from above: ");
         int selection2 = scan.nextInt();
-//        switch(selection2){
-//            case 1: decisionFlowerSize = flowerSize[0];break;
-//            case 2: decisionFlowerSize = flowerSize[1];break;
-//            case 3: decisionFlowerSize = flowerSize[2];break;
-//            default: System.out.println("Error");System.exit(0);break;    
-//        }
-        
-        //3. Choose the Flower
-//        for(int i = 0; i < flower.length; i++){
-//            System.out.println(i+1 + ") " + flower[i]);
-//        }
-        flowerList.displayItem();
+
+        for(int a=1;a<=flowerStack.getNumberOfEntries();a++)
+        {
+            System.out.println(a +") " + flowerStack.getEntry(a).getProductName());
+        }  
         System.out.print("Step 3: Please choose the flower you want from above: ");
         int selection3 = scan.nextInt();
-//        switch(selection3){
-//            case 1: decisionFlower = flowerList.getItem(0);break;
-//            case 2: decisionFlower = flowerList.getItem(1);break;
-//            case 3: decisionFlower = flowerList.getItem(2);break;
-//            case 4: decisionFlower = flowerList.getItem(3);break;  
-//            default: System.out.println("Error");System.exit(0);break;
-//        }
-        
-        //4. Select Accessories
         accessoryList.displayItem();
-//        for(int i = 0; i < accessories.length; i++){
-//            System.out.println(i+1 + ") " + accessories[i]);
-//        }
         System.out.print("Step 4: Please choose the accessories that you want to put from above: ");
         int selection4 = scan.nextInt();
-//        switch(selection4){
-//            case 1: decisionAccessories = accessories[0];break;
-//            case 2: decisionAccessories = accessories[1];break;
-//            case 3: decisionAccessories = accessories[2];break;
-//            default: System.out.println("Error");System.exit(0);break;
-//        }
         
         //Show the customized summary and comfirm with user
         System.out.printf("\nYour selection is: " + "\nFlower Arrangement Type: " + arrangementList.getItem(selection1 - 1) + "\nFlowerSize: " 
@@ -808,6 +1175,11 @@ public class Testing {
         if(select == 'y'){
             flowerCust.enqueue(new FlowerCustomized(productId,arrangementList.getItem(selection1 - 1),sizeList.getItem(selection2 - 1),flowerList.getItem(selection3 - 1),accessoryList.getItem(selection4 - 1),priority, book.getBookingId()));
             flowerCustomizedDA.addFlower(flowerCust.dequeue());
+            do {
+                 bookingId = DeliveryOrderList.generateID(index);
+            index++;
+        } while (deliveryControl.getDeliveryOrderList(bookingId) != null);
+            deliveryControl.addDeliveryOrderList(new DeliveryOrderList(bookingId, flowerList.getItem(selection3 - 1), book.getQuantity(), book.getAddress(), "Daniel Lee", null, book.getDate(), book.getTime(), null, 0.00, null, book.getBookingId()));
         }
         System.out.print("Do you want to customize another order?: ");
         back = scan.next().charAt(0);
@@ -828,78 +1200,7 @@ public class Testing {
         
     }
       
-//      public static void SetCreditLimit()throws AWTException, CloneNotSupportedException{
-//          Scanner scan = new Scanner(System.in);
-//        
-//        String [] coporateDetails = {"1. Company SellYou", "2. Company BuyYou", "3. Company CIaoYou", "4. Company DiaoYou"};
-//        for(int i = 0; i < coporateDetails.length; i++){
-//            System.out.println(coporateDetails[i]);
-//        }
-//        
-//        int choice;
-//        int creditLimit;
-//        
-//        System.out.print("Enter Your Choice (in number): ");
-//        choice = scan.nextInt();
-//        if(choice > coporateDetails.length){
-//            System.out.println("Error");
-//            System.exit(0);
-//        }
-//        
-//        System.out.println("You have Selected : " + coporateDetails[choice -1]);
-//        
-//        System.out.print("Enter Your Credit Limit For Selected Company: ");
-//        creditLimit = scan.nextInt();
-//        
-//        System.out.println("You Have Set The Credit Limit to (RM): " + creditLimit);
-//        System.out.println("Press 0 to exit, 1 to continue: ");
-//        int last = scan.nextInt();
-//        switch (last) {
-//            case 0:
-//                System.exit(0);
-//            case 1:
-//                CustomizedFlowerMenu();
-//                break;
-//            default:
-//                System.out.println("Error");
-//                System.exit(0);
-//                break;
-//        }
-//      }
-      
-      public static void PickUpOrder()throws AWTException, CloneNotSupportedException{
-          Scanner scan = new Scanner(System.in);
-          List<PickUpOrder> pick = new ArrayList<PickUpOrder>();
-    pick.add(new PickUpOrder("OR001", "Flower 1", "12/07/2018", "13:00", "34", ""));
-    pick.add(new PickUpOrder("OR002", "Flower 2", "13/07/2018", "15:00", "13", "Already"));
-    pick.add(new PickUpOrder("OR003", "Flower 3", "14/07/2018", "17:00", "50", ""));
- 
-    System.out.println("---------------------------------------------------------------------------------------------------------");
-    System.out.printf("%10s %20s %20s %20s %15s %10s", "ORDER ID", "ITEM NAME", "PICKUP DATE", "PICKUP TIME", "QUALITY", "STATUS");
-    System.out.println();
-    System.out.println("---------------------------------------------------------------------------------------------------------");
-    for(PickUpOrder picks: pick){
-        System.out.format("%10s %20s %20s %16s %15s %15s",
-                picks.getOrderId(), picks.getItemName(), picks.getDate(), picks.getTime(), picks.getQuality(), picks.getStatus());
-        System.out.println();
-    }
-    System.out.println("---------------------------------------------------------------------------------------------------------");
-    
-    System.out.println("The totol number of order has been picked up: 1");
-            System.out.println("Press 0 to exit, 1 to continue: ");
-        int last = scan.nextInt();
-        switch (last) {
-            case 0:
-                System.exit(0);
-            case 1:
-                Selection();
-                break;
-            default:
-                System.out.println("Error");
-                System.exit(0);
-                break;
-        }
-      }
+     
       
       public static void PickUpPriority() throws AWTException, CloneNotSupportedException{
 //          String[] priority = {"Express (Highest)", "Normal", "Flexi (Lowest)"};
@@ -910,17 +1211,9 @@ public class Testing {
           FlowerCustomizedControl flowerControl = new FlowerCustomizedControl();
           QueueFlowerCustomizedInterface<FlowerCustomized> viewData = flowerControl.getAllProduct();
           
-          /*String flowerType = type;
-          String flowerSize = size;
-          String flowerName = flower;
-          String flowerAccessories = accessories;*/
           char select;
           Scanner scan = new Scanner(System.in);
           do{
-//          for(int i = 0; i<flowerCustomized.length; i++){
-//              System.out.println(i+1 + ") " + flowerCustomed[i].toString());
-//          }
-//          flowerCustomized.getFlowerAccessory();
           for(int i = 0; i < viewData.size(); i++){
               if(viewData.getItem(i).getPickUpPriority() == null){
                   
@@ -934,26 +1227,10 @@ public class Testing {
               menu();
           }
           flower = viewData.getItem(order - 1);
-//          if(order > flowerCustomed.length){
-//              System.out.println("Error");
-//              System.exit(0);
-//          }
-//          System.out.println("1. " + priority[0]);
-//          System.out.println("2. " + priority[1]);
-//          System.out.println("3. " + priority[2]);
           priorityList.displayItem();
           System.out.print("Please select your pick up priority: ");
           int selection = scan.nextInt();
           System.out.print("Your selection: " + priorityList.getItem(selection - 1));
-//          switch(selection){
-//              case 1: System.out.println(priority[0]);break;
-//              case 2: System.out.println(priority[1]);break;
-//              case 3: System.out.println(priority[2]);break;
-//              default:System.out.println("Error");System.exit(0);
-//          }
-          /*System.out.printf("\nYour Flower Arrangement Type: " + flowerType + "\nFlowerSize: " 
-                + flowerSize + "\nFlower Type: " +
-                flowerName + "\nAccessories: " + flowerAccessories + "\nThey will be in " + priority[selection - 1] + " priority.\nAre you sure(y/n): ");*/
           System.out.print(flower + "\nThey will be in " + priorityList.getItem(selection - 1) + " priority.\nAre you sure(y/n): ");
           select = scan.next().charAt(0);
           if(select == 'y'){
@@ -1047,118 +1324,6 @@ public class Testing {
                 break;
         }
       }
-     
-      public static void Report() throws AWTException, CloneNotSupportedException{
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Monthly Report of November");
-        
-        String [] CustReport = {"C001       James       FlowerA       200.00", "C002       Lim       FlowerB       600.00","C003       Daniel       FlowerC      500.00","C004       Ali       FlowerA       250.00"};
-        System.out.println("InvoiceID  CustName    Flower Tpye    Price");
-        System.out.println("============================================");
-        for(int i = 0; i < CustReport.length; i++){
-            System.out.println(CustReport[i]);
-        }
-        System.out.print("Press 0 to exit, 1 to go to main menu: ");
-        int select = scan.nextInt();
-        switch (select) {
-            case 0:
-                attachShutDownHook();
-            case 1:
-                //Selection();
-                break;
-            default:
-                System.out.println("Error");
-                attachShutDownHook();
-                break;
-        }
-      }
-      
-      public static void DeliveryList() throws AWTException, CloneNotSupportedException{
-            Scanner scan = new Scanner(System.in);
-            DeliveryOrderList[] d = new DeliveryOrderList[6];
-            d[0] = new DeliveryOrderList("D0L0001", "445 Mount Eden Road, Mount Eden, Malaysia", 107.80, "Allium roseum", "Daniel Lee");
-            d[1] = new DeliveryOrderList("D0L0002", "21 Greens Road RD 2 Ruawai 0592", 70.65, "Daffodil", "Cheng Jiun");
-            d[2] = new DeliveryOrderList("D0L0003", "Main Highway Otaki; 32 Wilson Street", 120.40, "Delphinium", "Yen Khai");
-            d[3] = new DeliveryOrderList("D0L0004", "PO Box 39100, Howick", 50.30, "Delphinium", "Jasmine Lee");
-            d[4] = new DeliveryOrderList("D0L0005", "CMB C5, Huntly", 200.50, "Delphinium", "Tuck Wai");
-            d[5] = new DeliveryOrderList("D0L0006", "Lot 12 Via Cola Rie", 150.30, "Delphinium", "Han Wen");
-
-            for(int i=0; i < d.length; i++){
-                System.out.println(d[i].toString());
-            }
-            System.out.println("\nTotal Number of Delivery Order List:" + DeliveryOrderList.totalList);
-            
-            System.out.print("Press 0 to exit, Press 1 to continue: ");
-            int select = scan.nextInt();
-            switch (select) {
-            case 0:
-                attachShutDownHook();break;
-            case 1:
-                //Selection();
-                break;
-            default:
-                System.out.println("Error");
-                attachShutDownHook();
-                break;
-        }
-      }
-      
-      public static void Corporate() throws AWTException, CloneNotSupportedException{
-          Scanner scan = new Scanner(System.in);
-          System.out.println("Enter the customer'name that want to update as corporate customer");
-          while(scan.hasNextLine()){
-          String loginCust= scan.nextLine();
-          boolean login = false;
-        
-        try{
-            for(int i = 0; i < custList.length(); i++){
-                if(custList.getData(i) != null){
-                    if((loginCust.equals(custList.getData(i).getCustName()))){
-                        currentUser = custList.getData(i);
-                        login = true;
-                        break;                        
-                    }
-                }
-            }
-        }catch(Exception e){         
-        }
-      
-      if(login == true){
-            System.out.println("Verify Success");
-            System.out.println("Are you sure want to update " +  custList.getData(0).getCustName() + " as a corporate customer");
-            System.out.print("Press 1 to yes, 0 to cancel: ");
-        int select = scan.nextInt();
-        switch (select) {
-            case 1:
-                System.out.println("Update " + custList.getData(0).getCustName() +"as corporate customer successful");
-                System.out.print("Press 1 to update more corporate customer, 0 to go back main menu: ");
-                int choose = scan.nextInt();
-            switch (choose) {
-            case 0:
-                attachShutDownHook();break;
-            case 1:
-                Corporate();
-                break;
-            default:
-                System.out.println("Error");
-                attachShutDownHook();;
-                break;
-                        }
-            case 0:
-                System.out.println("Update fail!");
-                Selection();
-            default:
-                System.out.println("Error");
-                attachShutDownHook();
-                break;
-        }}else{
-            System.out.println("Verify Unsuccessful");
-            System.out.println("Please try again!");
-            Corporate();
-        }
-       }   
-       
-}
       
       public static void MonthlyPromotion() throws AWTException, CloneNotSupportedException{
           LocalDateTime now = LocalDateTime.now();
@@ -1380,134 +1545,7 @@ public class Testing {
         
     }     
           
-      
-      public static void PaymentList() throws AWTException, CloneNotSupportedException{
-          Scanner scan = new Scanner(System.in);
-        Connection myconObj = null;
-        Statement mystatObj = null;
-        ResultSet myresObj = null;
-        String query = "Select * from lee.MyTable" ;
-    try{
-        myconObj = DriverManager.getConnection("jdbc:derby://localhost:1527/MyDataBase","lee", "123");
-        mystatObj = myconObj.createStatement();
-        myresObj = mystatObj.executeQuery(query);
-        System.out.println("--------------------------------------------------------------------------------------------------------------------------------");
-        System.out.printf("%1s %15s %19s %18s %13s %21s %22s", "ORDER ID", "ITEM NAME", "PICKUP DATE", "PICKUP TIME", "QUANTITY", "Payment Amount", "Payment Status");
-        System.out.println();
-        System.out.println("--------------------------------------------------------------------------------------------------------------------------------");
-        while(myresObj.next()){
-            String id = myresObj.getString("OrderId");
-            String itemName = myresObj.getString("ItemName");
-            Date pickupDate = myresObj.getDate("PickupDate");
-            String pickupTime = myresObj.getString("PickupTime");
-            int quantity = myresObj.getInt("Quantity");
-            double paymentAmount = myresObj.getDouble("PaymentAmount");
-            String paymentStatus = myresObj.getString("PaymentStatus");     
-            System.out.println(id+"\t\t"+ itemName +"\t "+ pickupDate +"\t\t" + pickupTime +"\t\t"+ quantity +"\t\t"+ "RM"+ String.format("%.2f", paymentAmount) +"\t\t\t"+ paymentStatus);
-        }
-        System.out.println("-------------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("The totol order has been paid on 12/07/2018: 3");     
-        System.out.println("The totol order haven't been paid on 12/07/2018: 2");
-         System.out.println("Press 0 to exit, 1 to continue: ");
-        int last = scan.nextInt();
-        switch (last) {
-            case 0:
-                attachShutDownHook();break;
-            case 1:
-                Selection();
-                break;
-            default:
-                System.out.println("Error");
-                attachShutDownHook();
-                break;
-        }   
-    }
-    catch(SQLException e){
-        e.printStackTrace();
-    }
- /*
-        List<PaymentDetails> payDetails = new ArrayList<PaymentDetails>();
-        payDetails.add(new PaymentDetails("OR001", "Flower 1", "12/07/2018", "13:00", "34",34.00, "Paid"));
-        payDetails.add(new PaymentDetails("OR002", "Flower 2", "12/07/2018", "15:00", "13",34.00, "Paid"));
-        payDetails.add(new PaymentDetails("OR003", "Flower 3", "12/07/2018", "17:00", "50",34.00, "\tNot Yet"));
-        payDetails.add(new PaymentDetails("OR004", "Flower 2", "12/07/2018", "19:00", "22",34.00, "\tNot Yet"));
-        payDetails.add(new PaymentDetails("OR005", "Flower 1", "12/07/2018", "21:00", "41",34.00, "Paid"));
- 
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.printf("%10s %18s %19s %18s %16s %22s %20s", "ORDER ID", "ITEM NAME", "PICKUP DATE", "PICKUP TIME", "QUANTITY", "Payment Amont", "Payment STATUS");
-        System.out.println();
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
-        for(PaymentDetails pay: payDetails){
-            System.out.format("%8s %20s %19s %15s %16s %18s %20s",
-                pay.getOrderId(), pay.getItemName(), pay.getPickDate(), pay.getPickTime(), pay.getQuantity(), pay.getPaymentAmount(), pay.getPaymentStatus());
-            System.out.println();
-        }
-            System.out.println("-------------------------------------------------------------------------------------------------------------------------------------");
-    
-            System.out.println("The totol order has been paid on 12/07/2018: 3");     
-            System.out.println("The totol order haven't been paid on 12/07/2018: 2"); */
-    } 
-      
-      public static void ResetCreditLimit() throws AWTException, CloneNotSupportedException{
-          Scanner scan = new Scanner(System.in);
-        CompanyDetail[] companyDetail = new CompanyDetail[5];
-        companyDetail[0] = new CompanyDetail("Company A", 5000.00, "Not Cleared");
-        companyDetail[1] = new CompanyDetail("Company B", 5000.00, "Not Cleared");
-        companyDetail[2] = new CompanyDetail("Company C", 5000.00, "Not Cleared");
-        companyDetail[3] = new CompanyDetail("Company D", 5000.00, "Not Cleared");  
-        char cont = 'n';
-        //String [] custCreditList = {"1. CompanyA 5000 Payment Not Cleared", "2. CompanyB 5000 Payment Not Cleared", "3. CompanyC 5000 Payment Not Cleared", "4. CompanyD 5000 Payment Not Cleared"};        
-        System.out.println("Monthly Payment Status");
-        System.out.println("========================");
-        do{
-        for(int i = 0; i<companyDetail.length; i++){
-            if(companyDetail[i] != null){
-                System.out.println(i+1 + "." + companyDetail[i].toString());
-            }
-        }
-        System.out.print("Please choose the company: ");
-        int chose = scan.nextInt();
-        
-        System.out.print("Did the company have settle the credit limit before 7th? (y for yes, n for no): ");
-        char confirm = scan.next().charAt(0);
-        if(confirm == 'y'){
-            switch(chose){
-                case 1: companyDetail[0].setCreditLimit(10000.00);companyDetail[0].setPaymentStatus("Cleared");break;
-                case 2: companyDetail[1].setCreditLimit(10000.00);companyDetail[1].setPaymentStatus("Cleared");break;
-                case 3: companyDetail[2].setCreditLimit(10000.00);companyDetail[2].setPaymentStatus("Cleared");break;
-                case 4: companyDetail[3].setCreditLimit(10000.00);companyDetail[3].setPaymentStatus("Cleared");break;
-                default:System.out.println("Error");
-            }
-        }
-        
-                for(int i = 0; i<companyDetail.length; i++){
-            if(companyDetail[i] != null){
-                System.out.println(i+1 + "." + companyDetail[i].toString());
-            }
-        }
-         System.out.print("Do you want to continue?(y/n): ");
-         while(scan.hasNext()){
-         cont = scan.next().charAt(0);
-         }
-        }while(cont == 'y');
-         System.out.println("Press 0 to exit, 1 to continue: ");
-         while(scan.hasNextInt()){
-        int last = scan.nextInt();
-        switch (last) {
-            case 0:
-                attachShutDownHook();break;
-            case 1:
-                Selection();
-                break;
-            default:
-                System.out.println("Error");
-                attachShutDownHook();
-                break;
-        }   
-         }
-    }
-      
-      
+
       public static void ItemizedBill() throws AWTException, CloneNotSupportedException{
 //          FlowerCustomized[] flowerBill = new FlowerCustomized[10];
           /*        String[] flowerType = {"Elliptical flower arrangement", "Vertical flower arrangement", "The crescent flower arrangement"
@@ -1520,7 +1558,12 @@ public class Testing {
 //          flowerBill[1] = new FlowerCustomized("Vertical flower arrangement", "Big", "White Rose", "Bouquet Holder","Express (Highest)");
           FlowerCustomized flower = null;
           FlowerCustomizedControl flowerControl = new FlowerCustomizedControl();
-          QueueFlowerCustomizedInterface<FlowerCustomized> viewData = flowerControl.getAllProduct();          
+          QueueFlowerCustomizedInterface<FlowerCustomized> viewData = flowerControl.getAllProduct();    
+          BookingControl bookingCont = new BookingControl();
+          String bookingId;
+          ArrayInterface<Booking> viewBooking = bookingCont.getAllProduct();
+          DeliveryOrderListControl deliveryControl = new DeliveryOrderListControl();
+        QueueInterface<DeliveryOrderList> viewDelivery = deliveryControl.getAllDeliveryOrderList();
           Scanner scan = new Scanner(System.in);
           double flowerArrangePrice = 0;
           double sizePrice = 0;
@@ -1528,6 +1571,9 @@ public class Testing {
           double accessoriesPrice = 0;
           double pickUpPrice = 0;
           double totalPrice = 0;
+          int index = 1;
+          boolean add = true;
+          Booking bookItem = null;
           
           for(int i = 0; i < viewData.size(); i++){
               if(viewData.getItem(i).getPickUpPriority() != null){
@@ -1541,6 +1587,11 @@ public class Testing {
               menu();
           }
           flower = viewData.getItem(order - 1);
+          for(int i = 0; i < viewBooking.length(); i++){
+              if(viewBooking.getData(i).getBookingId().equals(flower.getBookingId())){
+                  bookItem = viewBooking.getAndRemoveData(i);
+              }
+          }
           //calculate flower arrangement type price
           if(flower.getFlowerType().equals("Elliptical flower arrangement")){
               flowerArrangePrice = 25.00;
@@ -1601,7 +1652,11 @@ public class Testing {
           System.out.println("Pick Up Priority: " + flower.getPickUpPriority() + " ---> RM " + String.format("%.2f", pickUpPrice));
           System.out.println("==================================================================================");
           System.out.println("\t\t\t\t\t\t\t   Total Price: RM"+ String.format("%.2f", totalPrice));
+
+          deliveryControl.updatePaymentAmount(new DeliveryOrderList(totalPrice, flower.getBookingId()));
+
           System.out.print("Press 0 to exit, Press 1 to continue: ");
+          
             int select = scan.nextInt();
             switch (select) {
             case 0:
@@ -1617,11 +1672,7 @@ public class Testing {
           
       }
       
-      private static void MaintainCatalog() throws AWTException, CloneNotSupportedException{
-          //MaintainCatalogUI mainui = new MaintainCatalogUI();
-          MaintainCatalogUI.MaintainCatalogMenu();
-          
-      }
+
       
       }
       

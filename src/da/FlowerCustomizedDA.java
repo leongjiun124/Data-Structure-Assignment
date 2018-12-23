@@ -62,7 +62,7 @@ public class FlowerCustomizedDA {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 s = new FlowerCustomized(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-                        rs.getString(6));
+                        rs.getString(6),rs.getString(7));
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -77,7 +77,7 @@ public class FlowerCustomizedDA {
             stmt = conn.prepareStatement("select * from " + tableName);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                viewAll.enqueue(new FlowerCustomized(rs.getString("customizedID"),rs.getString("arrangementStyle"),rs.getString("arrangementSize"),rs.getString("flowerType"),rs.getString("accessories"),rs.getString("priority")));
+                viewAll.enqueue(new FlowerCustomized(rs.getString("customizedID"),rs.getString("arrangementStyle"),rs.getString("arrangementSize"),rs.getString("flowerType"),rs.getString("accessories"),rs.getString("priority"), rs.getString("bookingId")));
             }
         } catch (SQLException ex) {
             System.out.println(ex);

@@ -92,7 +92,7 @@ public class CustomerMaintainStack<T> implements CustomerMaintainInterface<T> {
         for(int i = 0; i< topIndex; i++){
             if(stackData[i] != null){
                 size++;
-            }
+}
         }
       }
       return size;
