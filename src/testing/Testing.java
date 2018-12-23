@@ -982,7 +982,7 @@ public class Testing {
           ArrayInterface<Booking> booking = new Array<>();
           ArrayInterface<Customer> customer = new Array<>();
           BookingControl bookingControl = new  BookingControl();
-         
+          char back = 'n';
           int index = 1;
           String id;
           int month = cal.get(Calendar.MONTH)+1;          
@@ -995,6 +995,7 @@ public class Testing {
           int price = 0;
           String flower ="";
           int selection = 0;
+          do{
           do {
             id = Booking.generateID(index);
             index++;
@@ -1035,9 +1036,11 @@ public class Testing {
         if(loginAccess == true){
             System.out.println("Verify Successfull!");
             System.out.println("=============================");    
-            flowerList.displayItem();
+            for(int a=1;a<=flowerStack.getNumberOfEntries();a++)
+        {
+            System.out.println(a +") " + flowerStack.getEntry(a).getProductName());
+        }  
             System.out.println("=============================");
-            do{
             System.out.print("Please enter number 1 to 4 to select the flower: ");    
            try{
                 sc = new Scanner(System.in);
@@ -1048,69 +1051,69 @@ public class Testing {
                    flower = "Rose";
                    System.out.println("Each Rose costs RM 2");
                    System.out.println("Enter the quantity that you want to purchase : ");
-                   Rose = input.nextInt();
+                   total = input.nextInt();
                    input.nextLine(); 
-                   price = Rose * 2; 
-                   if(Rose > 100){
+                   price = total * 2; 
+                   if(total > 100){
         do{
-            if(Rose > 100){
+            if(total > 100){
                System.out.println("Purchase amount cannot more than 100 !");
                System.out.println("Enter the quantity that you want to purchase : ");
-                Rose = input.nextInt();
+                total = input.nextInt();
                 input.nextLine(); ;              
             }
-        }while((Rose > 100));
+        }while((total > 100));
          }
                 }else if(selection == 2){
                    flower = "White Rose";
                    System.out.println("Each Rose costs RM 3");
                    System.out.println("Enter the quantity that you want to purchase : ");
-                   whiteRose = input.nextInt();
+                   total = input.nextInt();
                    input.nextLine();
-                   price = whiteRose * 3;
-                   if(whiteRose > 100){
+                   price = total * 3;
+                   if(total > 100){
         do{
-            if(whiteRose > 100){
+            if(total > 100){
                System.out.println("Purchase amount cannot more than 100 !");
                System.out.println("Enter the quantity that you want to purchase : ");
-                whiteRose = input.nextInt();
+                total = input.nextInt();
                 input.nextLine(); ;              
             }
-        }while((whiteRose > 100));
+        }while((total > 100));
          }
                 }else if(selection == 3){
                    flower = "Sunflower";
                    System.out.println("Each Rose costs RM 2");
                    System.out.println("Enter the quantity that you want to purchase : ");
-                   sunFlower = input.nextInt();                   
+                   total = input.nextInt();                   
                    input.nextLine();
-                   price = sunFlower * 2; 
-                   if(sunFlower > 100){
+                   price = total * 2; 
+                   if(total > 100){
         do{
-            if(sunFlower > 100){
+            if(total > 100){
                System.out.println("Purchase amount cannot more than 100 !");
                System.out.println("Enter the quantity that you want to purchase : ");
-                sunFlower = input.nextInt();
+                total = input.nextInt();
                 input.nextLine();              
             }
-        }while((sunFlower > 100));
+        }while((total > 100));
          }
                 }else if(selection == 4){
                    flower = "Lily";
                    System.out.println("Each Lily costs RM 1");
                    System.out.println("Enter the quantity that you want to purchase : ");
-                   Lily = input.nextInt();
+                   total = input.nextInt();
                    input.nextLine(); 
-                   price = Lily * 1;
-                   if(Lily > 100){
+                   price = total * 1;
+                   if(total > 100){
         do{
-            if(Lily > 100){
+            if(total > 100){
                System.out.println("Purchase amount cannot more than 100 !");
                System.out.println("Enter the quantity that you want to purchase : ");
-                Lily = input.nextInt();
+                total = input.nextInt();
                 input.nextLine(); ;              
             }
-        }while((Lily > 100));
+        }while((total > 100));
          }                   
                 }else{
                     System.out.println("Invalid input! Please enter number 1 to 4 only! \n");
@@ -1118,10 +1121,9 @@ public class Testing {
             }catch(InputMismatchException e){
                 System.out.println("Invalid input! Please enter number 1 to 4 only! \n");
             }
-            
+              
             
       
-           total = input.nextInt();
             System.out.println("================================================");
             System.out.println("-----------------Sales Order--------------------"); 
             System.out.println("1.Flower that you pucrhase : " + flower);
@@ -1143,15 +1145,28 @@ public class Testing {
                 amount = viewAll.getItem(0).getCreditLimit() - price;
             }
                 customerControl.updateCreditLimit(new Customer(viewAll.getItem(0).getCustId(),viewAll.getItem(0).getCustUsername(),viewAll.getItem(0).getCustPassword(),viewAll.getItem(0).getCustName(), viewAll.getItem(0).getIc(), viewAll.getItem(0).getPhone(), viewAll.getItem(0).getAddress(),viewAll.getItem(0).getStatus(), amount));
-                booking.add(new Booking(id, flower, new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()), cal.get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" +cal.get(Calendar.YEAR),viewAll.getItem(0).getAddress(),viewAll.getItem(0).getCustId(),total));
+                booking.add(new Booking(id, flower, total, new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()), cal.get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" +cal.get(Calendar.YEAR),viewAll.getItem(0).getAddress(),viewAll.getItem(0).getCustId()));
                 bookingControl.addBooking(booking.getAndRemoveData(0));
                 System.out.println("Booking Suceess!");
                 System.out.println("Generate Sales Order Success!");
+                System.out.println("Do you want to continue booking?: ");
+                back = scan.next().charAt(0);
+                
         }else{
             System.out.println("Booking Fail!");
             StaffSelection();
         }
-            System.out.print("Press 0 to exit, Press 1 to continue: ");
+        
+        
+        }else{
+            System.out.println("Verify Fail!");
+            System.out.println("Invalid Customer'ID, Please try again!");
+            Booking();
+        }  
+        
+    }
+          }while(back != 'n');
+                      System.out.print("Press 0 to exit, Press 1 to continue: ");
             int choose = scan.nextInt();
             switch (choose) {
             case 0:
@@ -1165,14 +1180,7 @@ public class Testing {
                 System.exit(0);
                 break;
             }
-        }else{
-            System.out.println("Verify Fail!");
-            System.out.println("Invalid Customer'ID, Please try again!");
-            Booking();
-        }                     
-    }
-    }
-    }
+          }
     
     
         
