@@ -6,8 +6,8 @@
 package Control;
 import Entity.Customer;
 import da.CustomerDA;
-import testing.ArrayInterface;
-import testing.CustomerMaintainInterface;
+import adt.ArrayInterface;
+import adt.CustomerMaintainInterface;
 
 /**
  *

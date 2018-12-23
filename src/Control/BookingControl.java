@@ -6,7 +6,7 @@
 package Control;
 import Entity.Booking;
 import da.BookingDA;
-import testing.ArrayInterface;
+import adt.ArrayInterface;
 
 /**
  *

@@ -11,10 +11,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import testing.Array;
-import testing.ArrayInterface;
-import testing.CustomerMaintainInterface;
-import testing.CustomerMaintainStack;
+import adt.Array;
+import adt.ArrayInterface;
+import adt.CustomerMaintainInterface;
+import adt.CustomerMaintainStack;
 
 /**
  *

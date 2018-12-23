@@ -6,8 +6,8 @@
 package da;
 
 import Entity.DeliveryOrderList;
-import testing.ArrayQueue;
-import testing.QueueInterface;
+import adt.ArrayQueue;
+import adt.QueueInterface;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
