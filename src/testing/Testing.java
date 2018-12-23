@@ -1062,15 +1062,15 @@ public class Testing {
                    total = input.nextInt();
                    input.nextLine(); 
                    price = total * 2; 
-                   if(total > 100){
+                   if(total > 5){
         do{
-            if(total > 100){
-               System.out.println("Purchase amount cannot more than 100 !");
+            if(total > 5){
+               System.out.println("Purchase amount cannot more than 5 !");
                System.out.println("Enter the quantity that you want to purchase : ");
                 total = input.nextInt();
                 input.nextLine(); ;              
             }
-        }while((total > 100));
+        }while((total > 5));
          }
                 }else if(selection == 2){
                    flower = "White Rose";
@@ -1079,15 +1079,15 @@ public class Testing {
                    total = input.nextInt();
                    input.nextLine();
                    price = total * 3;
-                   if(total > 100){
+                   if(total > 5){
         do{
-            if(total > 100){
-               System.out.println("Purchase amount cannot more than 100 !");
+            if(total > 5){
+               System.out.println("Purchase amount cannot more than 5 !");
                System.out.println("Enter the quantity that you want to purchase : ");
                 total = input.nextInt();
                 input.nextLine(); ;              
             }
-        }while((total > 100));
+        }while((total > 5));
          }
                 }else if(selection == 3){
                    flower = "Sunflower";
@@ -1096,15 +1096,15 @@ public class Testing {
                    total = input.nextInt();                   
                    input.nextLine();
                    price = total * 2; 
-                   if(total > 100){
+                   if(total > 5){
         do{
-            if(total > 100){
-               System.out.println("Purchase amount cannot more than 100 !");
+            if(total > 5){
+               System.out.println("Purchase amount cannot more than 5 !");
                System.out.println("Enter the quantity that you want to purchase : ");
                 total = input.nextInt();
                 input.nextLine();              
             }
-        }while((total > 100));
+        }while((total > 5));
          }
                 }else if(selection == 4){
                    flower = "Lily";
@@ -1113,15 +1113,15 @@ public class Testing {
                    total = input.nextInt();
                    input.nextLine(); 
                    price = total * 1;
-                   if(total > 100){
+                   if(total > 5){
         do{
-            if(total > 100){
-               System.out.println("Purchase amount cannot more than 100 !");
+            if(total > 5){
+               System.out.println("Purchase amount cannot more than 5 !");
                System.out.println("Enter the quantity that you want to purchase : ");
                 total = input.nextInt();
                 input.nextLine(); ;              
             }
-        }while((total > 100));
+        }while((total > 5));
          }                   
                 }else{
                     System.out.println("Invalid input! Please enter number 1 to 4 only! \n");
