@@ -11,8 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import Entity.FlowerCustomized;
 import java.sql.ResultSet;
-import testing.QueueInterface;
-import testing.Queue;
+import testing.QueueFlowerCustomized;
+import testing.QueueFlowerCustomizedInterface;
 
 /**
  *
@@ -71,8 +71,8 @@ public class FlowerCustomizedDA {
         
     }
         
-     public QueueInterface<FlowerCustomized> getAllProduct() {
-        QueueInterface<FlowerCustomized> viewAll = new Queue<>();
+     public QueueFlowerCustomizedInterface<FlowerCustomized> getAllProduct() {
+        QueueFlowerCustomizedInterface<FlowerCustomized> viewAll = new QueueFlowerCustomized<>();
         try {
             stmt = conn.prepareStatement("select * from " + tableName);
             ResultSet rs = stmt.executeQuery();

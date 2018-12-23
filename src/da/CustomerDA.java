@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import testing.Array;
 import testing.ArrayInterface;
+import testing.CustomerMaintainInterface;
+import testing.CustomerMaintainStack;
 
 /**
  *
@@ -55,13 +57,13 @@ public class CustomerDA {
         }
     }
     
-    public ArrayInterface<Customer> getAllCustomer() {
-        ArrayInterface<Customer> viewAll = new Array<>();
+    public CustomerMaintainInterface<Customer> getAllCustomer() {
+        CustomerMaintainInterface<Customer> viewAll = new CustomerMaintainStack<>();
         try {
             stmt = conn.prepareStatement("select * from " + tableName);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                viewAll.add(new Customer(rs.getString("CustId"),rs.getString("CustUsername"), rs.getString("custPassword"), rs.getString("custName"),rs.getString("ic"),rs.getString("phone"),rs.getString("address"),rs.getString("status"),rs.getInt("creditLimit")));
+                viewAll.push(new Customer(rs.getString("CustId"),rs.getString("CustUsername"), rs.getString("custPassword"), rs.getString("custName"),rs.getString("ic"),rs.getString("phone"),rs.getString("address"),rs.getString("status"),rs.getInt("creditLimit")));
             }
         } catch (SQLException ex) {
             System.out.println(ex);

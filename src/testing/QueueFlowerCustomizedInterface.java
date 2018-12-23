@@ -9,7 +9,7 @@ package testing;
  *
  * @author Admin
  */
-public interface QueueInterface<T> {
+public interface QueueFlowerCustomizedInterface<T> {
 //  Task: Adds a new entry to the back of the queue.
     public void enqueue(T newEntry);
     

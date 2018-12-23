@@ -7,6 +7,7 @@ package Control;
 import Entity.Customer;
 import da.CustomerDA;
 import testing.ArrayInterface;
+import testing.CustomerMaintainInterface;
 
 /**
  *
@@ -23,7 +24,7 @@ public class CustomerControl {
         customerDA.addCust(customer);
     }
     
-    public ArrayInterface<Customer> getAllCustomer() {
+    public CustomerMaintainInterface<Customer> getAllCustomer() {
         return customerDA.getAllCustomer();
     }
     

@@ -9,19 +9,19 @@ package testing;
  *
  * @author Admin
  */
-public class Queue<T> implements QueueInterface<T>{
+public class QueueFlowerCustomized<T> implements QueueFlowerCustomizedInterface<T>{
     private T[] queueData;
     private int frontIndex = 0;
     private int backIndex;
     //private int size;
     private static final int DEFAULT_INITIAL_CAPACITY = 50;
     
-    public Queue(int size){
+    public QueueFlowerCustomized(int size){
         queueData = (T[])new Object[size];
         backIndex = -1;
     }
     
-    public Queue(){
+    public QueueFlowerCustomized(){
         this(DEFAULT_INITIAL_CAPACITY);
     }
     

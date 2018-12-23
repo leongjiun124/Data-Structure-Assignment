@@ -6,8 +6,8 @@
 package Control;
 import da.FlowerCustomizedDA;
 import Entity.FlowerCustomized;
-import testing.QueueInterface;
-import testing.Queue;
+import testing.QueueFlowerCustomized;
+import testing.QueueFlowerCustomizedInterface;
 
 /**
  *
@@ -29,7 +29,7 @@ public class FlowerCustomizedControl {
         return flowerCustomizedDA.getRecord(flowerID);
     }
     
-    public QueueInterface<FlowerCustomized> getAllProduct() {
+    public QueueFlowerCustomizedInterface<FlowerCustomized> getAllProduct() {
         return flowerCustomizedDA.getAllProduct();
     }
     

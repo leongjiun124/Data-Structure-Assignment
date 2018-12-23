@@ -49,12 +49,12 @@ public class Testing {
     //generate Linked Array of each classes
     public static ArrayInterface<Customer> custList = new Array<>();
     public static ArrayInterface<Booking> bookList = new Array<>();
-    public static QueueInterface<String> flowerList = new Queue<>();
-    public static QueueInterface<String> arrangementList = new Queue<>();
-    public static QueueInterface<String> sizeList = new Queue<>();
-    public static QueueInterface<String> accessoryList = new Queue<>();
-    public static QueueInterface<String> priorityList = new Queue<>();
-    public static QueueInterface<Staff> staffList = new Queue<>();
+    public static QueueFlowerCustomizedInterface<String> flowerList = new QueueFlowerCustomized<>();
+    public static QueueFlowerCustomizedInterface<String> arrangementList = new QueueFlowerCustomized<>();
+    public static QueueFlowerCustomizedInterface<String> sizeList = new QueueFlowerCustomized<>();
+    public static QueueFlowerCustomizedInterface<String> accessoryList = new QueueFlowerCustomized<>();
+    public static QueueFlowerCustomizedInterface<String> priorityList = new QueueFlowerCustomized<>();
+    public static QueueFlowerCustomizedInterface<Staff> staffList = new QueueFlowerCustomized<>();
     public static Scanner sc = new Scanner(System.in);
     public static Scanner input = new Scanner(System.in);
     public static Customer currentUser;
@@ -65,7 +65,7 @@ public class Testing {
     
      public static void main(String[] args) throws AWTException, ParseException, CloneNotSupportedException {
          custList.add(new Customer("C00001","Mia Khalifa","12345","Mia Khalifa","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur.","Corporate"));
-         custList.add(new Customer("C00002","abc123","12345","abc123","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur.","Normal"));
+         custList.add(new Customer("C00002","abc123","12345","abc123","981126-06-5000","012-6969696","12, Jalan Pudu, 55100 Kuala Lumpur.","Consumer"));
          staffList.enqueue(new Staff("S1", "Staff 1", "abc123", "abc123"));
          flowerList.enqueue("Rose");
          flowerList.enqueue("White Rose");
@@ -247,7 +247,7 @@ public class Testing {
         String ic="";
         String phone="";
         String address ="";
-        BookingControl bookingCont = new BookingControl();
+        CustomerControl customerControl = new CustomerControl();
             
         System.out.printf("Username        : ");
          custUsername = sc.nextLine();
@@ -340,11 +340,12 @@ public class Testing {
         String custId;
         String id;
         do {
-            id = Booking.generateID(index);
+            id = Customer.generateID(index);
             index++;
-        } while (bookingCont.getRecord(id) != null);
+        } while (customerControl.getRecord(id) != null);
          custId = id;
          custList.add(new Customer(custId, custUsername,custPassword,custName,ic,phone,address));
+         customerControl.addCustomer(custList.getAndRemoveData(2));
          System.out.println("Register Successful!");
          menu();                      
      }
@@ -401,16 +402,16 @@ public class Testing {
          int limit = 0;
          String choosenStatus = null;
          Customer customer = new Customer();
-         ArrayInterface<Customer> viewAll = custControl.getAllCustomer();
-         for(int i = 0; i < viewAll.length(); i++){
-              if(viewAll.getData(i).getStatus() == null || viewAll.getData(i).getStatus().equals("null")){
+         CustomerMaintainInterface<Customer> viewAll = custControl.getAllCustomer();
+         for(int i = 0; i < viewAll.getLength(); i++){
+              if(viewAll.getItem(i).getStatus() == null || viewAll.getItem(i).getStatus().equals("null")){
                   
-                  System.out.println(i+1 + ") " + viewAll.getData(i).getCustName() + "\n");
+                  System.out.print(i+1 + ") " + viewAll.getItem(i).getCustName() + "\n");
               }
           }
          System.out.print("Please choose the customer you want to update the status: ");
          chooseStatus = scan.nextInt();
-         customer = viewAll.getData(chooseStatus - 1);
+         customer = viewAll.getItem(chooseStatus - 1);
          System.out.println("1. Corporate Customer");
          System.out.println("2. Consumer");
          System.out.print("What type of customer you want to update for " + customer.getCustName() + ": ");
@@ -450,16 +451,16 @@ public class Testing {
          int limit;
          int choice;
          int back;
-         ArrayInterface<Customer> viewAll = custControl.getAllCustomer();
-         for(int i = 0; i < viewAll.length(); i++){
-              if(viewAll.getData(i).getCreditLimit() < 5000 && viewAll.getData(i).getStatus().equals("Corporate")){
+         CustomerMaintainInterface<Customer> viewAll = custControl.getAllCustomer();
+         for(int i = 0; i < viewAll.getLength(); i++){
+              if(viewAll.getItem(i).getCreditLimit() < 5000 && viewAll.getItem(i).getStatus().equals("Corporate")){
                   
-                  System.out.println(i+1 + ") " + viewAll.getData(i).getCustName() + "\n");
+                  System.out.println(i+1 + ") " + viewAll.getItem(i).getCustName() + "\n");
               }
           }
          System.out.print("Please choose the customer you want to update the credit limit: ");
          chooseStatus = scan.nextInt();
-         customer = viewAll.getData(chooseStatus - 1);
+         customer = viewAll.getItem(chooseStatus - 1);
 //         System.out.print("Please enter the credit limit of the corporate customer: ");
 //         limit = scan.nextInt();
          limit = 5000;
@@ -481,10 +482,10 @@ public class Testing {
          Scanner scan = new Scanner(System.in);
          int back;
          CustomerControl custControl = new CustomerControl();         
-         ArrayInterface<Customer> viewAll = custControl.getAllCustomer();
-         for(int i = 0; i < viewAll.length(); i++){
-              if(viewAll.getData(i).getStatus().equals("Corporate")){
-                  System.out.println(i+1 + ") " + viewAll.getData(i).getCustName() + " -------> Credit Left: " + viewAll.getData(i).getCreditLimit() +"\n");
+         CustomerMaintainInterface<Customer> viewAll = custControl.getAllCustomer();
+         for(int i = 0; i < viewAll.getLength(); i++){
+              if(viewAll.getItem(i).getStatus().equals("Corporate")){
+                  System.out.println(i+1 + ") " + viewAll.getItem(i).getCustName() + " -------> Credit Left: " + viewAll.getItem(i).getCreditLimit() +"\n");
               }
           }
          System.out.print("1 to return to staff menu, 0 to exit: ");
@@ -523,7 +524,14 @@ public class Testing {
         selection = sc.nextInt();
         switch(selection){
             case 1: Booking();break;
-            case 2: CustomizedFlowerMenu();break;
+            case 2: if(currentUser.getStatus().equals("Consumer")){
+                CustomizedFlowerMenu();
+                break;
+            }else{
+                System.out.println("Can only access by consumer. Please try again");
+                Selection();
+                break;
+            }
         }
         //sc.nextLine();
         
@@ -566,19 +574,29 @@ public class Testing {
     public static void Booking()throws AWTException, CloneNotSupportedException{    
           Scanner scan = new Scanner(System.in);
           Calendar cal = Calendar.getInstance();
+          ArrayInterface<Booking> booking = new Array<>();
+          BookingControl bookingControl = new  BookingControl();
+          
+          int index = 1;
+          String id;        
           int month = cal.get(Calendar.MONTH)+1;
           int Lily;
           int Rose;
           int whiteRose;
           int sunFlower;
+          int total;
+          int amount = 0;
+          do {
+            id = Booking.generateID(index);
+            index++;
+        } while (bookingControl.getRecord(id) != null);
          CustomerControl customerControl = new CustomerControl();
-         BookingControl bookingControl = new  BookingControl();
-         ArrayInterface<Customer> viewAll = customerControl.getAllCustomer();
-         for(int i = 0; i < viewAll.length(); i++){
+         CustomerMaintainInterface<Customer> viewAll = customerControl.getAllCustomer();
+         for(int i = 0; i < viewAll.getLength(); i++){
              System.out.println("================================================");
              System.out.println("ID         Name             IC       Phone Number      Address               Status      Credit Limit ");
-             System.out.println( viewAll.getData(i).getCustId() + "  " +  viewAll.getData(i).getCustName() + "  " +  viewAll.getData(i).getIc() + "  " +  viewAll.getData(i).getPhone() + "  " +  viewAll.getData(i).getAddress() + "  " +
-                      viewAll.getData(i).getStatus() + "  " +  viewAll.getData(i).getCreditLimit());
+             System.out.println( viewAll.getItem(i).getCustId() + "  " +  viewAll.getItem(i).getCustName() + "  " +  viewAll.getItem(i).getIc() + "  " +  viewAll.getItem(i).getPhone() + "  " +  viewAll.getItem(i).getAddress() + "  " +
+                      viewAll.getItem(i).getStatus() + "  " +  viewAll.getItem(i).getCreditLimit());
              System.out.println("================================================");
           }
           System.out.printf("Please enter the customer'ID: ");
@@ -613,25 +631,32 @@ public class Testing {
             System.out.println("Please enter the quantity of Sunflower: ");
             sunFlower = input.nextInt();
             input.nextLine();   
+            total = Lily + Rose + whiteRose + sunFlower;
             System.out.println("================================================");
             System.out.println("-----------------Sales Order--------------------"); 
             System.out.println("1.Lily : " + Lily);
             System.out.println("2.Rose : " + Rose);
             System.out.println("3.White Rose : " + whiteRose);
             System.out.println("4.Sunflower : " + sunFlower);
-            System.out.println("Customer'ID : " + custList.getData(0).getCustId());
-            System.out.println("Customer'Name : " + custList.getData(0).getCustName());
-            System.out.println("Phone Number : " + custList.getData(0).getPhone());
-            System.out.println("Address : " + custList.getData(0).getAddress());
-            System.out.println("Status : " + custList.getData(0).getStatus());
-            System.out.println("Credit Limit : " + custList.getData(0).getCreditLimit());
+            System.out.println("Total flower: " + total);
+            System.out.println("Customer'ID : " + currentUser.getCustId());
+            System.out.println("Customer'Name : " + currentUser.getCustName());
+            System.out.println("Phone Number : " + currentUser.getPhone());
+            System.out.println("Address : " + currentUser.getAddress());
+            System.out.println("Status : " + currentUser.getStatus());
+            System.out.println("Credit Limit : " + currentUser.getCreditLimit());
             System.out.println("Date : "+ cal.get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" +cal.get(Calendar.YEAR));
             System.out.println("Time : " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
             System.out.println("================================================");
             System.out.println("Are you sure to booking? (y/n)");
             int select = scan.next().charAt(0);
         if(select == 'y'){
-            bookingControl.addBooking(new Booking(bookList.add(newEntry)addCustId() + custList.getData(0).getCustName()  + custList.getData(0).getPhone() + custList.getData(0).getAddress()  ));
+            if(currentUser.getStatus().equals("Corporate")){
+                amount = currentUser.getCreditLimit() - ( total * 10 );
+            }
+            customerControl.updateCreditLimit(new Customer(currentUser.getCustId(),currentUser.getCustUsername(),currentUser.getCustPassword(),currentUser.getCustName(), currentUser.getIc(), currentUser.getPhone(), currentUser.getAddress(),currentUser.getStatus(), amount));
+            booking.add(new Booking(id, currentUser.getCustName(),total, cal.get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()), cal.get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" +cal.get(Calendar.YEAR),currentUser.getAddress(),currentUser.getCustId()));
+            bookingControl.addBooking(booking.getAndRemoveData(0));
         }else{
             System.out.println("Booking Fail!");
             StaffSelection();
@@ -687,7 +712,7 @@ public class Testing {
         String id;
         Booking item = null;
         char back = 'n';
-        QueueInterface<FlowerCustomized> flowerCust = new Queue<>();
+        QueueFlowerCustomizedInterface<FlowerCustomized> flowerCust = new QueueFlowerCustomized<>();
         do{
         do {
             id = FlowerCustomized.generateID(index);
@@ -883,7 +908,7 @@ public class Testing {
           priorityList.enqueue("Flexi (Lowest)");
           FlowerCustomized flower = null;
           FlowerCustomizedControl flowerControl = new FlowerCustomizedControl();
-          QueueInterface<FlowerCustomized> viewData = flowerControl.getAllProduct();
+          QueueFlowerCustomizedInterface<FlowerCustomized> viewData = flowerControl.getAllProduct();
           
           /*String flowerType = type;
           String flowerSize = size;
@@ -1495,7 +1520,7 @@ public class Testing {
 //          flowerBill[1] = new FlowerCustomized("Vertical flower arrangement", "Big", "White Rose", "Bouquet Holder","Express (Highest)");
           FlowerCustomized flower = null;
           FlowerCustomizedControl flowerControl = new FlowerCustomizedControl();
-          QueueInterface<FlowerCustomized> viewData = flowerControl.getAllProduct();          
+          QueueFlowerCustomizedInterface<FlowerCustomized> viewData = flowerControl.getAllProduct();          
           Scanner scan = new Scanner(System.in);
           double flowerArrangePrice = 0;
           double sizePrice = 0;
