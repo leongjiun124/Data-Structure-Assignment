@@ -204,7 +204,7 @@ public class Testing {
         }else{
             System.out.println("Login Fail!");
             System.out.println("Invalid Username or Password, Please try again!");
-            Login();
+            StaffLogin();
         }
       }
     }
@@ -391,7 +391,7 @@ public class Testing {
         System.out.println("------------------Staff Selection---------------------");  
         System.out.println("======================================================");
         System.out.println("1. Customer/Corporate Consumer Maintenence");
-        System.out.println("2. Maintain Product Information");
+        System.out.println("2. Maintain Catalog Information");
         System.out.println("3. Maintain Promotion");
         System.out.println("4. Order Pickup/Delivery and Consumer Payment Management");
         System.out.println("5. Booking Item");
@@ -401,7 +401,7 @@ public class Testing {
         selection = scan.nextInt();
         switch(selection){
             case 1:CustMaintenence();break;
-            case 2:MaintainCatalog.MaintainCatalogMenu();break;
+            case 2:MaintainCatalog.Test();break;
             case 3: Promotion();break;
             case 4:OrderPickup();break;  
             case 5:Booking();break;
@@ -788,7 +788,8 @@ public class Testing {
         System.out.println("================================================");
         System.out.println("1. Set Customer Status");
         System.out.println("2. Set Credit Limit");
-        System.out.println("3. Generate Monthly Invoice");
+        System.out.println("3 Monthly Invoice");
+        System.out.println("4. Generate Monthly Invoice");
         System.out.println("================================================");
         
         System.out.printf("Please enter number to select the option:  ");
@@ -797,8 +798,51 @@ public class Testing {
             case 1: SetCustStatus();break;
             case 2: SetCreditLimit();break;
             case 3: MonthlyInvoice();break;
+            case 4: ShowCustCredit();break;
             default: Selection();break;
         }
+     }
+     
+     public static void MonthlyInvoice()throws AWTException, CloneNotSupportedException{
+         Scanner scan = new Scanner(System.in);
+         BookingControl bookCont = new BookingControl();
+         CustomerControl custControl = new CustomerControl();
+         ArrayInterface<Booking> viewBook = bookCont.getAllProduct();
+         CustomerMaintainInterface<Customer> viewAll = custControl.getAllCustomer();
+         Customer cust = new Customer();
+         int select;
+         String date;
+         Date date1 = null;
+          Calendar cal = Calendar.getInstance();
+         int month = cal.get(Calendar.MONTH)+1;  
+         for(int i = 0; i < viewAll.getLength(); i++){
+              if(viewAll.getItem(i).getStatus().equals("Corporate")){
+                  
+                  System.out.print(i+1 + ") " + viewAll.getItem(i).getCustName() + "\n");
+              }
+                
+          }
+         System.out.println("Please select the customer that you want to show the invoice: ");
+         select = scan.nextInt();
+         cust = viewAll.getItem(select - 1);
+         if(select >= viewAll.getLength()){
+          System.out.println("Error");StaffSelection();
+         }
+         
+         System.out.println("=============================================================================");
+         System.out.println("Flower Name \t Amount Ordered \t Date Ordered");
+         for(int i = 0; i < viewBook.length(); i++){
+                try{
+                  date = viewBook.getData(i).getDate();
+                  date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                  }catch(Exception ex){
+                      
+                  }
+              if(viewBook.getData(i).getCustId().equals(cust.getCustId()) && date1.getMonth() + 1 == month){
+                    System.out.println(i+1 + ") " + viewBook.getData(i).getFlowerName() + " \t " + viewBook.getData(i).getQuantity() + " \t\t " + viewBook.getData(i).getDate());
+              }
+                
+          }
      }
      
      public static void SetCustStatus() throws AWTException, CloneNotSupportedException{
@@ -813,7 +857,7 @@ public class Testing {
          Customer customer = new Customer();
          CustomerMaintainInterface<Customer> viewAll = custControl.getAllCustomer();
          for(int i = 0; i < viewAll.getLength(); i++){
-              if(viewAll.getItem(i).getStatus() == null || viewAll.getItem(i).getStatus().equals("null")){
+              if(viewAll.getItem(i).getStatus() == null || viewAll.getItem(i).getStatus().equals("null") || viewAll.getItem(i).getStatus().equals("")){
                   
                   System.out.print(i+1 + ") " + viewAll.getItem(i).getCustName() + "\n");
               }
@@ -889,14 +933,14 @@ public class Testing {
          }
      }
      
-     public static void MonthlyInvoice() throws AWTException, CloneNotSupportedException{
+     public static void ShowCustCredit() throws AWTException, CloneNotSupportedException{
          Scanner scan = new Scanner(System.in);
          int back;
          CustomerControl custControl = new CustomerControl();         
          CustomerMaintainInterface<Customer> viewAll = custControl.getAllCustomer();
          for(int i = 0; i < viewAll.getLength(); i++){
               if(viewAll.getItem(i).getStatus().equals("Corporate")){
-                  System.out.println(i+1 + ") " + viewAll.getItem(i).getCustName() + " -------> Credit Left: " + viewAll.getItem(i).getCreditLimit() +"\n");
+                  System.out.println(i+1 + ") " + viewAll.getItem(i).getCustName() + " -------> Credit Left: RM" + viewAll.getItem(i).getCreditLimit() +"\n");
               }else if(viewAll.getItem(i).getStatus() == null){
                   
               }
@@ -1157,7 +1201,7 @@ public class Testing {
                 bookingControl.addBooking(booking.getAndRemoveData(0));
                 System.out.println("Booking Suceess!");
                 System.out.println("Generate Sales Order Success!");
-                System.out.println("Do you want to continue booking?: ");
+                System.out.println("Do you want to continue booking?(y to continue, n to go back to menu): ");
                 back = scan.next().charAt(0);
                 
         }else{

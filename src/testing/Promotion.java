@@ -24,6 +24,7 @@ import java.util.Scanner;
  * @author User
  */
 public class Promotion {
+    
     public static void main(String[] args)throws AWTException, ParseException, CloneNotSupportedException {
         initFlower();
         int totalItem=0;

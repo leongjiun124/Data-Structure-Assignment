@@ -10,6 +10,7 @@ import java.awt.AWTException;
 import java.text.ParseException;
 import java.util.Scanner;
 import Entity.FlowerInventory;
+import adt.FlowerInventoryLinkedList;
 import static testing.MainMenu.initFlower;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,7 +22,9 @@ import java.util.ArrayList;
 public class MaintainCatalog {
     
     public static Scanner sc = new Scanner(System.in);
-   // public static FlowerInventoryStack<FlowerInventory> flowerStack= new FlowerInventoryStack<>() ;  
+        public static FlowerInventoryLinkedList<FlowerInventory> flowerStack = new FlowerInventoryLinkedList<>();
+        
+        
     public static void main(String[] args)throws AWTException, ParseException, CloneNotSupportedException {
         initFlower();
         //System.out.printf("Total =  " + flowerStack.getNumberOfEntries() + "\n");
@@ -31,9 +34,21 @@ public class MaintainCatalog {
       
     }
     
+    public static void Test() throws AWTException, CloneNotSupportedException{
+        FlowerInventory flowerInventory = new FlowerInventory(100001, "Rose", "Happy Flower make you very 7 happy", "Alstromeria", 100, 50, "21-12-2018");
+        flowerStack.add(flowerInventory);
+        flowerInventory = new FlowerInventory(100002, "White Rose", "Happy Flower make you very 7 happy", "Alstromeria", 100, 50, "21-12-2018");
+        flowerStack.add(flowerInventory);
+        flowerInventory = new FlowerInventory(100003, "Sunflower", "Happy Flower make you very 7 happy", "Alstromeria", 100, 50, "21-12-2018");
+        flowerStack.add(flowerInventory);
+        flowerInventory = new FlowerInventory(100004, "Lily", "Happy Flower make you very 7 happy", "Alstromeria", 100, 50, "21-12-2018");
+        flowerStack.add(flowerInventory);  
+        MaintainCatalogMenu();
+    }
     
     public static void MaintainCatalogMenu()throws AWTException, CloneNotSupportedException
     {
+
         System.out.printf("Total =  " + flowerStack.getNumberOfEntries() + "\n");
         
          System.out.println("================================================");
